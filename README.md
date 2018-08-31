@@ -1,19 +1,19 @@
-# generator-ui-kit [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+# generator-lectrum-ui [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 > 
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-ui-kit using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+First, install [Yeoman](http://yeoman.io) and generator-lectrum-ui using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 ```bash
 npm install -g yo
-npm install -g generator-ui-kit
+npm install -g generator-lectrum-ui
 ```
 
 Then generate your new project:
 
 ```bash
-yo ui-kit
+yo lectrum-ui
 ```
 
 ## Getting To Know Yeoman
@@ -25,12 +25,12 @@ yo ui-kit
 
 ## License
 
-MIT © [Dima Shvedsky]()
+MIT © [Lectrum]()
 
 
-[npm-image]: https://badge.fury.io/js/generator-ui-kit.svg
-[npm-url]: https://npmjs.org/package/generator-ui-kit
-[travis-image]: https://travis-ci.org/dvakatsiienko/generator-ui-kit.svg?branch=master
-[travis-url]: https://travis-ci.org/dvakatsiienko/generator-ui-kit
-[daviddm-image]: https://david-dm.org/dvakatsiienko/generator-ui-kit.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/dvakatsiienko/generator-ui-kit
+[npm-image]: https://badge.fury.io/js/generator-lectrum-ui.svg
+[npm-url]: https://npmjs.org/package/generator-lectrum-ui
+[travis-image]: https://travis-ci.org/dvakatsiienko/generator-lectrum-ui.svg?branch=master
+[travis-url]: https://travis-ci.org/dvakatsiienko/generator-lectrum-ui
+[daviddm-image]: https://david-dm.org/dvakatsiienko/generator-lectrum-ui.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/dvakatsiienko/generator-lectrum-ui

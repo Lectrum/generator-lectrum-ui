@@ -1,7 +1,6 @@
 module.exports = function(api) {
     api.cache(false);
 
-    console.log('→ api', api);
     return {
         presets: [
             [
@@ -14,8 +13,13 @@ module.exports = function(api) {
                     targets: {
                         node: '8.11.4',
                     },
+                    modules: 'commonjs'
                 },
             ],
+        ],
+        plugins: [
+            'add-module-exports',
+            '@babel/plugin-transform-modules-commonjs',
         ],
     };
 };

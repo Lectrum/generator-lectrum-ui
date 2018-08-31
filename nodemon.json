@@ -1,6 +1,6 @@
 {
     "verbose": false,
-    "watch": ["./generators/**/**"],
-    "exec": "babel-node ./generators",
+    "watch": ["./source/**/**"],
+    "exec": "npx babel ./source/index.js --out-file ./generators/app/index.js",
     "ext": "js,mjs"
 }
