@@ -1,0 +1,3 @@
+---
+extends:
+  - '@lectrum/eslint-config-core'

@@ -1,0 +1,19 @@
+{
+    "presets": [
+        "@babel/preset-react",
+        [
+            "@babel/preset-env",
+            {
+                "useBuiltIns": "entry",
+                "shippedProposals": true,
+                "spec": true,
+                "debug": false
+            }
+        ]
+    ],
+    "plugins": [
+        "@babel/plugin-proposal-class-properties",
+        ["@babel/plugin-proposal-decorators", { "legacy": true }],
+        "react-hot-loader/babel"
+    ]
+}

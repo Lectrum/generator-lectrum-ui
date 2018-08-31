@@ -1,0 +1,16 @@
+[ignore]
+
+[include]
+source/
+webpack/
+
+[libs]
+lib/
+
+[options]
+emoji=true
+esproposal.decorators=ignore
+module.name_mapper='.*\(.m.css\)' -> 'empty/object'
+
+[version]
+>=0.79.0
