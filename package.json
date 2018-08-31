@@ -1,5 +1,5 @@
 {
-    "name": "generator-lectrum-ui",
+    "name": "@lectrum/generator-ui",
     "version": "0.0.2",
     "description": "A generator for creating cutting-edge frontend single page applications environments.",
     "repository": "https://github.com/Lectrum/generator-lectrum-ui",
@@ -33,6 +33,7 @@
         "@lectrum/eslint-config-core": "^1.0.18",
         "babel-eslint": "^9.0.0",
         "babel-plugin-add-module-exports": "^0.2.1",
+        "cz-conventional-changelog": "^2.1.0",
         "eslint": "^5.4.0",
         "eslint-plugin-babel": "^5.1.0",
         "eslint-plugin-flowtype": "^2.50.0",
@@ -42,7 +43,7 @@
         "eslint-plugin-react-redux": "^2.3.0",
         "flow-bin": "^0.79.1",
         "flow-coverage-report": "^0.5.0",
-        "husky": "^1.0.0-rc.13",
+        "husky": "^0.14.3",
         "jest": "^23.5.0",
         "jest-runner-eslint": "^0.6.0",
         "nodemon": "^1.18.4",
