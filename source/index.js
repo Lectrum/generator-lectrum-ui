@@ -5,7 +5,7 @@ import Generator from 'yeoman-generator';
 import chalk from 'chalk';
 import yosay from 'yosay';
 import updateNotifier from 'update-notifier';
-import { execSync  } from 'child_process';
+import { execSync } from 'child_process';
 
 // Parts
 import pkg from '../../package.json';
@@ -13,7 +13,7 @@ import packageJson from './templates/package.json';
 
 const notifier = updateNotifier({
     pkg,
-    updateCheckInterval: 1000 * 60 * 60 * 24,
+    updateCheckInterval: 1000 * 60 * 60 * 24, // 1 day
 });
 
 if (notifier.update) {
@@ -32,9 +32,7 @@ export default class Ui extends Generator {
         super(args, options);
 
         this.log(
-            yosay(
-                `Команда ${chalk.blueBright('Lectrum')} приветствует тебя! →`,
-            ),
+            yosay(`Команда ${chalk.blueBright('Lectrum')} приветствует тебя!`),
         );
     }
 
@@ -155,7 +153,7 @@ export default class Ui extends Generator {
                 ),
             );
             this.yarnInstall();
-        } catch (error) {
+        } catch {
             this.PACKAGE_MANAGER = 'npm';
 
             this.log(
@@ -166,17 +164,19 @@ export default class Ui extends Generator {
                 ),
             );
             this.npmInstall();
-            this.log(error.message);
         }
     }
 
     async end() {
-        this.config.save();
+        const initialized = this.config.get('initialized');
 
-        if (!this.PACKAGE_MANAGER === 'yarn') {
-            await this.spawnCommand('yarn', [ 'start' ]);
-        } else {
-            await this.spawnCommand('npm', [ 'run', 'start' ]);
+        if (!initialized) {
+            this.config.set('initialized', true);
+            if (!this.PACKAGE_MANAGER === 'yarn') {
+                await this.spawnCommand('yarn', [ 'start' ]);
+            } else {
+                await this.spawnCommand('npm', [ 'run', 'start' ]);
+            }
         }
     }
 }

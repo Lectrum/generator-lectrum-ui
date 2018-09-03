@@ -25,7 +25,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 const notifier = (0, _updateNotifier.default)({
   pkg: _package.default,
-  updateCheckInterval: 1000 * 60 * 60 * 24
+  updateCheckInterval: 1000 * 60 * 60 * 24 // 1 day
+
 });
 
 if (notifier.update) {
@@ -41,7 +42,7 @@ class Ui extends _yeomanGenerator.default {
 
     _defineProperty(this, "PACKAGE_MANAGER", 'yarn');
 
-    this.log((0, _yosay.default)(`Команда ${_chalk.default.blueBright('Lectrum')} приветствует тебя! →`));
+    this.log((0, _yosay.default)(`Команда ${_chalk.default.blueBright('Lectrum')} приветствует тебя!`));
   }
 
   _writeDotfiles() {
@@ -118,21 +119,24 @@ class Ui extends _yeomanGenerator.default {
       (0, _child_process.execSync)('yarn bin');
       this.log(_chalk.default.bgBlack(`${_chalk.default.greenBright('✓ ')} ${yarn} ${_chalk.default.whiteBright('found.\nInstalling dependencies with')} ${yarn}.`));
       this.yarnInstall();
-    } catch (error) {
+    } catch (_unused) {
       this.PACKAGE_MANAGER = 'npm';
       this.log(_chalk.default.bgBlack(`${_chalk.default.red('x ')}${yarn} ${_chalk.default.whiteBright('not found.\nInstalling dependencies with')} ${npm}.`));
       this.npmInstall();
-      this.log(error.message);
     }
   }
 
   async end() {
-    this.config.save();
+    const initialized = this.config.get('initialized');
 
-    if (!this.PACKAGE_MANAGER === 'yarn') {
-      await this.spawnCommand('yarn', ['start']);
-    } else {
-      await this.spawnCommand('npm', ['run', 'start']);
+    if (!initialized) {
+      this.config.set('initialized', true);
+
+      if (!this.PACKAGE_MANAGER === 'yarn') {
+        await this.spawnCommand('yarn', ['start']);
+      } else {
+        await this.spawnCommand('npm', ['run', 'start']);
+      }
     }
   }
 
