@@ -1,19 +1,20 @@
 module.exports = function(api) {
-    api.cache(false);
+    api.cache.using(() => api.env() === 'development');
 
     return {
         presets: [
             [
                 '@babel/preset-env',
                 {
-                    useBuiltIns: 'entry',
+                    useBuiltIns: 'usage',
                     shippedProposals: true,
                     spec: true,
+                    loose: false,
                     debug: false,
                     targets: {
                         node: '8.11.4',
                     },
-                    modules: 'commonjs'
+                    modules: 'commonjs',
                 },
             ],
         ],

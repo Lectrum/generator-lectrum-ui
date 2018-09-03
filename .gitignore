@@ -1,3 +1,6 @@
+# == Yeoman ==
+generators/
+
 # == Core ==
 
 node_modules/
