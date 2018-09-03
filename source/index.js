@@ -4,6 +4,10 @@
 import Generator from 'yeoman-generator';
 import chalk from 'chalk';
 import yosay from 'yosay';
+import updateNotifier from 'update-notifier';
+import pkg from '../../package.json';
+
+updateNotifier({ pkg }).notify();
 
 // Utils
 import { promisify } from 'util';
@@ -14,8 +18,8 @@ const exec = promisify(rawExec);
 // Parts
 import packageJson from './templates/_package.json';
 
-export default class Main extends Generator {
-    constructor(args, options) {
+export default class Ui extends Generator {
+    constructor(args: Object, options: Object) {
         super(args, options);
 
         this.log(
@@ -54,8 +58,8 @@ export default class Main extends Generator {
             this.destinationPath('.browserslistrc'),
         );
         this.fs.copy(
-            this.templatePath('babelrc'),
-            this.destinationPath('.babelrc'),
+            this.templatePath('babelrc.js'),
+            this.destinationPath('.babelrc.js'),
         );
     }
 
@@ -86,21 +90,6 @@ export default class Main extends Generator {
     }
 
     _writePackageJson() {
-        this.fs.copy(
-            this.templatePath('_package.json'),
-            this.destinationPath('package.json'),
-        );
-        this.fs.copy(
-            this.templatePath('_package-lock.json'),
-            this.destinationPath('package-lock.json'),
-        );
-        this.fs.copy(
-            this.templatePath('_yarn.lock'),
-            this.destinationPath('yarn.lock'),
-        );
-    }
-
-    _writePackageJson() {
         const isPackageJsonExists = this.fs.exists('package.json');
 
         if (isPackageJsonExists) {
@@ -113,6 +102,7 @@ export default class Main extends Generator {
             } = JSON.parse(this.fs.read('package.json'));
 
             this.fs.delete('package.json');
+
             this.fs.writeJSON('package.json', {
                 name,
                 version,
@@ -122,7 +112,24 @@ export default class Main extends Generator {
                 dependencies,
                 devDependencies: packageJson.devDependencies,
             });
+        } else {
+            this.fs.writeJSON('package.json', {
+                name:            'my-app',
+                version:         '0.0.0',
+                private:         false,
+                scripts:         packageJson.scripts,
+                devDependencies: packageJson.devDependencies,
+            });
         }
+
+        this.fs.copy(
+            this.templatePath('_package-lock.json'),
+            this.destinationPath('package-lock.json'),
+        );
+        this.fs.copy(
+            this.templatePath('_yarn.lock'),
+            this.destinationPath('yarn.lock'),
+        );
     }
 
     writing() {

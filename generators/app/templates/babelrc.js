@@ -3,6 +3,7 @@ module.exports = function(api) {
 
     return {
         presets: [
+            '@babel/preset-react',
             [
                 '@babel/preset-env',
                 {
@@ -19,8 +20,9 @@ module.exports = function(api) {
             ],
         ],
         plugins: [
-            'add-module-exports',
-            '@babel/plugin-transform-flow-strip-types',
+            '@babel/plugin-proposal-class-properties',
+            ['@babel/plugin-proposal-decorators', { legacy: true }],
+            'react-hot-loader/babel',
         ],
     };
 };

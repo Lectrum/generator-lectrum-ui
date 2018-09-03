@@ -1,13 +1,13 @@
-# generator-lectrum-ui [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+# @lectrum/generator-ui [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 > 
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-lectrum-ui using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+First, install [Yeoman](http://yeoman.io) and @lectrum/generator-ui using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 ```bash
 npm install -g yo
-npm install -g generator-lectrum-ui
+npm install -g @lectrum/generator-ui
 ```
 
 Then generate your new project:
@@ -28,9 +28,9 @@ yo lectrum-ui
 MIT © [Lectrum]()
 
 
-[npm-image]: https://badge.fury.io/js/generator-lectrum-ui.svg
-[npm-url]: https://npmjs.org/package/generator-lectrum-ui
-[travis-image]: https://travis-ci.org/dvakatsiienko/generator-lectrum-ui.svg?branch=master
-[travis-url]: https://travis-ci.org/dvakatsiienko/generator-lectrum-ui
-[daviddm-image]: https://david-dm.org/dvakatsiienko/generator-lectrum-ui.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/dvakatsiienko/generator-lectrum-ui
+[npm-image]: https://badge.fury.io/js/@lectrum/generator-ui.svg
+[npm-url]: https://npmjs.org/package/@lectrum/generator-ui
+[travis-image]: https://travis-ci.org/dvakatsiienko/@lectrum/generator-ui.svg?branch=master
+[travis-url]: https://travis-ci.org/dvakatsiienko/@lectrum/generator-ui
+[daviddm-image]: https://david-dm.org/dvakatsiienko/@lectrum/generator-ui.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/dvakatsiienko/@lectrum/generator-ui
