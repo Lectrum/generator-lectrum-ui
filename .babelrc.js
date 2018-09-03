@@ -21,6 +21,7 @@ module.exports = function(api) {
         plugins: [
             'add-module-exports',
             '@babel/plugin-transform-flow-strip-types',
+            '@babel/plugin-proposal-class-properties',
         ],
     };
 };

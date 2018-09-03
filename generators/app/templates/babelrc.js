@@ -1,5 +1,6 @@
 module.exports = function(api) {
-    api.cache.using(() => api.env() === 'development');
+    const ENV = api.env();
+    api.cache.using(() => ENV === 'development');
 
     return {
         presets: [

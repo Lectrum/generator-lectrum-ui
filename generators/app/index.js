@@ -13,27 +13,35 @@ var _yosay = _interopRequireDefault(require("yosay"));
 
 var _updateNotifier = _interopRequireDefault(require("update-notifier"));
 
-var _package = _interopRequireDefault(require("../../package.json"));
-
-var _util = require("util");
-
 var _child_process = require("child_process");
 
-var _package2 = _interopRequireDefault(require("./templates/_package.json"));
+var _package = _interopRequireDefault(require("../../package.json"));
+
+var _package2 = _interopRequireDefault(require("./templates/package.json"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Core
-(0, _updateNotifier.default)({
-  pkg: _package.default
-}).notify(); // Utils
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-const exec = (0, _util.promisify)(_child_process.exec); // Parts
+const notifier = (0, _updateNotifier.default)({
+  pkg: _package.default,
+  updateCheckInterval: 1000 * 60 * 60 * 24
+});
+
+if (notifier.update) {
+  notifier.notify({
+    message: `Update available ${_chalk.default.grey(notifier.update.current)} → ${_chalk.default.green(notifier.update.latest)}
+Run ${_chalk.default.blue(`npm i -g ${notifier.packageName}`)} to update`
+  });
+}
 
 class Ui extends _yeomanGenerator.default {
   constructor(args, options) {
     super(args, options);
-    this.log((0, _yosay.default)(`Команда ${_chalk.default.blueBright('Lectrum')} приветствует тебя!`));
+
+    _defineProperty(this, "PACKAGE_MANAGER", 'yarn');
+
+    this.log((0, _yosay.default)(`Команда ${_chalk.default.blueBright('Lectrum')} приветствует тебя! →`));
   }
 
   _writeDotfiles() {
@@ -51,11 +59,11 @@ class Ui extends _yeomanGenerator.default {
   _writeRegularFiles() {
     this.fs.copy(this.templatePath('_LICENSE'), this.destinationPath('LICENSE'));
     this.fs.copy(this.templatePath('_README.md'), this.destinationPath('README.md'));
-    this.fs.copy(this.templatePath('_nodemon.json'), this.destinationPath('nodemon.json'));
+    this.fs.copy(this.templatePath('nodemon.json'), this.destinationPath('nodemon.json'));
   }
 
   _writeDirectories() {
-    this.fs.copy(this.templatePath('_webpack'), this.destinationPath('webpack'));
+    this.fs.copy(this.templatePath('webpack'), this.destinationPath('webpack'));
     this.fs.copy(this.templatePath('_static'), this.destinationPath('static'));
   }
 
@@ -89,9 +97,6 @@ class Ui extends _yeomanGenerator.default {
         devDependencies: _package2.default.devDependencies
       });
     }
-
-    this.fs.copy(this.templatePath('_package-lock.json'), this.destinationPath('package-lock.json'));
-    this.fs.copy(this.templatePath('_yarn.lock'), this.destinationPath('yarn.lock'));
   }
 
   writing() {
@@ -104,24 +109,31 @@ class Ui extends _yeomanGenerator.default {
     this._writePackageJson();
   }
 
-  async install() {
+  install() {
     const yarn = _chalk.default.blue('yarn');
 
     const npm = _chalk.default.red('npm');
 
     try {
-      await exec('yarn');
+      (0, _child_process.execSync)('yarn bin');
       this.log(_chalk.default.bgBlack(`${_chalk.default.greenBright('✓ ')} ${yarn} ${_chalk.default.whiteBright('found.\nInstalling dependencies with')} ${yarn}.`));
       this.yarnInstall();
     } catch (error) {
+      this.PACKAGE_MANAGER = 'npm';
       this.log(_chalk.default.bgBlack(`${_chalk.default.red('x ')}${yarn} ${_chalk.default.whiteBright('not found.\nInstalling dependencies with')} ${npm}.`));
       this.npmInstall();
       this.log(error.message);
     }
   }
 
-  end() {
+  async end() {
     this.config.save();
+
+    if (!this.PACKAGE_MANAGER === 'yarn') {
+      await this.spawnCommand('yarn', ['start']);
+    } else {
+      await this.spawnCommand('npm', ['run', 'start']);
+    }
   }
 
 }

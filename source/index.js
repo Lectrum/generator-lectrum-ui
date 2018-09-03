@@ -5,25 +5,36 @@ import Generator from 'yeoman-generator';
 import chalk from 'chalk';
 import yosay from 'yosay';
 import updateNotifier from 'update-notifier';
-import pkg from '../../package.json';
-
-updateNotifier({ pkg }).notify();
-
-// Utils
-import { promisify } from 'util';
-import { exec as rawExec } from 'child_process';
-
-const exec = promisify(rawExec);
+import { execSync  } from 'child_process';
 
 // Parts
-import packageJson from './templates/_package.json';
+import pkg from '../../package.json';
+import packageJson from './templates/package.json';
+
+const notifier = updateNotifier({
+    pkg,
+    updateCheckInterval: 1000 * 60 * 60 * 24,
+});
+
+if (notifier.update) {
+    notifier.notify({
+        message: `Update available ${chalk.grey(
+            notifier.update.current,
+        )} → ${chalk.green(notifier.update.latest)}
+Run ${chalk.blue(`npm i -g ${notifier.packageName}`)} to update`,
+    });
+}
 
 export default class Ui extends Generator {
+    PACKAGE_MANAGER = 'yarn';
+
     constructor(args: Object, options: Object) {
         super(args, options);
 
         this.log(
-            yosay(`Команда ${chalk.blueBright('Lectrum')} приветствует тебя!`),
+            yosay(
+                `Команда ${chalk.blueBright('Lectrum')} приветствует тебя! →`,
+            ),
         );
     }
 
@@ -73,14 +84,14 @@ export default class Ui extends Generator {
             this.destinationPath('README.md'),
         );
         this.fs.copy(
-            this.templatePath('_nodemon.json'),
+            this.templatePath('nodemon.json'),
             this.destinationPath('nodemon.json'),
         );
     }
 
     _writeDirectories() {
         this.fs.copy(
-            this.templatePath('_webpack'),
+            this.templatePath('webpack'),
             this.destinationPath('webpack'),
         );
         this.fs.copy(
@@ -121,15 +132,6 @@ export default class Ui extends Generator {
                 devDependencies: packageJson.devDependencies,
             });
         }
-
-        this.fs.copy(
-            this.templatePath('_package-lock.json'),
-            this.destinationPath('package-lock.json'),
-        );
-        this.fs.copy(
-            this.templatePath('_yarn.lock'),
-            this.destinationPath('yarn.lock'),
-        );
     }
 
     writing() {
@@ -139,12 +141,12 @@ export default class Ui extends Generator {
         this._writePackageJson();
     }
 
-    async install() {
+    install() {
         const yarn = chalk.blue('yarn');
         const npm = chalk.red('npm');
 
         try {
-            await exec('yarn');
+            execSync('yarn bin');
             this.log(
                 chalk.bgBlack(
                     `${chalk.greenBright('✓ ')} ${yarn} ${chalk.whiteBright(
@@ -154,6 +156,8 @@ export default class Ui extends Generator {
             );
             this.yarnInstall();
         } catch (error) {
+            this.PACKAGE_MANAGER = 'npm';
+
             this.log(
                 chalk.bgBlack(
                     `${chalk.red('x ')}${yarn} ${chalk.whiteBright(
@@ -166,7 +170,13 @@ export default class Ui extends Generator {
         }
     }
 
-    end() {
+    async end() {
         this.config.save();
+
+        if (!this.PACKAGE_MANAGER === 'yarn') {
+            await this.spawnCommand('yarn', [ 'start' ]);
+        } else {
+            await this.spawnCommand('npm', [ 'run', 'start' ]);
+        }
     }
 }

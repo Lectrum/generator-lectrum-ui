@@ -22,9 +22,8 @@ import {
 import merge from 'webpack-merge';
 
 export const generateCommonConfiguration = () => {
-    const BUILD_ENV = process.env.BUILD_ENV;
-    const IS_DEPLOYING_TO_GITHUB_PAGES
-        = process.env.DEPLOY_TARGET === 'github-pages';
+    const { NODE_ENV, DEPLOY_TARGET } = process.env;
+    const IS_DEPLOYING_TO_GITHUB_PAGES = DEPLOY_TARGET === 'github-pages';
     let REPOSITORY_NAME = '';
 
     try {
@@ -52,16 +51,16 @@ export const generateCommonConfiguration = () => {
         setupContextReplacement(),
         setupStyledReporting(),
         initializeEnvVariables({
-            __ENV__:  JSON.stringify(BUILD_ENV),
-            __DEV__:  BUILD_ENV === 'development',
-            __PROD__: BUILD_ENV === 'production',
+            __ENV__: JSON.stringify(NODE_ENV),
+            __DEV__: NODE_ENV === 'development',
+            __PROD__: NODE_ENV === 'production',
         }),
         {
             entry: {
                 SOURCE,
             },
             output: {
-                path:       BUILD,
+                path: BUILD,
                 publicPath: IS_DEPLOYING_TO_GITHUB_PAGES
                     ? `/${REPOSITORY_NAME}/`
                     : '/',
@@ -76,10 +75,10 @@ export const generateCommonConfiguration = () => {
                     '.png',
                     '.jpg',
                 ],
-                modules: [ SOURCE, 'node_modules' ],
+                modules: [SOURCE, 'node_modules'],
             },
             optimization: {
-                nodeEnv: process.env.NODE_ENV,
+                nodeEnv: NODE_ENV,
             },
         },
     );
