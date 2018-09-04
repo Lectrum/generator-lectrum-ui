@@ -1,6 +1,7 @@
-# @lectrum/generator-ui [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
-> 
-
+<h1 align="center">
+    <a href="https://lectrum.io" target="_blank" rel="noopener noreferrer"> <img src=./static/favicon/favicon-woodsmoke.svg alt="Lectrum favicon"
+        width="25" /></a> Генератор UI-проекта от Lectrum
+</h1>
 ## Installation
 
 First, install [Yeoman](http://yeoman.io) and @lectrum/generator-ui using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
