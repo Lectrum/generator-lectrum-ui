@@ -25,27 +25,52 @@
             alt="Подписывайся на наш Facebook" />
     </a>
 </div>
-## Installation
+<br>
+<br>
 
-First, install [Yeoman](http://yeoman.io) and @lectrum/generator-ui using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+<table align="center">
+    <tbody>
+        <tr>
+            <td>
+                <h3 align="center">
+                    👋🏼 Добро пожаловать!
+                </h3>
+                <p>
+                    🚀 Этот репозиторий содержит исходный код генератора UI-проекта.
+                </p>
+                <br>
+                <p>
+                    🛰 Данная инструкция содержит информацию по использованию генератора.
+                </p>
+            </td>
+        </tr>
+        <tbody>
+</table>
+<br>
+
+### Установка
+
+1. [Скачай и установи](https://nodejs.org/en/) последнюю LTS-версию Node.js.
+2. Выполни в консоли `node -v` и убедись, что установлена последняя версия Node.js не ниже `v8.11.4`;
+3. Введи в консоли `npm -v` и убедись, что установлена последняя версия npm не ниже `5.6.0`;
+4. Затем установи [Yeoman](http://yeoman.io) и `@lectrum/generator-ui` с помощью [npm](https://www.npmjs.com/):
 
 ```bash
 npm install -g yo
 npm install -g @lectrum/generator-ui
 ```
 
-Then generate your new project:
+После чего ты сможешь сгенерировать проект выполнив в терминале следующую команду:
 
 ```bash
-yo lectrum-ui
+yo @lectrum/ui
 ```
 
-## Getting To Know Yeoman
+### Что нужно знать о [Yeoman](http://yeoman.io)
 
- * Yeoman has a heart of gold.
- * Yeoman is a person with feelings and opinions, but is very easy to work with.
- * Yeoman can be too opinionated at times but is easily convinced not to be.
- * Feel free to [learn more about Yeoman](http://yeoman.io/).
+ * 🌟 У Yeoman сердце сделано из чистого золота.
+ * 🙏🏼 Yeoman — персонаж чуткий и нравственный, но работать с ним легко и приятно.
+ * Подробнее Yeoman [можно изучить на официальном сайте](http://yeoman.io/learning/index.html).
 
 <br>
 
@@ -54,20 +79,12 @@ yo lectrum-ui
 Ответы на часто задаваемые вопросы можно найти [здесь](https://github.com/Lectrum/FAQ#-faq).
 <br>
 
+### Лицензия
+
+MIT © [Lectrum](https://www.lectrum.io)
+
 <div align="center">
   <!-- Сделано с любовь -->
     <img src="https://img.shields.io/badge/%D0%A1%D0%B4%D0%B5%D0%BB%D0%B0%D0%BD%D0%BE%20%D1%81-%F0%9F%96%A4-red.svg?longCache=true&style=for-the-badge&colorA=000&colorB=fedcba"
       alt="Сделано с любовь" />
 </div>
-
-## License
-
-MIT © [Lectrum]('https://www.lectrum.io')
-
-
-[npm-image]: https://badge.fury.io/js/@lectrum/generator-ui.svg
-[npm-url]: https://npmjs.org/package/@lectrum/generator-ui
-[travis-image]: https://travis-ci.org/dvakatsiienko/@lectrum/generator-ui.svg?branch=master
-[travis-url]: https://travis-ci.org/dvakatsiienko/@lectrum/generator-ui
-[daviddm-image]: https://david-dm.org/dvakatsiienko/@lectrum/generator-ui.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/dvakatsiienko/@lectrum/generator-ui
