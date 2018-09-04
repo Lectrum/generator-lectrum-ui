@@ -1,7 +1,30 @@
 <h1 align="center">
-    <a href="https://lectrum.io" target="_blank" rel="noopener noreferrer"> <img src=./static/favicon/favicon-woodsmoke.svg alt="Lectrum favicon"
-        width="25" /></a> Генератор UI-проекта от Lectrum
+    <a href="https://lectrum.io" target="_blank" rel="noopener noreferrer"> <img src="./static/favicon/favicon-woodsmoke.svg" alt="Lectrum favicon"
+            width="25" /></a> Генератор UI-проекта от Lectrum
 </h1>
+<br>
+
+<div align="center">
+    <!-- Package version -->
+    <img src="https://img.shields.io/github/package-json/v/lectrum/@lectrum/generator-ui.svg?longCache=true&style=flat-square" alt="Package version"
+    />
+    <!-- Last commit -->
+    <img src="https://img.shields.io/github/last-commit/lectrum/@lectrum/generator-ui.svg?longCache=true&style=flat-square" alt="Last commit"
+    />
+    <!-- Dependencies -->
+    <img src="https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg?longCache=true&style=flat-square" alt="Dependencies"
+    />
+    <!-- Contributors welcome -->
+    <img src="https://img.shields.io/badge/contributions-welcome-orange.svg?longCache=true&style=flat-square" alt="Last update"
+    />
+</div>
+<div align="center">
+    <!-- Наш Facebook -->
+    <a href="https://www.facebook.com/lectrum">
+        <img src="https://img.shields.io/badge/%D0%9F%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D1%8B%D0%B2%D0%B0%D0%B9%D1%81%D1%8F%20%D0%BD%D0%B0%20%D0%BD%D0%B0%D1%88-Facebook-blue.svg?longCache=true&style=for-the-badge&link=https://www.facebook.com/lectrum"
+            alt="Подписывайся на наш Facebook" />
+    </a>
+</div>
 ## Installation
 
 First, install [Yeoman](http://yeoman.io) and @lectrum/generator-ui using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
