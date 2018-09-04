@@ -1,6 +1,7 @@
 {
     "@lectrum/generator-ui": {
-        "name": "@lectrum/generator-ui",
+        "repositoryName": "generator-ui",
+        "npmName": "@lectrum/generator-ui",
         "initialized": true
     }
 }

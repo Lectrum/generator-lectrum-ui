@@ -6,10 +6,10 @@
 
 <div align="center">
     <!-- Package version -->
-    <img src="https://img.shields.io/github/package-json/v/lectrum/@lectrum/generator-ui.svg?longCache=true&style=flat-square" alt="Package version"
-    />
+    <img src="https://img.shields.io/github/package-json/v/lectrum/generator-ui.svg?longCache=true&style=flat-square"
+        alt="Package version" />
     <!-- Last commit -->
-    <img src="https://img.shields.io/github/last-commit/lectrum/@lectrum/generator-ui.svg?longCache=true&style=flat-square" alt="Last commit"
+    <img src="https://img.shields.io/github/last-commit/lectrum/generator-ui.svg?longCache=true&style=flat-square" alt="Last commit"
     />
     <!-- Dependencies -->
     <img src="https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg?longCache=true&style=flat-square" alt="Dependencies"

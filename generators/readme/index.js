@@ -6,7 +6,7 @@ module.exports = class Readme extends Generator {
     }
 
     writing() {
-        const name = this.config.get('name');
+        const repositoryName = this.config.get('repositoryName');
 
         this.fs.copyTpl(
             this.templatePath('generator.ejs'),
@@ -14,7 +14,7 @@ module.exports = class Readme extends Generator {
             {
                 title: 'Генератор UI-проекта от Lectrum',
                 faviconUrl: './static/favicon/favicon-woodsmoke.svg',
-                name,
+                repositoryName,
             },
         );
     }
