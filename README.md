@@ -28,7 +28,7 @@
 <br>
 <br>
 
-<table align="center">
+<table align="center" width="100%">
     <tbody>
         <tr>
             <td>
