@@ -1,6 +1,6 @@
 {
     "name": "@lectrum/generator-ui",
-    "version": "0.0.27",
+    "version": "0.1.0",
     "description": "A generator for creating cutting-edge frontend single page applications environments.",
     "repository": "https://github.com/Lectrum/generator-ui",
     "author": {
@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "chalk": "^2.1.0",
+        "rimraf": "^2.6.2",
         "update-notifier": "^2.5.0",
         "yeoman-generator": "^3.1.1",
         "yosay": "^2.0.1"

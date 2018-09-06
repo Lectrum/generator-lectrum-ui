@@ -59,7 +59,7 @@ export const setupHtml = () => ({
             inject:   false,
             template: HtmlWebpackTemplate,
             title:    'Воркшоп по React: Instagram',
-            favicon:  `${STATICS}/favicon/Lectrum-favicon-512x512.png`,
+            favicon:  `${STATICS}/favicon/lectrum-favicon-512x512.png`,
             meta:     [
                 {
                     name:    'viewport',
