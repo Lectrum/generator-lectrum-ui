@@ -122,7 +122,7 @@ class Ui extends _yeomanGenerator.default {
   }
 
   _writeDotfiles() {
-    this.fs.copy(this.templatePath('.gitignore'), this.destinationPath('.gitignore'));
+    this.fs.copy(this.templatePath('gitignore'), this.destinationPath('.gitignore'));
     this.fs.copy(this.templatePath('.editorconfig'), this.destinationPath('.editorconfig'));
     this.fs.copy(this.templatePath('.eslintignore'), this.destinationPath('.eslintignore'));
     this.fs.copy(this.templatePath('.eslintrc.yaml'), this.destinationPath('.eslintrc.yaml'));
@@ -217,7 +217,7 @@ class Ui extends _yeomanGenerator.default {
         scripts: _package2.default.scripts,
         dependencies,
         devDependencies: _package2.default.devDependencies
-      });
+      }, null, 4);
     } else {
       this.fs.writeJSON('package.json', {
         name: 'my-app',
@@ -225,7 +225,7 @@ class Ui extends _yeomanGenerator.default {
         private: false,
         scripts: _package2.default.scripts,
         devDependencies: _package2.default.devDependencies
-      });
+      }, null, 4);
     }
   }
 
@@ -244,7 +244,7 @@ class Ui extends _yeomanGenerator.default {
       author,
       private: isPrivate,
       dependencies
-    });
+    }, null, 4);
     this.log(`package.json ${_chalk.default.red('zipped')}`);
   }
 

@@ -3,8 +3,7 @@
     "delay": "2500",
     "ignore": ["./node_modules", ".git"],
     "verbose": false,
-    "watch": ["./webpack", "package.json", ".babelrc"],
-    "exec":
-        "webpack-dev-server --config=./webpack/webpack.config.babel.js --env development",
+    "watch": ["./webpack", "package.json", ".babelrc.js"],
+    "exec": "webpack-dev-server --config=./webpack/webpack.config.babel.js --env development",
     "ext": "js json"
 }

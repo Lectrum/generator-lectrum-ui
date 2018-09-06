@@ -109,7 +109,7 @@ export default class Ui extends Generator {
 
     _writeDotfiles() {
         this.fs.copy(
-            this.templatePath('.gitignore'),
+            this.templatePath('gitignore'),
             this.destinationPath('.gitignore'),
         );
         this.fs.copy(
@@ -230,23 +230,33 @@ export default class Ui extends Generator {
 
             this.fs.delete('package.json');
 
-            this.fs.writeJSON('package.json', {
-                name,
-                version,
-                author,
-                private:         isPrivate,
-                scripts:         packageJson.scripts,
-                dependencies,
-                devDependencies: packageJson.devDependencies,
-            });
+            this.fs.writeJSON(
+                'package.json',
+                {
+                    name,
+                    version,
+                    author,
+                    private:         isPrivate,
+                    scripts:         packageJson.scripts,
+                    dependencies,
+                    devDependencies: packageJson.devDependencies,
+                },
+                null,
+                4,
+            );
         } else {
-            this.fs.writeJSON('package.json', {
-                name:            'my-app',
-                version:         '0.0.0',
-                private:         false,
-                scripts:         packageJson.scripts,
-                devDependencies: packageJson.devDependencies,
-            });
+            this.fs.writeJSON(
+                'package.json',
+                {
+                    name:            'my-app',
+                    version:         '0.0.0',
+                    private:         false,
+                    scripts:         packageJson.scripts,
+                    devDependencies: packageJson.devDependencies,
+                },
+                null,
+                4,
+            );
         }
     }
 
@@ -261,13 +271,18 @@ export default class Ui extends Generator {
 
         this.fs.delete('package.json');
 
-        this.fs.writeJSON('package.json', {
-            name,
-            version,
-            author,
-            private: isPrivate,
-            dependencies,
-        });
+        this.fs.writeJSON(
+            'package.json',
+            {
+                name,
+                version,
+                author,
+                private: isPrivate,
+                dependencies,
+            },
+            null,
+            4,
+        );
         this.log(`package.json ${chalk.red('zipped')}`);
     }
 }

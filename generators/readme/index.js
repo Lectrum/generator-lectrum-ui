@@ -1,5 +1,7 @@
 const Generator = require('yeoman-generator');
 
+const messages = require('./templates/messages');
+
 module.exports = class Readme extends Generator {
     constructor(args, options) {
         super(args, options);
@@ -14,13 +16,12 @@ module.exports = class Readme extends Generator {
 
     writing() {
         const project = this.options.project;
-        const isInitialized = this.config.get('isInitialized');
 
-        const title = this.config.get('title');
+        const isInitialized = this.config.get('isInitialized');
+        const repositoryOwner = this.config.get('repositoryOwner');
         const repositoryName = this.config.get('repositoryName');
-        const descriptionGreeting = this.config.get('descriptionGreeting');
-        const descriptionBody = this.config.get('descriptionBody');
-        const descriptionFooter = this.config.get('descriptionFooter');
+
+        const selectedMessages = messages[ project ];
 
         if (!isInitialized) {
             this.fs.copy(
@@ -33,12 +34,10 @@ module.exports = class Readme extends Generator {
             this.templatePath(`${project}.ejs`),
             this.destinationPath('README.md'),
             {
+                ...selectedMessages,
                 isInitialized,
-                title,
+                repositoryOwner,
                 repositoryName,
-                descriptionGreeting,
-                descriptionBody,
-                descriptionFooter,
             },
         );
     }

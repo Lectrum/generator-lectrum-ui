@@ -58,7 +58,7 @@ export const setupHtml = () => ({
         new HtmlWebpackPlugin({
             inject:   false,
             template: HtmlWebpackTemplate,
-            title:    'Воркшоп по React: Instagram',
+            title:    'Lectrum Education',
             favicon:  `${STATICS}/favicon/lectrum-favicon-512x512.png`,
             meta:     [
                 {
