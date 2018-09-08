@@ -11,9 +11,9 @@ var _chalk = _interopRequireDefault(require("chalk"));
 
 var _yosay = _interopRequireDefault(require("yosay"));
 
-var _updateNotifier = _interopRequireDefault(require("update-notifier"));
-
 var _child_process = require("child_process");
+
+var _updateNotifier = _interopRequireDefault(require("update-notifier"));
 
 var _rimraf = _interopRequireDefault(require("rimraf"));
 
@@ -42,7 +42,7 @@ class Ui extends _yeomanGenerator.default {
   constructor(args, options) {
     super(args, options);
 
-    _defineProperty(this, "PACKAGE_MANAGER", 'yarn');
+    _defineProperty(this, "preferredPackageManager", 'yarn');
 
     this.log((0, _yosay.default)(`Команда ${_chalk.default.blueBright('Lectrum')} приветствует тебя!`));
     this.option('zip', {
@@ -97,7 +97,7 @@ class Ui extends _yeomanGenerator.default {
         this.log(_chalk.default.bgBlack(`${_chalk.default.greenBright('✓ ')} ${yarn} ${_chalk.default.whiteBright('found.\nInstalling dependencies with')} ${yarn}.`));
         this.yarnInstall();
       } catch (_unused) {
-        this.PACKAGE_MANAGER = 'npm';
+        this.preferredPackageManager = 'npm';
         this.log(_chalk.default.bgBlack(`${_chalk.default.red('x ')}${yarn} ${_chalk.default.whiteBright('not found.\nInstalling dependencies with')} ${npm}.`));
         this.npmInstall();
       }
@@ -113,7 +113,7 @@ class Ui extends _yeomanGenerator.default {
     if (!isInitialized && !zip) {
       this.config.set('isInitialized', true);
 
-      if (!this.PACKAGE_MANAGER === 'yarn') {
+      if (!this.preferredPackageManager === 'yarn') {
         await this.spawnCommand('yarn', ['start']);
       } else {
         await this.spawnCommand('npm', ['run', 'start']);
@@ -208,7 +208,9 @@ class Ui extends _yeomanGenerator.default {
         private: isPrivate,
         dependencies
       } = JSON.parse(this.fs.read('package.json'));
-      this.fs.delete('package.json');
+      (0, _rimraf.default)('package.json', () => {
+        this.log(`package.json ${_chalk.default.red('deleted')}`);
+      });
       this.fs.writeJSON('package.json', {
         name,
         version,
@@ -237,7 +239,9 @@ class Ui extends _yeomanGenerator.default {
       private: isPrivate,
       dependencies
     } = JSON.parse(this.fs.read('package.json'));
-    this.fs.delete('package.json');
+    (0, _rimraf.default)('package.json', () => {
+      this.log(`package.json ${_chalk.default.red('deleted')}`);
+    });
     this.fs.writeJSON('package.json', {
       name,
       version,

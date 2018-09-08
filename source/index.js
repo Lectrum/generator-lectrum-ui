@@ -4,8 +4,8 @@
 import Generator from 'yeoman-generator';
 import chalk from 'chalk';
 import yosay from 'yosay';
-import updateNotifier from 'update-notifier';
 import { execSync } from 'child_process';
+import updateNotifier from 'update-notifier';
 import rimraf from 'rimraf';
 
 // Parts
@@ -27,11 +27,10 @@ Run ${chalk.blue(`npm i -g ${notifier.packageName}`)} to update`,
 }
 
 export default class Ui extends Generator {
-    PACKAGE_MANAGER = 'yarn';
+    preferredPackageManager = 'yarn';
 
     constructor(args: Object, options: Object) {
         super(args, options);
-
         this.log(
             yosay(`Команда ${chalk.blueBright('Lectrum')} приветствует тебя!`),
         );
@@ -79,7 +78,7 @@ export default class Ui extends Generator {
                 );
                 this.yarnInstall();
             } catch {
-                this.PACKAGE_MANAGER = 'npm';
+                this.preferredPackageManager = 'npm';
 
                 this.log(
                     chalk.bgBlack(
@@ -99,7 +98,7 @@ export default class Ui extends Generator {
 
         if (!isInitialized && !zip) {
             this.config.set('isInitialized', true);
-            if (!this.PACKAGE_MANAGER === 'yarn') {
+            if (!this.preferredPackageManager === 'yarn') {
                 await this.spawnCommand('yarn', [ 'start' ]);
             } else {
                 await this.spawnCommand('npm', [ 'run', 'start' ]);
@@ -228,7 +227,9 @@ export default class Ui extends Generator {
                 dependencies,
             } = JSON.parse(this.fs.read('package.json'));
 
-            this.fs.delete('package.json');
+            rimraf('package.json', () => {
+                this.log(`package.json ${chalk.red('deleted')}`);
+            });
 
             this.fs.writeJSON(
                 'package.json',
@@ -269,7 +270,9 @@ export default class Ui extends Generator {
             dependencies,
         } = JSON.parse(this.fs.read('package.json'));
 
-        this.fs.delete('package.json');
+        rimraf('package.json', () => {
+            this.log(`package.json ${chalk.red('deleted')}`);
+        });
 
         this.fs.writeJSON(
             'package.json',
