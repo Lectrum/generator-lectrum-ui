@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
 
 // Core
+import merge from 'webpack-merge';
 import getRepositoryName from 'git-repo-name';
 import chalk from 'chalk';
 
-// Paths
-import { SOURCE, BUILD } from '../paths';
+// Constants
+import { SOURCE, BUILD } from '../constants';
 
 // Webpack modules
 import {
@@ -14,12 +15,8 @@ import {
     loadImages,
     setupHtml,
     setupContextReplacement,
-    setupStyledReporting,
     initializeEnvVariables,
 } from '../modules';
-
-// Instruments
-import merge from 'webpack-merge';
 
 export const generateCommonConfiguration = () => {
     const { NODE_ENV, DEPLOY_TARGET } = process.env;
@@ -49,10 +46,9 @@ export const generateCommonConfiguration = () => {
         // Plugins
         setupHtml(),
         setupContextReplacement(),
-        setupStyledReporting(),
         initializeEnvVariables({
-            __ENV__: JSON.stringify(NODE_ENV),
-            __DEV__: NODE_ENV === 'development',
+            __ENV__:  JSON.stringify(NODE_ENV),
+            __DEV__:  NODE_ENV === 'development',
             __PROD__: NODE_ENV === 'production',
         }),
         {
@@ -60,7 +56,7 @@ export const generateCommonConfiguration = () => {
                 SOURCE,
             },
             output: {
-                path: BUILD,
+                path:       BUILD,
                 publicPath: IS_DEPLOYING_TO_GITHUB_PAGES
                     ? `/${REPOSITORY_NAME}/`
                     : '/',
@@ -75,11 +71,12 @@ export const generateCommonConfiguration = () => {
                     '.png',
                     '.jpg',
                 ],
-                modules: [SOURCE, 'node_modules'],
+                modules: [ SOURCE, 'node_modules' ],
             },
             optimization: {
                 nodeEnv: NODE_ENV,
             },
+            stats: false,
         },
     );
 };

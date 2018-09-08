@@ -1,3 +1,7 @@
+// Core
+import merge from 'webpack-merge';
+import SimpleProgressWebpackPlugin from 'simple-progress-webpack-plugin';
+
 // Configurations
 import { generateCommonConfiguration } from './common';
 
@@ -9,11 +13,8 @@ import {
     cleanBuildDirectory,
 } from '../modules';
 
-// Instruments
-import merge from 'webpack-merge';
-
 export const generateProductionConfiguration = () => merge(
-    // Generator
+    // Common configuration
     generateCommonConfiguration(),
 
     // Loaders
@@ -28,5 +29,10 @@ export const generateProductionConfiguration = () => merge(
         output: {
             filename: 'js/[name].[chunkhash:5].js',
         },
+        plugins: [
+            new SimpleProgressWebpackPlugin({
+                format: 'compact',
+            }),
+        ],
     },
 );

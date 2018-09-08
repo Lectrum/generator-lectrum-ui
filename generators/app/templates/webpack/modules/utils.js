@@ -1,23 +1,17 @@
-// Paths
-import { BUILD } from '../paths';
-
-// Plugins
-import CleanWebpackPlugin from 'clean-webpack-plugin';
+// Core
 import { DefinePlugin, ContextReplacementPlugin } from 'webpack';
-import { HotModuleReplacementPlugin } from 'webpack';
+import CleanWebpackPlugin from 'clean-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-import StylishReporter from 'webpack-stylish';
 
-export const initializeEnvVariables = variables => ({
+// Constants
+import { BUILD } from '../constants';
+
+export const initializeEnvVariables = (variables) => ({
     plugins: [ new DefinePlugin(variables) ],
 });
 
 export const setupContextReplacement = () => ({
     plugins: [ new ContextReplacementPlugin(/moment\/locale$/, /ru/) ],
-});
-
-export const setupHotModuleReplacement = () => ({
-    plugins: [ new HotModuleReplacementPlugin() ],
 });
 
 export const setupBuildAnalysis = () => ({
@@ -37,9 +31,4 @@ export const cleanBuildDirectory = () => ({
             allowExternal: true,
         }),
     ],
-});
-
-export const setupStyledReporting = () => ({
-    stats:   'none',
-    plugins: [ new StylishReporter() ],
 });

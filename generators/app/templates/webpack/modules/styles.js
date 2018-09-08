@@ -1,7 +1,4 @@
-// Paths
-import { SOURCE } from '../paths';
-
-// PostCSS plugins
+// Core
 import imports from 'postcss-import';
 import mqpacker from 'css-mqpacker';
 import smoothFonts from 'postcss-font-smoothing';
@@ -10,15 +7,16 @@ import reporter from 'postcss-reporter';
 import postcssPresetEnv from 'postcss-preset-env';
 import gradients from 'postcss-easing-gradients';
 import cssnano from 'cssnano';
-
-// Plugins
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+
+// Constants
+import { SOURCE } from '../constants';
 
 export const loadPostCSS = () => ({
     loader:  'postcss-loader',
     options: {
         ident:   'postcss',
-        plugins: loader => {
+        plugins: (loader) => {
             return [
                 imports({
                     getPath:        SOURCE,

@@ -165,15 +165,11 @@ class Ui extends _yeomanGenerator.default {
 
   _writeRegularFiles() {
     this.fs.copy(this.templatePath('LICENSE'), this.destinationPath('LICENSE'));
-    this.fs.copy(this.templatePath('nodemon.json'), this.destinationPath('nodemon.json'));
   }
 
   _removeRegularFiles() {
     (0, _rimraf.default)('LICENSE', () => {
       this.log(`LICENSE ${_chalk.default.red('deleted')}`);
-    });
-    (0, _rimraf.default)('nodemon.json', () => {
-      this.log(`nodemon.json ${_chalk.default.red('deleted')}`);
     });
     (0, _rimraf.default)('yarn.lock', () => {
       this.log(`yarn.lock ${_chalk.default.red('deleted')}`);

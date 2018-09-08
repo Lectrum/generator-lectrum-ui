@@ -1,39 +1,42 @@
-// Presets
+// Core
+import merge from 'webpack-merge';
+var FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+
+// Core
+import openBrowser from 'react-dev-utils/openBrowser';
+import { choosePort } from 'react-dev-utils/WebpackDevServerUtils';
+
+// Constants
+import { HOST, PORT } from '../constants';
+
+// Configuration
 import { generateCommonConfiguration } from './common';
 
 // Webpack modules
-import { loadDevelopmentCss, setupHotModuleReplacement } from '../modules';
+import { loadDevelopmentCss } from '../modules';
 
-// Instruments
-import merge from 'webpack-merge';
 
-export const generateDevelopmentConfiguration = () => merge(
-    // Generator
-    generateCommonConfiguration(),
+export const generateDevelopmentConfiguration = async () => {
+    const suggestedPort = await choosePort(HOST, PORT);
+    setImmediate(() => openBrowser(`http://localhost:${suggestedPort}`));
 
-    // Loaders
-    loadDevelopmentCss(),
+    return merge(
+        // Common configuration
+        generateCommonConfiguration(),
 
-    // Plugins
-    setupHotModuleReplacement(),
-    {
-        mode:  'development',
-        entry: {
-            // ? Фикс периодического дисконнекта devserver. Убрать после перехода на webpack-serve
-            client: 'webpack-dev-server/client?http://localhost:3000',
+        // Loaders
+        loadDevelopmentCss(),
+        {
+            mode:   'development',
+            output: {
+                filename: 'js/[name].[hash:5].js',
+            },
+            devtool: 'cheap-module-eval-source-map',
+            serve:   {
+                host: HOST,
+                port: suggestedPort,
+            },
+            plugins: [ new FriendlyErrorsWebpackPlugin() ],
         },
-        output: {
-            filename: 'js/[name].[hash:5].js',
-        },
-        devtool:   'cheap-module-eval-source-map',
-        devServer: {
-            hot:                true,
-            historyApiFallback: true,
-            host:               '0.0.0.0',
-            overlay:            true,
-            port:               3000,
-            stats:              'errors-only',
-            useLocalIp:         true,
-        },
-    },
-);
+    );
+};

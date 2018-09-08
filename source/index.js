@@ -177,18 +177,11 @@ export default class Ui extends Generator {
             this.templatePath('LICENSE'),
             this.destinationPath('LICENSE'),
         );
-        this.fs.copy(
-            this.templatePath('nodemon.json'),
-            this.destinationPath('nodemon.json'),
-        );
     }
 
     _removeRegularFiles() {
         rimraf('LICENSE', () => {
             this.log(`LICENSE ${chalk.red('deleted')}`);
-        });
-        rimraf('nodemon.json', () => {
-            this.log(`nodemon.json ${chalk.red('deleted')}`);
         });
         rimraf('yarn.lock', () => {
             this.log(`yarn.lock ${chalk.red('deleted')}`);

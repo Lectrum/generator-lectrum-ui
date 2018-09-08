@@ -1,10 +1,10 @@
-// Paths
-import { SOURCE, STATICS } from '../paths';
-
-// Plugins
+// Core
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackTemplate from 'html-webpack-template';
+
+// Constants
+import { SOURCE, STATICS } from '../constants';
 
 export const loadFonts = () => ({
     module: {
