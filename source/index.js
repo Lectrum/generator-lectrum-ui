@@ -206,6 +206,9 @@ export default class Ui extends Generator {
         rimraf('node_modules', () => {
             this.log(`node_modules ${chalk.red('deleted')}`);
         });
+        rimraf('build', () => {
+            this.log(`build ${chalk.red('deleted')}`);
+        });
     }
 
     _writePackageJson() {

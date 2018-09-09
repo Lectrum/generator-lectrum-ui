@@ -5,6 +5,8 @@ build/
 coverage/
 flow-coverage/
 
+package-lock.json
+
 *.log
 
 

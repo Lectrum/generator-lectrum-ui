@@ -2,7 +2,7 @@
 import { resolve } from 'path';
 
 // Network
-export const HOST = '0.0.0.0';
+export const HOST = 'localhost';
 export const PORT = 3000;
 
 // Paths

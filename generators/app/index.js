@@ -191,6 +191,9 @@ class Ui extends _yeomanGenerator.default {
     (0, _rimraf.default)('node_modules', () => {
       this.log(`node_modules ${_chalk.default.red('deleted')}`);
     });
+    (0, _rimraf.default)('build', () => {
+      this.log(`build ${_chalk.default.red('deleted')}`);
+    });
   }
 
   _writePackageJson() {
