@@ -6,7 +6,7 @@ import getRepositoryName from 'git-repo-name';
 import chalk from 'chalk';
 
 // Constants
-import { SOURCE, BUILD } from '../constants';
+import { SOURCE, BUILD } from './constants';
 
 // Webpack modules
 import {
@@ -16,9 +16,9 @@ import {
     setupHtml,
     setupContextReplacement,
     initializeEnvVariables,
-} from '../modules';
+} from './modules';
 
-export const generateCommonConfiguration = () => {
+export default () => {
     const { NODE_ENV, DEPLOY_TARGET } = process.env;
     const IS_DEPLOYING_TO_GITHUB_PAGES = DEPLOY_TARGET === 'github-pages';
     let REPOSITORY_NAME = '';

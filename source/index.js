@@ -4,9 +4,9 @@
 import Generator from 'yeoman-generator';
 import chalk from 'chalk';
 import yosay from 'yosay';
-import { execSync } from 'child_process';
 import updateNotifier from 'update-notifier';
 import rimraf from 'rimraf';
+import { execSync } from 'child_process';
 
 // Parts
 import pkg from '../../package.json';

@@ -11,11 +11,11 @@ var _chalk = _interopRequireDefault(require("chalk"));
 
 var _yosay = _interopRequireDefault(require("yosay"));
 
-var _child_process = require("child_process");
-
 var _updateNotifier = _interopRequireDefault(require("update-notifier"));
 
 var _rimraf = _interopRequireDefault(require("rimraf"));
+
+var _child_process = require("child_process");
 
 var _package = _interopRequireDefault(require("../../package.json"));
 

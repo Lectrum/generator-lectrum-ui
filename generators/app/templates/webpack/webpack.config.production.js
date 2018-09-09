@@ -3,7 +3,7 @@ import merge from 'webpack-merge';
 import SimpleProgressWebpackPlugin from 'simple-progress-webpack-plugin';
 
 // Configurations
-import { generateCommonConfiguration } from './common';
+import generateCommonConfiguration from './webpack.config.common';
 
 // Webpack modules
 import {
@@ -11,9 +11,9 @@ import {
     setupBuildAnalysis,
     setupFavicon,
     cleanBuildDirectory,
-} from '../modules';
+} from './modules';
 
-export const generateProductionConfiguration = () => merge(
+export default () => merge(
     // Common configuration
     generateCommonConfiguration(),
 

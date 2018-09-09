@@ -6,12 +6,12 @@ import fallback from 'connect-history-api-fallback';
 import progress from 'webpack-serve-waitpage';
 
 // Main config
-import createConfig from './webpack.config.js';
+import generateDevelopmentConfiguration from './webpack.config.development';
 
 const argv = {};
 
 (async () => {
-    const config = await createConfig();
+    const config = await generateDevelopmentConfiguration();
 
     await serve(argv, {
         config,
