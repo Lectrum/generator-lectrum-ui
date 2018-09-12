@@ -6,7 +6,7 @@ import getRepositoryName from 'git-repo-name';
 import chalk from 'chalk';
 
 // Constants
-import { SOURCE, BUILD } from './constants';
+import { SOURCE, BUILD } from '../../constants';
 
 // Webpack modules
 import {
@@ -16,7 +16,7 @@ import {
     setupHtml,
     setupContextReplacement,
     initializeEnvVariables,
-} from './modules';
+} from '../modules';
 
 export default () => {
     const { NODE_ENV, DEPLOY_TARGET } = process.env;

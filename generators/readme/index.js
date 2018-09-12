@@ -1,5 +1,4 @@
 const Generator = require('yeoman-generator');
-
 const messages = require('./templates/messages');
 
 module.exports = class Readme extends Generator {

@@ -5,8 +5,8 @@ import compress from 'koa-compress';
 import fallback from 'connect-history-api-fallback';
 import progress from 'webpack-serve-waitpage';
 
-// Main config
-import generateDevelopmentConfiguration from './webpack.config.development';
+// Development config
+import generateDevelopmentConfiguration from './configurations/webpack.config.development';
 
 const argv = {};
 

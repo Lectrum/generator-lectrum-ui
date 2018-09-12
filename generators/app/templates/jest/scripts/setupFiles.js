@@ -1,26 +1,64 @@
-/* Setup files module.
-**
-** This module will be executed before each test.
-**
-** This module contains a code to configure or set up the
-** testing environment before each test. Since every test
-** runs in its own environment, these scripts will be
-** executed in the testing environment immediately before
-** executing the test code itself.
-**
-** This module executes before setupFramework module.
-**
-*/
+// Mocks
+import { LocalStorage } from './mocks/localStorage';
+import { fetch } from './mocks/fetch';
 
-import { LocalStorage } from './mocks';
-import './mocks/html';
+const successMessage = 'TEST_SUCCESS_MESSAGE.';
+const errorMessage = 'TEST_ERROR_MESSAGE.';
+const token = 'TEST_TOKEN';
+const error = new Error(errorMessage);
 
-const { NODE_ENV } = process.env;
+const userProfile = {
+    id:        'TEST_ID',
+    avatar:    'TEST_AVATAR',
+    firstName: 'Walter',
+    lastName:  'White',
+    token,
+};
 
-global.__ENV__ = NODE_ENV;
-global.__DEV__ = NODE_ENV === 'development';
-global.__PROD__ = NODE_ENV === 'production';
-global.__TEST__ = NODE_ENV === 'test';
+const credentials = {
+    email:    'test@email.com',
+    password: '1111',
+    remember: true,
+};
 
+const responseDataSuccess = {
+    data:    userProfile,
+    message: successMessage,
+};
+
+const responseDataFail = {
+    message: errorMessage,
+};
+
+const fetchResponseSuccess = {
+    status: 200,
+    json:   jest.fn(() => Promise.resolve(responseDataSuccess)),
+};
+
+const fetchResponseFail401 = {
+    status: 401,
+    json:   jest.fn(() => Promise.resolve(responseDataFail)),
+};
+
+const fetchResponseFail400 = {
+    status: 400,
+    json:   jest.fn(() => Promise.resolve(responseDataFail)),
+};
+
+const url = 'https://www.url.com';
+
+global.__ = {
+    userProfile,
+    errorMessage,
+    token,
+    error,
+    responseDataSuccess,
+    responseDataFail,
+    fetchResponseSuccess,
+    fetchResponseFail401,
+    fetchResponseFail400,
+    credentials,
+    url,
+};
+global.fetch = fetch;
 global.localStorage = new LocalStorage();
-global.__ = __;

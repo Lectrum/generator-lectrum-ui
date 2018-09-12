@@ -1,6 +1,18 @@
 module.exports = function(api) {
-    const ENV = api.env();
-    api.cache.using(() => ENV === 'development');
+    const env = api.env();
+
+    api.cache.using(() => env === 'development');
+
+    const plugins = [
+        '@babel/plugin-proposal-class-properties',
+        ['@babel/plugin-proposal-decorators', { legacy: true }],
+    ];
+
+    if (env === 'node') {
+        plugins.push('dynamic-import-node');
+    } else {
+        plugins.push('react-hot-loader/babel');
+    }
 
     return {
         presets: [
@@ -20,10 +32,6 @@ module.exports = function(api) {
                 },
             ],
         ],
-        plugins: [
-            '@babel/plugin-proposal-class-properties',
-            ['@babel/plugin-proposal-decorators', { legacy: true }],
-            'react-hot-loader/babel',
-        ],
+        plugins,
     };
 };

@@ -4,7 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackTemplate from 'html-webpack-template';
 
 // Constants
-import { SOURCE, STATICS } from '../constants';
+import { SOURCE, STATICS } from '../../constants';
 
 export const loadFonts = () => ({
     module: {

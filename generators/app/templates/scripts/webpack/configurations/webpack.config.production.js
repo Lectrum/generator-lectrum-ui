@@ -11,7 +11,7 @@ import {
     setupBuildAnalysis,
     setupFavicon,
     cleanBuildDirectory,
-} from './modules';
+} from '../modules';
 
 export default () => merge(
     // Common configuration

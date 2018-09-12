@@ -28,6 +28,21 @@ Run ${chalk.blue(`npm i -g ${notifier.packageName}`)} to update`,
 
 export default class Ui extends Generator {
     preferredPackageManager = 'yarn';
+    dotfiles = [
+        '.gitignore',
+        '.editorconfig',
+        '.eslintignore',
+        '.eslintrc.yaml',
+        '.czrc',
+        '.stylelintrc',
+        '.stylelintignore',
+        '.browserslistrc',
+        '.babelrc.js',
+    ];
+
+    regularFiles = [ 'LICENSE' ];
+    trashFiles = [ 'yarn.lock', 'package-lock.json', 'node_modules', 'build' ];
+    directories = [ 'jest', 'scripts' ];
 
     constructor(args: Object, options: Object) {
         super(args, options);
@@ -48,16 +63,34 @@ export default class Ui extends Generator {
     writing() {
         const { zip } = this.options;
         if (zip) {
-            this._removeDirectories();
-            this._removeRegularFiles();
-            this._removeDotfiles();
+            this.dotfiles.forEach((dotfile) => rimraf(dotfile, () => this.log(`${dotfile} ${chalk.red('deleted')}`)));
+            this.regularFiles.forEach((regularFile) => rimraf(regularFile, () => this.log(`${regularFile} ${chalk.red('deleted')}`)));
+            this.directories.forEach((directory) => rimraf(directory, () => this.log(`${directory} ${chalk.red('deleted')}`)));
+            this.trashFiles.forEach((trashFile) => rimraf(trashFile, () => this.log(`${trashFile} ${chalk.red('deleted')}`)));
             this._zipPackageJson();
+
             this.config.set('isInitialized', false);
         } else {
-            this._writeDotfiles();
-            this._writeRegularFiles();
-            this._writeDirectories();
-            this._writePackageJson();
+            this.dotfiles.forEach((dotfile) => {
+                this.fs.copy(
+                    this.templatePath(dotfile),
+                    this.destinationPath(dotfile),
+                );
+            });
+            this.regularFiles.forEach((regularFile) => {
+                this.fs.copy(
+                    this.templatePath(regularFile),
+                    this.destinationPath(regularFile),
+                );
+            });
+            this.directories.forEach((directory) => {
+                this.fs.copy(
+                    this.templatePath(directory),
+                    this.destinationPath(directory),
+                );
+            });
+
+            this._unzipPackageJson();
         }
     }
 
@@ -106,112 +139,7 @@ export default class Ui extends Generator {
         }
     }
 
-    _writeDotfiles() {
-        this.fs.copy(
-            this.templatePath('gitignore'),
-            this.destinationPath('.gitignore'),
-        );
-        this.fs.copy(
-            this.templatePath('.editorconfig'),
-            this.destinationPath('.editorconfig'),
-        );
-        this.fs.copy(
-            this.templatePath('.eslintignore'),
-            this.destinationPath('.eslintignore'),
-        );
-        this.fs.copy(
-            this.templatePath('.eslintrc.yaml'),
-            this.destinationPath('.eslintrc.yaml'),
-        );
-        this.fs.copy(this.templatePath('.czrc'), this.destinationPath('.czrc'));
-        this.fs.copy(
-            this.templatePath('.stylelintrc'),
-            this.destinationPath('.stylelintrc'),
-        );
-        this.fs.copy(
-            this.templatePath('.stylelintignore'),
-            this.destinationPath('.stylelintignore'),
-        );
-        this.fs.copy(
-            this.templatePath('.browserslistrc'),
-            this.destinationPath('.browserslistrc'),
-        );
-        this.fs.copy(
-            this.templatePath('.babelrc.js'),
-            this.destinationPath('.babelrc.js'),
-        );
-    }
-
-    _removeDotfiles() {
-        rimraf('.gitignore', () => {
-            this.log(`.gitignore ${chalk.red('deleted')}`);
-        });
-        rimraf('.editorconfig', () => {
-            this.log(`.editorconfig ${chalk.red('deleted')}`);
-        });
-        rimraf('.eslintignore', () => {
-            this.log(`.eslintignore ${chalk.red('deleted')}`);
-        });
-        rimraf('.eslintrc.yaml', () => {
-            this.log(`.eslintrc.yaml ${chalk.red('deleted')}`);
-        });
-        rimraf('.czrc', () => {
-            this.log(`.czrc ${chalk.red('deleted')}`);
-        });
-        rimraf('.stylelintrc', () => {
-            this.log(`.stylelintrc ${chalk.red('deleted')}`);
-        });
-        rimraf('.stylelintignore', () => {
-            this.log(`.stylelintignore ${chalk.red('deleted')}`);
-        });
-        rimraf('.browserslistrc', () => {
-            this.log(`.browserslistrc ${chalk.red('deleted')}`);
-        });
-        rimraf('.babelrc.js', () => {
-            this.log(`.babelrc.js ${chalk.red('deleted')}`);
-        });
-    }
-
-    _writeRegularFiles() {
-        this.fs.copy(
-            this.templatePath('LICENSE'),
-            this.destinationPath('LICENSE'),
-        );
-    }
-
-    _removeRegularFiles() {
-        rimraf('LICENSE', () => {
-            this.log(`LICENSE ${chalk.red('deleted')}`);
-        });
-        rimraf('yarn.lock', () => {
-            this.log(`yarn.lock ${chalk.red('deleted')}`);
-        });
-    }
-
-    _writeDirectories() {
-        this.fs.copy(
-            this.templatePath('webpack'),
-            this.destinationPath('webpack'),
-        );
-        this.fs.copy(this.templatePath('jest'), this.destinationPath('jest'));
-    }
-
-    _removeDirectories() {
-        rimraf('webpack', () => {
-            this.log(`webpack ${chalk.red('deleted')}`);
-        });
-        rimraf('jest', () => {
-            this.log(`jest ${chalk.red('deleted')}`);
-        });
-        rimraf('node_modules', () => {
-            this.log(`node_modules ${chalk.red('deleted')}`);
-        });
-        rimraf('build', () => {
-            this.log(`build ${chalk.red('deleted')}`);
-        });
-    }
-
-    _writePackageJson() {
+    _unzipPackageJson() {
         const isPackageJsonExists = this.fs.exists('package.json');
 
         if (isPackageJsonExists) {

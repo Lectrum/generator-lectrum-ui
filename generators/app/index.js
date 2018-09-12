@@ -44,6 +44,14 @@ class Ui extends _yeomanGenerator.default {
 
     _defineProperty(this, "preferredPackageManager", 'yarn');
 
+    _defineProperty(this, "dotfiles", ['.gitignore', '.editorconfig', '.eslintignore', '.eslintrc.yaml', '.czrc', '.stylelintrc', '.stylelintignore', '.browserslistrc', '.babelrc.js']);
+
+    _defineProperty(this, "regularFiles", ['LICENSE']);
+
+    _defineProperty(this, "trashFiles", ['yarn.lock', 'package-lock.json', 'node_modules', 'build']);
+
+    _defineProperty(this, "directories", ['jest', 'scripts']);
+
     this.log((0, _yosay.default)(`Команда ${_chalk.default.blueBright('Lectrum')} приветствует тебя!`));
     this.option('zip', {
       description: 'Returns repository to its initial state',
@@ -62,23 +70,26 @@ class Ui extends _yeomanGenerator.default {
     } = this.options;
 
     if (zip) {
-      this._removeDirectories();
-
-      this._removeRegularFiles();
-
-      this._removeDotfiles();
+      this.dotfiles.forEach(dotfile => (0, _rimraf.default)(dotfile, () => this.log(`${dotfile} ${_chalk.default.red('deleted')}`)));
+      this.regularFiles.forEach(regularFile => (0, _rimraf.default)(regularFile, () => this.log(`${regularFile} ${_chalk.default.red('deleted')}`)));
+      this.directories.forEach(directory => (0, _rimraf.default)(directory, () => this.log(`${directory} ${_chalk.default.red('deleted')}`)));
+      this.trashFiles.forEach(trashFile => (0, _rimraf.default)(trashFile, () => this.log(`${trashFile} ${_chalk.default.red('deleted')}`)));
 
       this._zipPackageJson();
 
       this.config.set('isInitialized', false);
     } else {
-      this._writeDotfiles();
+      this.dotfiles.forEach(dotfile => {
+        this.fs.copy(this.templatePath(dotfile), this.destinationPath(dotfile));
+      });
+      this.regularFiles.forEach(regularFile => {
+        this.fs.copy(this.templatePath(regularFile), this.destinationPath(regularFile));
+      });
+      this.directories.forEach(directory => {
+        this.fs.copy(this.templatePath(directory), this.destinationPath(directory));
+      });
 
-      this._writeRegularFiles();
-
-      this._writeDirectories();
-
-      this._writePackageJson();
+      this._unzipPackageJson();
     }
   }
 
@@ -121,82 +132,7 @@ class Ui extends _yeomanGenerator.default {
     }
   }
 
-  _writeDotfiles() {
-    this.fs.copy(this.templatePath('gitignore'), this.destinationPath('.gitignore'));
-    this.fs.copy(this.templatePath('.editorconfig'), this.destinationPath('.editorconfig'));
-    this.fs.copy(this.templatePath('.eslintignore'), this.destinationPath('.eslintignore'));
-    this.fs.copy(this.templatePath('.eslintrc.yaml'), this.destinationPath('.eslintrc.yaml'));
-    this.fs.copy(this.templatePath('.czrc'), this.destinationPath('.czrc'));
-    this.fs.copy(this.templatePath('.stylelintrc'), this.destinationPath('.stylelintrc'));
-    this.fs.copy(this.templatePath('.stylelintignore'), this.destinationPath('.stylelintignore'));
-    this.fs.copy(this.templatePath('.browserslistrc'), this.destinationPath('.browserslistrc'));
-    this.fs.copy(this.templatePath('.babelrc.js'), this.destinationPath('.babelrc.js'));
-  }
-
-  _removeDotfiles() {
-    (0, _rimraf.default)('.gitignore', () => {
-      this.log(`.gitignore ${_chalk.default.red('deleted')}`);
-    });
-    (0, _rimraf.default)('.editorconfig', () => {
-      this.log(`.editorconfig ${_chalk.default.red('deleted')}`);
-    });
-    (0, _rimraf.default)('.eslintignore', () => {
-      this.log(`.eslintignore ${_chalk.default.red('deleted')}`);
-    });
-    (0, _rimraf.default)('.eslintrc.yaml', () => {
-      this.log(`.eslintrc.yaml ${_chalk.default.red('deleted')}`);
-    });
-    (0, _rimraf.default)('.czrc', () => {
-      this.log(`.czrc ${_chalk.default.red('deleted')}`);
-    });
-    (0, _rimraf.default)('.stylelintrc', () => {
-      this.log(`.stylelintrc ${_chalk.default.red('deleted')}`);
-    });
-    (0, _rimraf.default)('.stylelintignore', () => {
-      this.log(`.stylelintignore ${_chalk.default.red('deleted')}`);
-    });
-    (0, _rimraf.default)('.browserslistrc', () => {
-      this.log(`.browserslistrc ${_chalk.default.red('deleted')}`);
-    });
-    (0, _rimraf.default)('.babelrc.js', () => {
-      this.log(`.babelrc.js ${_chalk.default.red('deleted')}`);
-    });
-  }
-
-  _writeRegularFiles() {
-    this.fs.copy(this.templatePath('LICENSE'), this.destinationPath('LICENSE'));
-  }
-
-  _removeRegularFiles() {
-    (0, _rimraf.default)('LICENSE', () => {
-      this.log(`LICENSE ${_chalk.default.red('deleted')}`);
-    });
-    (0, _rimraf.default)('yarn.lock', () => {
-      this.log(`yarn.lock ${_chalk.default.red('deleted')}`);
-    });
-  }
-
-  _writeDirectories() {
-    this.fs.copy(this.templatePath('webpack'), this.destinationPath('webpack'));
-    this.fs.copy(this.templatePath('jest'), this.destinationPath('jest'));
-  }
-
-  _removeDirectories() {
-    (0, _rimraf.default)('webpack', () => {
-      this.log(`webpack ${_chalk.default.red('deleted')}`);
-    });
-    (0, _rimraf.default)('jest', () => {
-      this.log(`jest ${_chalk.default.red('deleted')}`);
-    });
-    (0, _rimraf.default)('node_modules', () => {
-      this.log(`node_modules ${_chalk.default.red('deleted')}`);
-    });
-    (0, _rimraf.default)('build', () => {
-      this.log(`build ${_chalk.default.red('deleted')}`);
-    });
-  }
-
-  _writePackageJson() {
+  _unzipPackageJson() {
     const isPackageJsonExists = this.fs.exists('package.json');
 
     if (isPackageJsonExists) {
