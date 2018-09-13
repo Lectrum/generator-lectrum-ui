@@ -17,6 +17,7 @@ module.exports = class Readme extends Generator {
         const project = this.options.project;
 
         const isInitialized = this.config.get('isInitialized');
+        const redux = this.config.get('redux');
         const repositoryOwner = this.config.get('repositoryOwner');
         const repositoryName = this.config.get('repositoryName');
 
@@ -37,6 +38,7 @@ module.exports = class Readme extends Generator {
                 isInitialized,
                 repositoryOwner,
                 repositoryName,
+                logo: redux ? 'redux' : 'react',
             },
         );
     }

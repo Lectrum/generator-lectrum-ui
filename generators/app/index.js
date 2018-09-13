@@ -44,13 +44,12 @@ class Ui extends _yeomanGenerator.default {
 
     _defineProperty(this, "preferredPackageManager", 'yarn');
 
-    _defineProperty(this, "dotfiles", ['.gitignore', '.editorconfig', '.eslintignore', '.eslintrc.yaml', '.czrc', '.stylelintrc', '.stylelintignore', '.browserslistrc', '.babelrc.js']);
-
-    _defineProperty(this, "regularFiles", ['LICENSE']);
+    _defineProperty(this, "assets", [// dotfiles
+    '.editorconfig', '.eslintignore', '.eslintrc.yaml', '.czrc', '.stylelintrc', '.stylelintignore', '.browserslistrc', '.babelrc.js', // regular files
+    'LICENSE', // directories
+    'jest', 'scripts']);
 
     _defineProperty(this, "trashFiles", ['yarn.lock', 'package-lock.json', 'node_modules', 'build']);
-
-    _defineProperty(this, "directories", ['jest', 'scripts']);
 
     this.log((0, _yosay.default)(`Команда ${_chalk.default.blueBright('Lectrum')} приветствует тебя!`));
     this.option('zip', {
@@ -70,23 +69,17 @@ class Ui extends _yeomanGenerator.default {
     } = this.options;
 
     if (zip) {
-      this.dotfiles.forEach(dotfile => (0, _rimraf.default)(dotfile, () => this.log(`${dotfile} ${_chalk.default.red('deleted')}`)));
-      this.regularFiles.forEach(regularFile => (0, _rimraf.default)(regularFile, () => this.log(`${regularFile} ${_chalk.default.red('deleted')}`)));
-      this.directories.forEach(directory => (0, _rimraf.default)(directory, () => this.log(`${directory} ${_chalk.default.red('deleted')}`)));
+      this.assets.forEach(dotfile => (0, _rimraf.default)(dotfile, () => this.log(`${dotfile} ${_chalk.default.red('deleted')}`)));
       this.trashFiles.forEach(trashFile => (0, _rimraf.default)(trashFile, () => this.log(`${trashFile} ${_chalk.default.red('deleted')}`)));
 
       this._zipPackageJson();
 
+      (0, _rimraf.default)('.gitignore', () => this.log(`.gitignore ${_chalk.default.red('deleted')}`));
       this.config.set('isInitialized', false);
     } else {
-      this.dotfiles.forEach(dotfile => {
-        this.fs.copy(this.templatePath(dotfile), this.destinationPath(dotfile));
-      });
-      this.regularFiles.forEach(regularFile => {
-        this.fs.copy(this.templatePath(regularFile), this.destinationPath(regularFile));
-      });
-      this.directories.forEach(directory => {
-        this.fs.copy(this.templatePath(directory), this.destinationPath(directory));
+      this.fs.copy(this.templatePath('gitignore'), this.destinationPath('.gitignore'));
+      this.assets.forEach(asset => {
+        this.fs.copy(this.templatePath(asset), this.destinationPath(asset));
       });
 
       this._unzipPackageJson();

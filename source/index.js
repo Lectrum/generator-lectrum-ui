@@ -28,8 +28,8 @@ Run ${chalk.blue(`npm i -g ${notifier.packageName}`)} to update`,
 
 export default class Ui extends Generator {
     preferredPackageManager = 'yarn';
-    dotfiles = [
-        '.gitignore',
+    assets = [
+        // dotfiles
         '.editorconfig',
         '.eslintignore',
         '.eslintrc.yaml',
@@ -38,11 +38,16 @@ export default class Ui extends Generator {
         '.stylelintignore',
         '.browserslistrc',
         '.babelrc.js',
+
+        // regular files
+        'LICENSE',
+
+        // directories
+        'jest',
+        'scripts',
     ];
 
-    regularFiles = [ 'LICENSE' ];
     trashFiles = [ 'yarn.lock', 'package-lock.json', 'node_modules', 'build' ];
-    directories = [ 'jest', 'scripts' ];
 
     constructor(args: Object, options: Object) {
         super(args, options);
@@ -63,30 +68,22 @@ export default class Ui extends Generator {
     writing() {
         const { zip } = this.options;
         if (zip) {
-            this.dotfiles.forEach((dotfile) => rimraf(dotfile, () => this.log(`${dotfile} ${chalk.red('deleted')}`)));
-            this.regularFiles.forEach((regularFile) => rimraf(regularFile, () => this.log(`${regularFile} ${chalk.red('deleted')}`)));
-            this.directories.forEach((directory) => rimraf(directory, () => this.log(`${directory} ${chalk.red('deleted')}`)));
+            this.assets.forEach((dotfile) => rimraf(dotfile, () => this.log(`${dotfile} ${chalk.red('deleted')}`)));
             this.trashFiles.forEach((trashFile) => rimraf(trashFile, () => this.log(`${trashFile} ${chalk.red('deleted')}`)));
             this._zipPackageJson();
+            rimraf('.gitignore', () => this.log(`.gitignore ${chalk.red('deleted')}`));
 
             this.config.set('isInitialized', false);
         } else {
-            this.dotfiles.forEach((dotfile) => {
+            this.fs.copy(
+                this.templatePath('gitignore'),
+                this.destinationPath('.gitignore'),
+            );
+
+            this.assets.forEach((asset) => {
                 this.fs.copy(
-                    this.templatePath(dotfile),
-                    this.destinationPath(dotfile),
-                );
-            });
-            this.regularFiles.forEach((regularFile) => {
-                this.fs.copy(
-                    this.templatePath(regularFile),
-                    this.destinationPath(regularFile),
-                );
-            });
-            this.directories.forEach((directory) => {
-                this.fs.copy(
-                    this.templatePath(directory),
-                    this.destinationPath(directory),
+                    this.templatePath(asset),
+                    this.destinationPath(asset),
                 );
             });
 
