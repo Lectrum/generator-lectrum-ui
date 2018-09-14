@@ -9,21 +9,22 @@ module.exports = class Readme extends Generator {
             description:
                 'Name of the project README.md file is generating for.',
             type:    String,
-            default: this.config.get('repositoryName'),
+            default: this.config.get('repositoryName') || 'clean-install',
         });
     }
 
     writing() {
-        const project = this.options.project;
+        const { project } = this.options;
 
-        const isInitialized = this.config.get('isInitialized');
+        const initialized = this.config.get('initialized');
+        const educational = this.config.get('educational');
         const redux = this.config.get('redux');
         const repositoryOwner = this.config.get('repositoryOwner');
         const repositoryName = this.config.get('repositoryName');
 
         const selectedMessages = messages[ project ];
 
-        if (!isInitialized) {
+        if (!initialized) {
             this.fs.copy(
                 this.templatePath('static'),
                 this.destinationPath('static'),
@@ -35,7 +36,8 @@ module.exports = class Readme extends Generator {
             this.destinationPath('README.md'),
             {
                 ...selectedMessages,
-                isInitialized,
+                initialized,
+                educational,
                 repositoryOwner,
                 repositoryName,
                 logo: redux ? 'redux' : 'react',
