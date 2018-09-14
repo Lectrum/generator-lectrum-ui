@@ -137,15 +137,16 @@ class Ui extends _yeomanGenerator.default {
   _unzipPackageJson() {
     const isPackageJsonExists = this.fs.exists('package.json');
     const educational = this.config.get('educational');
+    const {
+      name,
+      version,
+      author,
+      private: isPrivate,
+      dependencies,
+      repository
+    } = JSON.parse(this.fs.read('package.json'));
 
     if (isPackageJsonExists && educational) {
-      const {
-        name,
-        version,
-        author,
-        private: isPrivate,
-        dependencies
-      } = JSON.parse(this.fs.read('package.json'));
       (0, _rimraf.default)('package.json', () => {
         this.log(`package.json ${_chalk.default.red('deleted')}`);
       });
@@ -156,7 +157,8 @@ class Ui extends _yeomanGenerator.default {
         private: isPrivate,
         scripts: _package2.default.scripts,
         dependencies,
-        devDependencies: _package2.default.devDependencies
+        devDependencies: _package2.default.devDependencies,
+        repository
       }, null, 4);
     } else {
       const unzippedPackageJson = {
@@ -164,8 +166,9 @@ class Ui extends _yeomanGenerator.default {
         version: '0.0.0',
         private: false,
         scripts: _package2.default.scripts,
-        dependencies: _dependencies.default,
-        devDependencies: _package2.default.devDependencies
+        dependencies,
+        devDependencies: _package2.default.devDependencies,
+        repository
       };
 
       if (educational) {
@@ -182,7 +185,8 @@ class Ui extends _yeomanGenerator.default {
       version,
       author,
       private: isPrivate,
-      dependencies
+      dependencies,
+      repository
     } = JSON.parse(this.fs.read('package.json'));
     (0, _rimraf.default)('package.json', () => {
       this.log(`package.json ${_chalk.default.red('deleted')}`);
@@ -192,7 +196,8 @@ class Ui extends _yeomanGenerator.default {
       version,
       author,
       private: isPrivate,
-      dependencies
+      dependencies,
+      repository
     }, null, 4);
     this.log(`package.json ${_chalk.default.red('zipped')}`);
   }
