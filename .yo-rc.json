@@ -1,6 +1,6 @@
 {
     "@lectrum/generator-ui": {
-        "isInitialized": true,
+        "initialized": true,
         "repositoryOwner": "lectrum",
         "repositoryName": "generator-ui"
     }

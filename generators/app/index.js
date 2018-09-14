@@ -21,6 +21,8 @@ var _package = _interopRequireDefault(require("../../package.json"));
 
 var _package2 = _interopRequireDefault(require("./templates/package.json"));
 
+var _dependencies = _interopRequireDefault(require("./templates/dependencies.json"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -45,7 +47,7 @@ class Ui extends _yeomanGenerator.default {
     _defineProperty(this, "preferredPackageManager", 'yarn');
 
     _defineProperty(this, "assets", [// dotfiles
-    '.editorconfig', '.eslintignore', '.eslintrc.yaml', '.czrc', '.stylelintrc', '.stylelintignore', '.browserslistrc', '.babelrc.js', // regular files
+    '.editorconfig', '.eslintignore', '.eslintrc.yaml', '.czrc', '.stylelintrc', '.stylelintignore', '.browserslistrc', '.babelrc.js', '.nvmrc', // regular files
     'LICENSE', // directories
     'jest', 'scripts']);
 
@@ -60,6 +62,10 @@ class Ui extends _yeomanGenerator.default {
   }
 
   initializing() {
+    if (!this.config.get('educational')) {
+      this.assets.push('source', 'static');
+    }
+
     this.composeWith('@lectrum/ui:readme');
   }
 
@@ -67,15 +73,15 @@ class Ui extends _yeomanGenerator.default {
     const {
       zip
     } = this.options;
+    const educational = this.config.get('educational');
 
-    if (zip) {
+    if (zip && educational) {
       this.assets.forEach(dotfile => (0, _rimraf.default)(dotfile, () => this.log(`${dotfile} ${_chalk.default.red('deleted')}`)));
       this.trashFiles.forEach(trashFile => (0, _rimraf.default)(trashFile, () => this.log(`${trashFile} ${_chalk.default.red('deleted')}`)));
 
       this._zipPackageJson();
 
       (0, _rimraf.default)('.gitignore', () => this.log(`.gitignore ${_chalk.default.red('deleted')}`));
-      this.config.set('isInitialized', false);
     } else {
       this.fs.copy(this.templatePath('gitignore'), this.destinationPath('.gitignore'));
       this.assets.forEach(asset => {
@@ -112,23 +118,27 @@ class Ui extends _yeomanGenerator.default {
     const {
       zip
     } = this.options;
-    const isInitialized = this.config.get('isInitialized');
+    const initialized = this.config.get('initialized');
+    const educational = this.config.get('educational');
 
-    if (!isInitialized && !zip) {
-      this.config.set('isInitialized', true);
+    if (!initialized && !zip) {
+      this.config.set('initialized', true);
 
       if (!this.preferredPackageManager === 'yarn') {
         await this.spawnCommand('yarn', ['start']);
       } else {
         await this.spawnCommand('npm', ['run', 'start']);
       }
+    } else if (initialized && zip && educational) {
+      this.config.set('initialized', false);
     }
   }
 
   _unzipPackageJson() {
     const isPackageJsonExists = this.fs.exists('package.json');
+    const educational = this.config.get('educational');
 
-    if (isPackageJsonExists) {
+    if (isPackageJsonExists && educational) {
       const {
         name,
         version,
@@ -149,13 +159,20 @@ class Ui extends _yeomanGenerator.default {
         devDependencies: _package2.default.devDependencies
       }, null, 4);
     } else {
-      this.fs.writeJSON('package.json', {
+      const unzippedPackageJson = {
         name: 'my-app',
         version: '0.0.0',
         private: false,
         scripts: _package2.default.scripts,
+        dependencies: _dependencies.default,
         devDependencies: _package2.default.devDependencies
-      }, null, 4);
+      };
+
+      if (educational) {
+        delete unzippedPackageJson.dependencies;
+      }
+
+      this.fs.writeJSON('package.json', unzippedPackageJson, null, 4);
     }
   }
 

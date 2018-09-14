@@ -11,6 +11,7 @@ import { execSync } from 'child_process';
 // Parts
 import pkg from '../../package.json';
 import packageJson from './templates/package.json';
+import dependencies from './templates/dependencies.json';
 
 const notifier = updateNotifier({
     pkg,
@@ -38,6 +39,7 @@ export default class Ui extends Generator {
         '.stylelintignore',
         '.browserslistrc',
         '.babelrc.js',
+        '.nvmrc',
 
         // regular files
         'LICENSE',
@@ -62,18 +64,22 @@ export default class Ui extends Generator {
     }
 
     initializing() {
+        if (!this.config.get('educational')) {
+            this.assets.push('source', 'static');
+        }
+
         this.composeWith('@lectrum/ui:readme');
     }
 
     writing() {
         const { zip } = this.options;
-        if (zip) {
+        const educational = this.config.get('educational');
+
+        if (zip && educational) {
             this.assets.forEach((dotfile) => rimraf(dotfile, () => this.log(`${dotfile} ${chalk.red('deleted')}`)));
             this.trashFiles.forEach((trashFile) => rimraf(trashFile, () => this.log(`${trashFile} ${chalk.red('deleted')}`)));
             this._zipPackageJson();
             rimraf('.gitignore', () => this.log(`.gitignore ${chalk.red('deleted')}`));
-
-            this.config.set('isInitialized', false);
         } else {
             this.fs.copy(
                 this.templatePath('gitignore'),
@@ -124,22 +130,26 @@ export default class Ui extends Generator {
 
     async end() {
         const { zip } = this.options;
-        const isInitialized = this.config.get('isInitialized');
+        const initialized = this.config.get('initialized');
+        const educational = this.config.get('educational');
 
-        if (!isInitialized && !zip) {
-            this.config.set('isInitialized', true);
+        if (!initialized && !zip) {
+            this.config.set('initialized', true);
             if (!this.preferredPackageManager === 'yarn') {
                 await this.spawnCommand('yarn', [ 'start' ]);
             } else {
                 await this.spawnCommand('npm', [ 'run', 'start' ]);
             }
+        } else if (initialized && zip && educational) {
+            this.config.set('initialized', false);
         }
     }
 
     _unzipPackageJson() {
         const isPackageJsonExists = this.fs.exists('package.json');
+        const educational = this.config.get('educational');
 
-        if (isPackageJsonExists) {
+        if (isPackageJsonExists && educational) {
             const {
                 name,
                 version,
@@ -167,18 +177,20 @@ export default class Ui extends Generator {
                 4,
             );
         } else {
-            this.fs.writeJSON(
-                'package.json',
-                {
-                    name:            'my-app',
-                    version:         '0.0.0',
-                    private:         false,
-                    scripts:         packageJson.scripts,
-                    devDependencies: packageJson.devDependencies,
-                },
-                null,
-                4,
-            );
+            const unzippedPackageJson = {
+                name:            'my-app',
+                version:         '0.0.0',
+                private:         false,
+                scripts:         packageJson.scripts,
+                dependencies,
+                devDependencies: packageJson.devDependencies,
+            };
+
+            if (educational) {
+                delete unzippedPackageJson.dependencies;
+            }
+
+            this.fs.writeJSON('package.json', unzippedPackageJson, null, 4);
         }
     }
 
