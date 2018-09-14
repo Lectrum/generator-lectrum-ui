@@ -11,7 +11,7 @@ import { execSync } from 'child_process';
 // Parts
 import pkg from '../../package.json';
 import packageJson from './templates/package.json';
-import dependencies from './templates/dependencies.json';
+import cleanInstallDependencies from './templates/dependencies.json';
 
 const notifier = updateNotifier({
     pkg,
@@ -148,16 +148,16 @@ export default class Ui extends Generator {
     _unzipPackageJson() {
         const isPackageJsonExists = this.fs.exists('package.json');
         const educational = this.config.get('educational');
+        const {
+            name,
+            version,
+            author,
+            private: isPrivate,
+            dependencies,
+            repository,
+        } = JSON.parse(this.fs.read('package.json'));
 
         if (isPackageJsonExists && educational) {
-            const {
-                name,
-                version,
-                author,
-                private: isPrivate,
-                dependencies,
-            } = JSON.parse(this.fs.read('package.json'));
-
             rimraf('package.json', () => {
                 this.log(`package.json ${chalk.red('deleted')}`);
             });
@@ -172,6 +172,7 @@ export default class Ui extends Generator {
                     scripts:         packageJson.scripts,
                     dependencies,
                     devDependencies: packageJson.devDependencies,
+                    repository,
                 },
                 null,
                 4,
@@ -182,8 +183,9 @@ export default class Ui extends Generator {
                 version:         '0.0.0',
                 private:         false,
                 scripts:         packageJson.scripts,
-                dependencies,
+                dependencies:    cleanInstallDependencies,
                 devDependencies: packageJson.devDependencies,
+                repository,
             };
 
             if (educational) {
@@ -201,6 +203,7 @@ export default class Ui extends Generator {
             author,
             private: isPrivate,
             dependencies,
+            repository,
         } = JSON.parse(this.fs.read('package.json'));
 
         rimraf('package.json', () => {
@@ -215,6 +218,7 @@ export default class Ui extends Generator {
                 author,
                 private: isPrivate,
                 dependencies,
+                repository,
             },
             null,
             4,
