@@ -1,7 +1,7 @@
 module.exports = {
     runner:               'jest-runner-eslint',
     displayName:          'lint:javascript',
-    rootDir:              '../',
+    rootDir:              '../../',
     moduleFileExtensions: [ 'js' ],
     testMatch:            [ '<rootDir>/source/**/*.js' ],
 };

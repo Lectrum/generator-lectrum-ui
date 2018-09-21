@@ -4,8 +4,8 @@ module.exports = function(api) {
     api.cache.using(() => env === 'development');
 
     const plugins = [
-        '@babel/plugin-proposal-class-properties',
         ['@babel/plugin-proposal-decorators', { legacy: true }],
+        [ '@babel/plugin-proposal-class-properties', { loose: true } ],
     ];
 
     if (env === 'node') {

@@ -49,7 +49,7 @@ class Ui extends _yeomanGenerator.default {
     _defineProperty(this, "assets", [// dotfiles
     '.editorconfig', '.eslintignore', '.eslintrc.yaml', '.czrc', '.stylelintrc', '.stylelintignore', '.browserslistrc', '.babelrc.js', '.nvmrc', // regular files
     'LICENSE', // directories
-    'jest', 'scripts']);
+    'scripts', '__mocks__']);
 
     _defineProperty(this, "trashFiles", ['yarn.lock', 'package-lock.json', 'node_modules', 'build']);
 
@@ -137,16 +137,16 @@ class Ui extends _yeomanGenerator.default {
   _unzipPackageJson() {
     const isPackageJsonExists = this.fs.exists('package.json');
     const educational = this.config.get('educational');
-    const {
-      name,
-      version,
-      author,
-      private: isPrivate,
-      dependencies,
-      repository
-    } = JSON.parse(this.fs.read('package.json'));
 
     if (isPackageJsonExists && educational) {
+      const {
+        name,
+        version,
+        author,
+        private: isPrivate,
+        dependencies,
+        repository
+      } = JSON.parse(this.fs.read('package.json'));
       (0, _rimraf.default)('package.json', () => {
         this.log(`package.json ${_chalk.default.red('deleted')}`);
       });
@@ -166,15 +166,9 @@ class Ui extends _yeomanGenerator.default {
         version: '0.0.0',
         private: false,
         scripts: _package2.default.scripts,
-        dependencies,
-        devDependencies: _package2.default.devDependencies,
-        repository
+        dependencies: _dependencies.default,
+        devDependencies: _package2.default.devDependencies
       };
-
-      if (educational) {
-        delete unzippedPackageJson.dependencies;
-      }
-
       this.fs.writeJSON('package.json', unzippedPackageJson, null, 4);
     }
   }
@@ -205,4 +199,4 @@ class Ui extends _yeomanGenerator.default {
 }
 
 exports.default = Ui;
-module.exports = exports["default"];
+module.exports = exports.default;

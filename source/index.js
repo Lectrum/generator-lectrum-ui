@@ -45,8 +45,8 @@ export default class Ui extends Generator {
         'LICENSE',
 
         // directories
-        'jest',
         'scripts',
+        '__mocks__',
     ];
 
     trashFiles = [ 'yarn.lock', 'package-lock.json', 'node_modules', 'build' ];
@@ -148,16 +148,17 @@ export default class Ui extends Generator {
     _unzipPackageJson() {
         const isPackageJsonExists = this.fs.exists('package.json');
         const educational = this.config.get('educational');
-        const {
-            name,
-            version,
-            author,
-            private: isPrivate,
-            dependencies,
-            repository,
-        } = JSON.parse(this.fs.read('package.json'));
 
         if (isPackageJsonExists && educational) {
+            const {
+                name,
+                version,
+                author,
+                private: isPrivate,
+                dependencies,
+                repository,
+            } = JSON.parse(this.fs.read('package.json'));
+
             rimraf('package.json', () => {
                 this.log(`package.json ${chalk.red('deleted')}`);
             });
@@ -185,12 +186,7 @@ export default class Ui extends Generator {
                 scripts:         packageJson.scripts,
                 dependencies:    cleanInstallDependencies,
                 devDependencies: packageJson.devDependencies,
-                repository,
             };
-
-            if (educational) {
-                delete unzippedPackageJson.dependencies;
-            }
 
             this.fs.writeJSON('package.json', unzippedPackageJson, null, 4);
         }

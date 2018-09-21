@@ -1,14 +1,14 @@
 module.exports = {
     runner:      'jest-runner',
     displayName: 'test:unit',
-    rootDir:     '../',
+    rootDir:     '../../',
     verbose:     true,
     notify:      true,
     bail:        false,
     globals:     {
         __DEV__: true,
     },
-    collectCoverage:     true,
+    collectCoverage:     false,
     collectCoverageFrom: [
         '<rootDir>/source/bus/auth/**/*.{js,jsx}',
         '<rootDir>/source/bus/ui/**/*.{js,jsx}',
@@ -18,9 +18,9 @@ module.exports = {
     ],
     modulePaths:                  [ '<rootDir>/source', '<rootDir>/node_modules' ],
     moduleFileExtensions:         [ 'js', 'json', 'css' ],
-    setupFiles:                   [ '<rootDir>/jest/scripts/setupFiles.js' ],
+    setupFiles:                   [ '<rootDir>/scripts/jest/scripts/setupFiles.js' ],
     setupTestFrameworkScriptFile:
-        '<rootDir>/jest/scripts/setupEnzymeEnvironment.js',
+        '<rootDir>/scripts/jest/scripts/setupEnzymeEnvironment.js',
     snapshotSerializers: [ 'enzyme-to-json/serializer' ],
     moduleNameMapper:    {
         '\\.(css|m.css)$':                                                                     'identity-obj-proxy',

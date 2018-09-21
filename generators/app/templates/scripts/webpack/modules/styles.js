@@ -1,10 +1,10 @@
 // Core
 import imports from 'postcss-import';
 import mqpacker from 'css-mqpacker';
-import smoothFonts from 'postcss-font-smoothing';
+import fontSmoothing from 'postcss-font-smoothing';
 import modules from 'postcss-icss-selectors';
 import reporter from 'postcss-reporter';
-import postcssPresetEnv from 'postcss-preset-env';
+import env from 'postcss-preset-env';
 import gradients from 'postcss-easing-gradients';
 import cssnano from 'cssnano';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -27,11 +27,11 @@ export const loadPostCSS = () => ({
                         ? 'local'
                         : 'global',
                 }),
-                gradients(),
-                smoothFonts(),
-                postcssPresetEnv({
+                env({
                     stage: 0,
                 }),
+                gradients(),
+                fontSmoothing(),
                 mqpacker(),
                 reporter(),
                 cssnano(),
