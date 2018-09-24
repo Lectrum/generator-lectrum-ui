@@ -2,7 +2,6 @@
 
 // Core
 import git from 'nodegit';
-import chalk from 'chalk';
 
 // Constants
 import {
@@ -17,21 +16,14 @@ import {
 import PACKAGE_JSON from '../../package.json';
 import { messages } from './messages';
 
+// Helpers
+import { fetchAll, connectUpstream } from './helpers';
+
 (async () => {
     console.log(messages.get(1));
 
     const repository = await git.Repository.open(GIT_ROOT);
-    await repository.fetchAll({
-        prune:     1,
-        callbacks: {
-            credentials(url, userName) {
-                return git.Cred.sshKeyFromAgent(userName);
-            },
-            certificateCheck() {
-                return 1;
-            },
-        },
-    });
+    await fetchAll(repository);
     const references = await repository.getReferenceNames(3);
     const origin = await repository.getRemote('origin');
     const originUrl = origin.url().toLocaleLowerCase();
@@ -54,36 +46,12 @@ import { messages } from './messages';
         console.log(messages.get(3));
 
         if (!references.includes(MASTER_REMOTE_UPSTREAM_REFERENCE)) {
-            console.log(messages.get(4));
-            console.log(messages.get(5));
-
-            const remote = await git.Remote.create(
-                repository,
-                'upstream',
-                PACKAGE_JSON.repository.url,
-            );
-
-            console.log(
-                chalk.greenBright(
-                    `✓ Связь с ${chalk.magenta(remote.name())} настроена.`,
-                ),
-            );
-            console.log(messages.get(6));
+            await connectUpstream(repository);
         } else {
             console.log(messages.get(7));
         }
 
-        await repository.fetchAll({
-            prune:     1,
-            callbacks: {
-                credentials(url, userName) {
-                    return git.Cred.sshKeyFromAgent(userName);
-                },
-                certificateCheck() {
-                    return 1;
-                },
-            },
-        });
+        await fetchAll(repository);
 
         const upstreamReferences = await repository.getReferenceNames(3);
 
@@ -99,24 +67,17 @@ import { messages } from './messages';
     const statuses = await repository.getStatus();
 
     if (statuses.length) {
-        await (await import('./backup')).default();
+        await (await import('./backup')).default(repository);
     }
 
-    await (await import('./lookup-branch-to-sync')).default(isUpstream);
+    await (await import('./lookup-branch-to-sync')).default(
+        repository,
+        isUpstream,
+    );
 
     console.log(messages.get(10));
 
-    await repository.fetchAll({
-        prune:     1,
-        callbacks: {
-            credentials(url, userName) {
-                return git.Cred.sshKeyFromAgent(userName);
-            },
-            certificateCheck() {
-                return 1;
-            },
-        },
-    });
+    await fetchAll(repository);
 
     await repository.mergeBranches(
         SYNC_BRANCH_NAME,

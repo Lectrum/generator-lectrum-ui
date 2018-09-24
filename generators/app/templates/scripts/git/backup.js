@@ -5,19 +5,18 @@ import git from 'nodegit';
 import chalk from 'chalk';
 
 // Constants
-import { GIT_ROOT, BACKUP_BRANCH_NAME } from '../constants';
+import { BACKUP_BRANCH_NAME } from '../constants';
 
 // Instruments
 import { messages } from './messages';
 
-export default async () => {
+export default async (repository) => {
     console.log(messages.get(12));
 
-    const repository = await git.Repository.open(GIT_ROOT);
     const references = await repository.getReferenceNames(3);
     const commitMessage = 'save progress before checkpoint synchronization';
     const author = git.Signature.default(repository);
-    const defaultAuthor = git.Signature.now(
+    const fallbackAuthor = git.Signature.now(
         'name_not_found',
         'email@not.found',
     );
@@ -50,8 +49,8 @@ export default async () => {
     const oid = await index.writeTree();
     const commitId = await repository.createCommit(
         'HEAD',
-        author || defaultAuthor,
-        author || defaultAuthor,
+        author || fallbackAuthor,
+        author || fallbackAuthor,
         commitMessage,
         oid,
         [ parent ],
