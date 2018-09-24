@@ -13,15 +13,16 @@ import {
     MASTER_REMOTE_UPSTREAM_REFERENCE,
 } from '../constants';
 
-// Entities
+// Instruments
 import PACKAGE_JSON from '../../package.json';
+import { messages } from './messages';
 
 (async () => {
-    console.log(chalk.yellowBright('→ Начинаю процесс синхронизации.'));
+    console.log(messages.get(1));
+
     const repository = await git.Repository.open(GIT_ROOT);
     await repository.fetchAll({
-        // TODO: investigate if prune is functional
-        prune:     true,
+        prune:     1,
         callbacks: {
             credentials(url, userName) {
                 return git.Cred.sshKeyFromAgent(userName);
@@ -44,38 +45,17 @@ import PACKAGE_JSON from '../../package.json';
     if (isUpstream) {
         // upstream
         if (!references.includes(SYNC_REMOTE_ORIGIN_REFERENCE)) {
-            console.log(
-                chalk.redBright(
-                    `→ Удалённая ветка ${chalk.blueBright(
-                        SYNC_BRANCH_NAME,
-                    )} не найдена в ${chalk.cyan('origin')}.`,
-                ),
-            );
+            console.log(messages.get(2));
 
             return null;
         }
     } else {
         // fork
-        console.log(
-            chalk.yellowBright(
-                `→ Проверяю связь с ${chalk.magenta('upstream')}.`,
-            ),
-        );
+        console.log(messages.get(3));
 
         if (!references.includes(MASTER_REMOTE_UPSTREAM_REFERENCE)) {
-            console.log(
-                chalk.redBright(
-                    `→ Связь с ${chalk.magenta('upstream')} не настроена.`,
-                ),
-            );
-
-            console.log(
-                chalk.yellowBright(
-                    `→ Настраиваю связь с ${chalk.magenta(
-                        'upstream',
-                    )}: ${chalk.blue(PACKAGE_JSON.repository.url)}.`,
-                ),
-            );
+            console.log(messages.get(4));
+            console.log(messages.get(5));
 
             const remote = await git.Remote.create(
                 repository,
@@ -88,25 +68,13 @@ import PACKAGE_JSON from '../../package.json';
                     `✓ Связь с ${chalk.magenta(remote.name())} настроена.`,
                 ),
             );
-
-            console.log(
-                chalk.yellowBright(
-                    `→ Ищу удалённую ветку ${chalk.blueBright(
-                        SYNC_BRANCH_NAME,
-                    )} в ${chalk.magenta('upstream')}.`,
-                ),
-            );
+            console.log(messages.get(6));
         } else {
-            console.log(
-                chalk.greenBright(
-                    `✓ Связь с ${chalk.magenta('upstream')} настроена.`,
-                ),
-            );
+            console.log(messages.get(7));
         }
 
         await repository.fetchAll({
-            // TODO: investigate if prune is functional
-            prune:     true,
+            prune:     1,
             callbacks: {
                 credentials(url, userName) {
                     return git.Cred.sshKeyFromAgent(userName);
@@ -120,25 +88,13 @@ import PACKAGE_JSON from '../../package.json';
         const upstreamReferences = await repository.getReferenceNames(3);
 
         if (!upstreamReferences.includes(SYNC_REMOTE_UPSTREAM_REFERENCE)) {
-            console.log(
-                chalk.redBright(
-                    `→ Удалённая ветка с ${chalk.blueBright(
-                        SYNC_BRANCH_NAME,
-                    )} не найдена в ${chalk.magenta('upstream')}.`,
-                ),
-            );
+            console.log(messages.get(8));
 
             return null;
         }
     }
 
-    console.log(
-        chalk.greenBright(
-            `→ Удалённая ветка с ${chalk.blueBright(
-                SYNC_BRANCH_NAME,
-            )} найдена в ${chalk.magenta('upstream')}.`,
-        ),
-    );
+    console.log(messages.get(9));
 
     const statuses = await repository.getStatus();
 
@@ -148,17 +104,10 @@ import PACKAGE_JSON from '../../package.json';
 
     await (await import('./lookup-branch-to-sync')).default(isUpstream);
 
-    console.log(
-        chalk.yellowBright(
-            `→ Синхронизирую удалённую ветку ${chalk.blueBright(
-                SYNC_BRANCH_NAME,
-            )}.`,
-        ),
-    );
+    console.log(messages.get(10));
 
     await repository.fetchAll({
-        // TODO: investigate if prune is functional
-        prune:     true,
+        prune:     1,
         callbacks: {
             credentials(url, userName) {
                 return git.Cred.sshKeyFromAgent(userName);
@@ -176,11 +125,5 @@ import PACKAGE_JSON from '../../package.json';
             : SYNC_REMOTE_UPSTREAM_REFERENCE,
     );
 
-    console.log(
-        chalk.greenBright(
-            `✓ Прогресс верки ${chalk.blueBright(
-                SYNC_BRANCH_NAME,
-            )} синхронизирован.`,
-        ),
-    );
+    console.log(messages.get(11));
 })();

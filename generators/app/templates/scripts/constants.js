@@ -1,4 +1,5 @@
 // Core
+import { path as PROJECT_ROOT } from 'app-root-path';
 import { resolve } from 'path';
 
 // Network
@@ -12,7 +13,7 @@ export const SYNC_REMOTE_UPSTREAM_REFERENCE = `refs/remotes/upstream/${SYNC_BRAN
 export const BACKUP_BRANCH_NAME = 'checkpoint';
 
 // Paths
-export const SOURCE = resolve(__dirname, '../source');
-export const BUILD = resolve(__dirname, '../build');
-export const STATICS = resolve(__dirname, '../static');
-export const GIT_ROOT = resolve(__dirname, '../.git');
+export const SOURCE = resolve(PROJECT_ROOT, './source');
+export const BUILD = resolve(PROJECT_ROOT, './build');
+export const STATICS = resolve(PROJECT_ROOT, './static');
+export const GIT_ROOT = resolve(PROJECT_ROOT, './.git');

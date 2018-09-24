@@ -5,7 +5,7 @@ module.exports = function(api) {
 
     const plugins = [
         ['@babel/plugin-proposal-decorators', { legacy: true }],
-        [ '@babel/plugin-proposal-class-properties', { loose: true } ],
+        ['@babel/plugin-proposal-class-properties', { loose: true }],
     ];
 
     if (env === 'node') {
@@ -25,10 +25,6 @@ module.exports = function(api) {
                     spec: true,
                     loose: false,
                     debug: false,
-                    targets: {
-                        node: '8.11.4',
-                    },
-                    modules: 'commonjs',
                 },
             ],
         ],
