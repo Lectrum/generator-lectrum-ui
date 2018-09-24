@@ -8,11 +8,11 @@ import { checkoutTutorBranch, createTutorBranch } from './helpers';
 
 export default async (repository, isUpstream) => {
     const currentBranch = await repository.getCurrentBranch();
-    const references = await repository.getReferenceNames(3);
+    const allReferencesNames = await repository.getReferenceNames(3);
 
     if (
-        references.includes(SYNC_LOCAL_REFERENCE)
-        && !currentBranch.name().includes('dev')
+        allReferencesNames.includes(SYNC_LOCAL_REFERENCE)
+        && !currentBranch === SYNC_LOCAL_REFERENCE
     ) {
         await checkoutTutorBranch(repository);
     } else {

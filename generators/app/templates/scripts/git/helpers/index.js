@@ -1,4 +1,4 @@
-export { fetchAll } from './fetchAll';
-export { connectUpstream } from './connectUpstream';
-export { checkoutTutorBranch } from './checkoutTutorBranch';
-export { createTutorBranch } from './createTutorBranch';
+export { fetchAll } from './fetch-all';
+export { connectUpstream } from './connect-upstream';
+export { checkoutTutorBranch } from './checkout-tutor-branch';
+export { createTutorBranch } from './create-tutor-branch';

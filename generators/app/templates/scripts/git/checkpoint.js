@@ -10,10 +10,11 @@ import {
     SYNC_BRANCH_NAME,
     SYNC_REMOTE_UPSTREAM_REFERENCE,
     MASTER_REMOTE_UPSTREAM_REFERENCE,
+    GIT_SSH_URL,
+    GIT_HTTPS_URL,
 } from '../constants';
 
 // Instruments
-import PACKAGE_JSON from '../../package.json';
 import { messages } from './messages';
 
 // Helpers
@@ -24,19 +25,16 @@ import { fetchAll, connectUpstream } from './helpers';
 
     const repository = await git.Repository.open(GIT_ROOT);
     await fetchAll(repository);
-    const references = await repository.getReferenceNames(3);
+    const allReferences = await repository.getReferenceNames(3);
     const origin = await repository.getRemote('origin');
     const originUrl = origin.url().toLocaleLowerCase();
     const isSSH = originUrl.startsWith('git');
-    const upstreamUrl = isSSH
-        ? 'git@github.com:Lectrum/react-workshop.git'.toLocaleLowerCase()
-        : PACKAGE_JSON.repository.url.toLocaleLowerCase();
-
+    const upstreamUrl = isSSH ? GIT_SSH_URL : GIT_HTTPS_URL;
     const isUpstream = origin.url().toLocaleLowerCase() === upstreamUrl;
 
     if (isUpstream) {
         // upstream
-        if (!references.includes(SYNC_REMOTE_ORIGIN_REFERENCE)) {
+        if (!allReferences.includes(SYNC_REMOTE_ORIGIN_REFERENCE)) {
             console.log(messages.get(2));
 
             return null;
@@ -45,8 +43,8 @@ import { fetchAll, connectUpstream } from './helpers';
         // fork
         console.log(messages.get(3));
 
-        if (!references.includes(MASTER_REMOTE_UPSTREAM_REFERENCE)) {
-            await connectUpstream(repository);
+        if (!allReferences.includes(MASTER_REMOTE_UPSTREAM_REFERENCE)) {
+            await connectUpstream(repository, upstreamUrl);
         } else {
             console.log(messages.get(7));
         }

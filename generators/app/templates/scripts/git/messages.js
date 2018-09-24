@@ -4,9 +4,6 @@ import chalk from 'chalk';
 // Constants
 import { SYNC_BRANCH_NAME } from '../constants';
 
-// Instruments
-import PACKAGE_JSON from '../../package.json';
-
 export const messages = new Map([
     [ 1, chalk.yellowBright('→ Начинаю процесс синхронизации.') ],
     [
@@ -23,14 +20,6 @@ export const messages = new Map([
         chalk.redBright(`→ Связь с ${chalk.magenta('upstream')} не настроена.`),
     ],
     [
-        5,
-        chalk.yellowBright(
-            `→ Настраиваю связь с ${chalk.magenta('upstream')}: ${chalk.blue(
-                PACKAGE_JSON.repository.url,
-            )}.`,
-        ),
-    ],
-    [
         6,
         chalk.yellowBright(
             `→ Ищу удалённую ветку ${chalk.blueBright(
@@ -42,7 +31,7 @@ export const messages = new Map([
     [
         8,
         chalk.redBright(
-            `→ Удалённая ветка с ${chalk.blueBright(
+            `→ Удалённая ветка ${chalk.blueBright(
                 SYNC_BRANCH_NAME,
             )} не найдена в ${chalk.magenta('upstream')}.`,
         ),
@@ -50,7 +39,7 @@ export const messages = new Map([
     [
         9,
         chalk.greenBright(
-            `→ Удалённая ветка с ${chalk.blueBright(
+            `→ Удалённая ветка ${chalk.blueBright(
                 SYNC_BRANCH_NAME,
             )} найдена в ${chalk.magenta('upstream')}.`,
         ),

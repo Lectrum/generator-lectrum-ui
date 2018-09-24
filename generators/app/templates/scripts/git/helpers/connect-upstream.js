@@ -5,18 +5,19 @@ import git from 'nodegit';
 import chalk from 'chalk';
 
 // Instruments
-import PACKAGE_JSON from '../../package.json';
 import { messages } from '../messages';
 
-export const connectUpstream = async (repository) => {
+export const connectUpstream = async (repository, upstreamUrl) => {
     console.log(messages.get(4));
-    console.log(messages.get(5));
-
-    const remote = await git.Remote.create(
-        repository,
-        'upstream',
-        PACKAGE_JSON.repository.url,
+    console.log(
+        chalk.yellowBright(
+            `→ Настраиваю связь с ${chalk.magenta('upstream')}: ${chalk.blue(
+                upstreamUrl,
+            )}.`,
+        ),
     );
+
+    const remote = await git.Remote.create(repository, 'upstream', upstreamUrl);
 
     console.log(
         chalk.greenBright(

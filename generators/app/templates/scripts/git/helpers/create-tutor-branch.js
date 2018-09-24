@@ -11,7 +11,7 @@ import {
     SYNC_REMOTE_ORIGIN_REFERENCE,
     SYNC_REMOTE_UPSTREAM_REFERENCE,
     SYNC_BRANCH_NAME,
-} from '../constants';
+} from '../../constants';
 
 export const createTutorBranch = async (repository, isUpstream) => {
     console.log(messages.get(15));
