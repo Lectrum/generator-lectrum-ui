@@ -5,10 +5,10 @@ import git from 'nodegit';
 import chalk from 'chalk';
 
 // Constants
-import { BACKUP_BRANCH_NAME } from '../constants';
+import { BACKUP_BRANCH_NAME } from '../../constants';
 
 // Instruments
-import { messages } from './messages';
+import { messages } from '../messages';
 
 export default async (repository) => {
     console.log(messages.get(12));
@@ -61,11 +61,6 @@ export default async (repository) => {
             `✓ Твой код сохранён в ветке ${chalk.blueBright(
                 nextCheckpointBranchName,
             )}.`,
-        ),
-    );
-    console.log(
-        chalk.greenBright(
-            `✓ Сообщение коммита: ${chalk.blueBright(commitMessage)}.`,
         ),
     );
     console.log(

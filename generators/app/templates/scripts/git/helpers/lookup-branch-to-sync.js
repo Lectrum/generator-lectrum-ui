@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 
 // Constants
-import { SYNC_LOCAL_REFERENCE } from '../constants';
+import { SYNC_LOCAL_REFERENCE } from '../../constants';
 
 // Helpers
-import { checkoutTutorBranch, createTutorBranch } from './helpers';
+import { checkoutTutorBranch, createTutorBranch } from '.';
 
 export default async (repository, isUpstream) => {
     const currentBranch = await repository.getCurrentBranch();

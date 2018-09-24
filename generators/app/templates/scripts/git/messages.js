@@ -2,7 +2,7 @@
 import chalk from 'chalk';
 
 // Constants
-import { SYNC_BRANCH_NAME } from '../constants';
+import { SYNC_BRANCH_NAME, GIT_HTTPS_URL } from '../constants';
 
 export const messages = new Map([
     [ 1, chalk.yellowBright('→ Начинаю процесс синхронизации.') ],
@@ -19,6 +19,7 @@ export const messages = new Map([
         4,
         chalk.redBright(`→ Связь с ${chalk.magenta('upstream')} не настроена.`),
     ],
+    [ 5, chalk.redBright('→ Локальный репозиторий не найден.') ],
     [
         6,
         chalk.yellowBright(
@@ -104,6 +105,21 @@ export const messages = new Map([
             `✓ Переключился на новосозданную ветку ${chalk.blueBright(
                 SYNC_BRANCH_NAME,
             )}.`,
+        ),
+    ],
+    [ 18, chalk.yellowBright('→ Инициализирую новый локальный репозиторий.') ],
+    [
+        19,
+        chalk.greenBright(
+            '✓ Новый локальный репозиторий инициализирован успешно.',
+        ),
+    ],
+    [
+        20,
+        chalk.yellowBright(
+            `→ Подключаю удалённый репозиторий ${chalk.cyan(
+                'origin',
+            )} по адресу: ${chalk.blueBright(GIT_HTTPS_URL)}`,
         ),
     ],
 ]);

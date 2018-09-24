@@ -144,8 +144,7 @@ class Ui extends _yeomanGenerator.default {
         version,
         author,
         private: isPrivate,
-        dependencies,
-        repository
+        dependencies
       } = JSON.parse(this.fs.read('package.json'));
       (0, _rimraf.default)('package.json', () => {
         this.log(`package.json ${_chalk.default.red('deleted')}`);
@@ -157,8 +156,7 @@ class Ui extends _yeomanGenerator.default {
         private: isPrivate,
         scripts: _package2.default.scripts,
         dependencies,
-        devDependencies: _package2.default.devDependencies,
-        repository
+        devDependencies: _package2.default.devDependencies
       }, null, 4);
     } else {
       const unzippedPackageJson = {
@@ -179,8 +177,7 @@ class Ui extends _yeomanGenerator.default {
       version,
       author,
       private: isPrivate,
-      dependencies,
-      repository
+      dependencies
     } = JSON.parse(this.fs.read('package.json'));
     (0, _rimraf.default)('package.json', () => {
       this.log(`package.json ${_chalk.default.red('deleted')}`);
@@ -190,8 +187,7 @@ class Ui extends _yeomanGenerator.default {
       version,
       author,
       private: isPrivate,
-      dependencies,
-      repository
+      dependencies
     }, null, 4);
     this.log(`package.json ${_chalk.default.red('zipped')}`);
   }

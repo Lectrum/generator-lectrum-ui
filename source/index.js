@@ -156,7 +156,6 @@ export default class Ui extends Generator {
                 author,
                 private: isPrivate,
                 dependencies,
-                repository,
             } = JSON.parse(this.fs.read('package.json'));
 
             rimraf('package.json', () => {
@@ -173,7 +172,6 @@ export default class Ui extends Generator {
                     scripts:         packageJson.scripts,
                     dependencies,
                     devDependencies: packageJson.devDependencies,
-                    repository,
                 },
                 null,
                 4,
@@ -199,7 +197,6 @@ export default class Ui extends Generator {
             author,
             private: isPrivate,
             dependencies,
-            repository,
         } = JSON.parse(this.fs.read('package.json'));
 
         rimraf('package.json', () => {
@@ -214,7 +211,6 @@ export default class Ui extends Generator {
                 author,
                 private: isPrivate,
                 dependencies,
-                repository,
             },
             null,
             4,
