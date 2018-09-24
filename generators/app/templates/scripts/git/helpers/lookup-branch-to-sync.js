@@ -1,5 +1,8 @@
 /* eslint-disable no-console */
 
+// Core
+import chalk from 'chalk';
+
 // Constants
 import { SYNC_LOCAL_REFERENCE } from '../../constants';
 
@@ -12,9 +15,18 @@ export default async (repository, isUpstream) => {
 
     if (
         allReferencesNames.includes(SYNC_LOCAL_REFERENCE)
-        && !currentBranch === SYNC_LOCAL_REFERENCE
+        && currentBranch.name() !== SYNC_LOCAL_REFERENCE
     ) {
         await checkoutTutorBranch(repository);
+    } else if (
+        allReferencesNames.includes(SYNC_LOCAL_REFERENCE)
+        && currentBranch.name() === SYNC_LOCAL_REFERENCE
+    ) {
+        console.log(
+            chalk.greenBright(
+                `→ Выбрана ветка ${chalk.blueBright(SYNC_LOCAL_REFERENCE)}.`,
+            ),
+        );
     } else {
         await createTutorBranch(repository, isUpstream);
     }

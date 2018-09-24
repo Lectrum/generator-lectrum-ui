@@ -8,7 +8,7 @@ import PACKAGE_JSON from '../package.json';
 // Network
 export const HOST = 'localhost';
 export const PORT = 3000;
-export const SYNC_BRANCH_NAME = 'dev';
+export const SYNC_BRANCH_NAME = 'lectrum-dev';
 export const MASTER_REMOTE_UPSTREAM_REFERENCE = 'refs/remotes/upstream/master';
 export const SYNC_LOCAL_REFERENCE = `refs/heads/${SYNC_BRANCH_NAME}`;
 export const SYNC_REMOTE_ORIGIN_REFERENCE = `refs/remotes/origin/${SYNC_BRANCH_NAME}`;
