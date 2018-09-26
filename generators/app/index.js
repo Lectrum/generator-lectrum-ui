@@ -49,7 +49,7 @@ class Ui extends _yeomanGenerator.default {
     _defineProperty(this, "assets", [// dotfiles
     '.editorconfig', '.eslintignore', '.eslintrc.yaml', '.czrc', '.stylelintrc', '.stylelintignore', '.browserslistrc', '.babelrc.js', '.nvmrc', // regular files
     'LICENSE', // directories
-    'scripts', '__mocks__']);
+    'scripts', '__mocks__', 'static']);
 
     _defineProperty(this, "trashFiles", ['yarn.lock', 'package-lock.json', 'node_modules', 'build']);
 
@@ -63,7 +63,7 @@ class Ui extends _yeomanGenerator.default {
 
   initializing() {
     if (!this.config.get('educational')) {
-      this.assets.push('source', 'static');
+      this.assets.push('source');
     }
 
     this.composeWith('@lectrum/ui:readme');
@@ -76,7 +76,7 @@ class Ui extends _yeomanGenerator.default {
     const educational = this.config.get('educational');
 
     if (zip && educational) {
-      this.assets.forEach(dotfile => (0, _rimraf.default)(dotfile, () => this.log(`${dotfile} ${_chalk.default.red('deleted')}`)));
+      this.assets.filter(asset => asset !== 'static').forEach(dotfile => (0, _rimraf.default)(dotfile, () => this.log(`${dotfile} ${_chalk.default.red('deleted')}`)));
       this.trashFiles.forEach(trashFile => (0, _rimraf.default)(trashFile, () => this.log(`${trashFile} ${_chalk.default.red('deleted')}`)));
 
       this._zipPackageJson();

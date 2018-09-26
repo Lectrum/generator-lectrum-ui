@@ -4,23 +4,18 @@
 import git from 'nodegit';
 import chalk from 'chalk';
 
-// Constants
-import { GIT_SSH_URL } from '../../constants';
-
 let debug = 0;
 
 export const fetchAll = (repository) => repository.fetchAll({
     prune:     1,
     callbacks: {
         credentials(url, userName) {
-            if (url === GIT_SSH_URL) {
-                if (debug > 5) {
-                    console.log(
-                        chalk.redBrign('→ SSH agent is not configured.'),
-                    );
+            if (debug > 5) {
+                console.log(
+                    chalk.redBright('→ SSH agent is not configured.'),
+                );
 
-                    return git.Cred.defaultNew();
-                }
+                return git.Cred.defaultNew();
             }
 
             debug += 1;

@@ -47,6 +47,7 @@ export default class Ui extends Generator {
         // directories
         'scripts',
         '__mocks__',
+        'static',
     ];
 
     trashFiles = [ 'yarn.lock', 'package-lock.json', 'node_modules', 'build' ];
@@ -65,7 +66,7 @@ export default class Ui extends Generator {
 
     initializing() {
         if (!this.config.get('educational')) {
-            this.assets.push('source', 'static');
+            this.assets.push('source');
         }
 
         this.composeWith('@lectrum/ui:readme');
@@ -76,7 +77,9 @@ export default class Ui extends Generator {
         const educational = this.config.get('educational');
 
         if (zip && educational) {
-            this.assets.forEach((dotfile) => rimraf(dotfile, () => this.log(`${dotfile} ${chalk.red('deleted')}`)));
+            this.assets
+                .filter((asset) => asset !== 'static')
+                .forEach((dotfile) => rimraf(dotfile, () => this.log(`${dotfile} ${chalk.red('deleted')}`)));
             this.trashFiles.forEach((trashFile) => rimraf(trashFile, () => this.log(`${trashFile} ${chalk.red('deleted')}`)));
             this._zipPackageJson();
             rimraf('.gitignore', () => this.log(`.gitignore ${chalk.red('deleted')}`));

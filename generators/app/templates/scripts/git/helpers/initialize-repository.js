@@ -8,7 +8,7 @@ import { GIT_ROOT, GIT_HTTPS_URL } from '../../constants';
 // Instruments
 import { messages } from '../messages';
 
-export const initializeRepository = async () => {
+export default async () => {
     console.log(messages.get(5));
     console.log(messages.get(18));
     const repository = await git.Repository.init(GIT_ROOT, 0);

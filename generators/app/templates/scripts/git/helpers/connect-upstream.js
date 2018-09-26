@@ -7,17 +7,17 @@ import chalk from 'chalk';
 // Instruments
 import { messages } from '../messages';
 
-export const connectUpstream = async (repository, upstreamUrl) => {
+export const connectUpstream = async (repository, upstreamURl) => {
     console.log(messages.get(4));
     console.log(
         chalk.yellowBright(
             `→ Настраиваю связь с ${chalk.magenta('upstream')}: ${chalk.blue(
-                upstreamUrl,
+                upstreamURl,
             )}.`,
         ),
     );
 
-    const remote = await git.Remote.create(repository, 'upstream', upstreamUrl);
+    const remote = await git.Remote.create(repository, 'upstream', upstreamURl);
 
     console.log(
         chalk.greenBright(

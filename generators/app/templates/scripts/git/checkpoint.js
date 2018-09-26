@@ -11,7 +11,6 @@ import {
     SYNC_BRANCH_NAME,
     SYNC_REMOTE_UPSTREAM_REFERENCE,
     MASTER_REMOTE_UPSTREAM_REFERENCE,
-    GIT_SSH_URL,
     GIT_HTTPS_URL,
 } from '../constants';
 
@@ -19,7 +18,7 @@ import {
 import { messages } from './messages';
 
 // Helpers
-import { fetchAll, connectUpstream, initializeRepository } from './helpers';
+import { fetchAll, connectUpstream } from './helpers';
 
 (async () => {
     try {
@@ -27,17 +26,27 @@ import { fetchAll, connectUpstream, initializeRepository } from './helpers';
         const isRepositoryInitialized = existsSync(GIT_ROOT);
 
         if (!isRepositoryInitialized) {
-            await initializeRepository();
+            await (await import('./helpers/initialize-repository')).default();
         }
 
         const repository = await git.Repository.open(GIT_ROOT);
-        await fetchAll(repository);
-        const allReferences = await repository.getReferenceNames(3);
         const origin = await repository.getRemote('origin');
         const originUrl = origin.url().toLocaleLowerCase();
-        const isSSH = originUrl.startsWith('git');
-        const upstreamUrl = isSSH ? GIT_SSH_URL : GIT_HTTPS_URL;
-        const isUpstream = origin.url().toLocaleLowerCase() === upstreamUrl;
+        const isSsh = originUrl.startsWith('git');
+        let fixedHttpsOriginUrl = null;
+
+        if (isSsh) {
+            fixedHttpsOriginUrl = await (await import('./helpers/convert-origin-https')).default(
+                repository,
+                originUrl,
+            );
+        }
+        const resolvedOriginUrl = fixedHttpsOriginUrl || originUrl;
+
+        await fetchAll(repository);
+        const allReferences = await repository.getReferenceNames(3);
+
+        const isUpstream = resolvedOriginUrl === GIT_HTTPS_URL;
 
         if (isUpstream) {
             // upstream
@@ -51,7 +60,7 @@ import { fetchAll, connectUpstream, initializeRepository } from './helpers';
             console.log(messages.get(3));
 
             if (!allReferences.includes(MASTER_REMOTE_UPSTREAM_REFERENCE)) {
-                await connectUpstream(repository, upstreamUrl);
+                await connectUpstream(repository, GIT_HTTPS_URL);
             } else {
                 console.log(messages.get(7));
             }
