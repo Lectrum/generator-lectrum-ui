@@ -1,6 +1,6 @@
 // Core
 import merge from 'webpack-merge';
-var FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin';
 
 // Core
 import openBrowser from 'react-dev-utils/openBrowser';

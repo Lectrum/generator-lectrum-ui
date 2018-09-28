@@ -6,6 +6,8 @@ module.exports = function(api) {
     const plugins = [
         ['@babel/plugin-proposal-decorators', { legacy: true }],
         ['@babel/plugin-proposal-class-properties', { loose: true }],
+        // Included until Node v.10 release
+        '@babel/plugin-proposal-async-generator-functions',
     ];
 
     if (env === 'node') {

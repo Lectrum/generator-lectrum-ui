@@ -5,7 +5,7 @@ import git from 'nodegit';
 import chalk from 'chalk';
 
 // Constants
-import { BACKUP_BRANCH_NAME } from '../../constants';
+import { BACKUP_BRANCH_NAME, COMMIT_MESSAGE } from '../../constants';
 
 // Instruments
 import { messages } from '../messages';
@@ -14,7 +14,6 @@ export default async (repository) => {
     console.log(messages.get(12));
 
     const references = await repository.getReferenceNames(3);
-    const commitMessage = 'save progress before checkpoint synchronization';
     const author = git.Signature.default(repository);
     const fallbackAuthor = git.Signature.now(
         'name_not_found',
@@ -51,7 +50,7 @@ export default async (repository) => {
         'HEAD',
         author || fallbackAuthor,
         author || fallbackAuthor,
-        commitMessage,
+        COMMIT_MESSAGE,
         oid,
         [ parent ],
     );
