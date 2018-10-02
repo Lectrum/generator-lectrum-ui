@@ -4,6 +4,7 @@
 import merge from 'webpack-merge';
 import getRepositoryName from 'git-repo-name';
 import chalk from 'chalk';
+import WebpackBar from 'webpackbar';
 
 // Constants
 import { SOURCE, BUILD } from '../../constants';
@@ -76,7 +77,12 @@ export default () => {
             optimization: {
                 nodeEnv: NODE_ENV,
             },
-            stats: false,
+            stats:   true,
+            plugins: [
+                new WebpackBar({
+                    profile: true,
+                }),
+            ],
         },
     );
 };

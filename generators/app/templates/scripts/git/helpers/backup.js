@@ -5,10 +5,13 @@ import git from 'nodegit';
 import chalk from 'chalk';
 
 // Constants
-import { BACKUP_BRANCH_NAME, COMMIT_MESSAGE } from '../../constants';
+import { BACKUP_BRANCH_NAME, COMMIT_PHRASE_START } from '../../constants';
 
 // Instruments
 import { messages } from '../messages';
+
+// Helpers
+import { getCurrentTime } from '../helpers';
 
 export default async (repository) => {
     console.log(messages.get(12));
@@ -41,6 +44,9 @@ export default async (repository) => {
     await repository.checkoutBranch(reference);
     const parent = await repository.getHeadCommit();
     const index = await repository.refreshIndex();
+    const commitMessage = `${COMMIT_PHRASE_START}: ${chalk.blue(
+        getCurrentTime(),
+    )};`;
 
     await index.addAll();
     await index.write();
@@ -50,7 +56,7 @@ export default async (repository) => {
         'HEAD',
         author || fallbackAuthor,
         author || fallbackAuthor,
-        COMMIT_MESSAGE,
+        commitMessage,
         oid,
         [ parent ],
     );

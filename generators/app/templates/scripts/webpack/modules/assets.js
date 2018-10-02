@@ -1,10 +1,9 @@
 // Core
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import HtmlWebpackTemplate from 'html-webpack-template';
 
 // Constants
-import { SOURCE, STATICS } from '../../constants';
+import { SOURCE, STATICS, HTML_TEMPLATE } from '../../constants';
 
 export const loadFonts = () => ({
     module: {
@@ -56,18 +55,9 @@ export const setupFavicon = () => ({
 export const setupHtml = () => ({
     plugins: [
         new HtmlWebpackPlugin({
-            inject:   false,
-            template: HtmlWebpackTemplate,
+            template: HTML_TEMPLATE,
             title:    'Lectrum Education',
             favicon:  `${STATICS}/favicon/lectrum-favicon-512x512.png`,
-            meta:     [
-                {
-                    name:    'viewport',
-                    content:
-                        'user-scalable=no, width=device-width, initial-scale=1',
-                },
-            ],
-            appMountIds: [ 'app', 'spinner' ],
         }),
     ],
 });

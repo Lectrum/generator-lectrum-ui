@@ -1,8 +1,9 @@
 // Core
 import { path as PROJECT_ROOT } from 'app-root-path';
 import { resolve } from 'path';
+import chalk from 'chalk';
 
-// Instruments
+// Assets
 import PACKAGE_JSON from '../package.json';
 
 // Network
@@ -18,12 +19,14 @@ export const GIT_HTTPS_URL = `https://github.com/lectrum/${
     PACKAGE_JSON.name
 }.git`;
 export const GIT_SSH_URL = `git@github.com:lectrum/${PACKAGE_JSON.name}.git`;
+export const COMMIT_PHRASE_START = chalk.greenBright('→ Checkpoint at');
 
 // Paths
 export const SOURCE = resolve(PROJECT_ROOT, './source');
 export const BUILD = resolve(PROJECT_ROOT, './build');
 export const STATICS = resolve(PROJECT_ROOT, './static');
 export const GIT_ROOT = resolve(PROJECT_ROOT, './.git');
+export const HTML_TEMPLATE = resolve(PROJECT_ROOT, './static/template.html');
 
-// Package.json
+// Assets
 export { PACKAGE_JSON };
