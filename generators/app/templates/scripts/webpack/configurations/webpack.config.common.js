@@ -78,11 +78,7 @@ export default () => {
                 nodeEnv: NODE_ENV,
             },
             stats:   true,
-            plugins: [
-                new WebpackBar({
-                    profile: true,
-                }),
-            ],
+            plugins: [ new WebpackBar() ],
         },
     );
 };

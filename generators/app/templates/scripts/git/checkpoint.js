@@ -7,10 +7,9 @@ import { existsSync } from 'fs';
 // Constants
 import {
     GIT_ROOT,
-    SYNC_REMOTE_ORIGIN_REFERENCE,
-    SYNC_BRANCH_NAME,
-    SYNC_REMOTE_UPSTREAM_REFERENCE,
-    MASTER_REMOTE_UPSTREAM_REFERENCE,
+    LEAD_REMOTE_ORIGIN_REFERENCE,
+    LEAD_BRANCH_NAME,
+    LEAD_REMOTE_UPSTREAM_REFERENCE,
     GIT_HTTPS_URL,
 } from '../constants';
 
@@ -18,7 +17,7 @@ import {
 import { messages } from './messages';
 
 // Helpers
-import { fetchAll, connectUpstream } from './helpers';
+import { fetchAll } from './helpers';
 
 (async () => {
     try {
@@ -30,50 +29,40 @@ import { fetchAll, connectUpstream } from './helpers';
         }
 
         const repository = await git.Repository.open(GIT_ROOT);
-        const origin = await repository.getRemote('origin');
-        const originUrl = origin.url();
-        const isSsh = originUrl.startsWith('git');
-        let fixedHttpsOriginUrl = null;
+        let origin = await repository.getRemote('origin');
+        let originUrl = origin.url();
+        const isClonedBySshConnection = originUrl.startsWith('git');
+        const isFork = !originUrl.includes('Lectrum');
 
-        if (isSsh) {
-            fixedHttpsOriginUrl = await (await import('./helpers/convert-origin-https')).default(
+        if (isClonedBySshConnection) {
+            await (await import('./helpers/convert-origin-connection-to-https')).default(
                 repository,
                 originUrl,
             );
+            origin = await repository.getRemote('origin');
+            originUrl = origin.url();
         }
-        const resolvedOriginUrl = fixedHttpsOriginUrl || originUrl;
 
         await fetchAll(repository);
         const allReferences = await repository.getReferenceNames(3);
 
-        const isUpstream = resolvedOriginUrl === GIT_HTTPS_URL;
+        const isUpstream = originUrl === GIT_HTTPS_URL;
 
-        if (isUpstream) {
+        if (
+            isUpstream
+            && !allReferences.includes(LEAD_REMOTE_ORIGIN_REFERENCE)
+        ) {
             // upstream
-            if (!allReferences.includes(SYNC_REMOTE_ORIGIN_REFERENCE)) {
-                console.log(messages.get(2));
+            console.log(messages.get(2));
 
-                return null;
-            }
-        } else {
-            // fork
-            console.log(messages.get(3));
+            return null;
+        }
 
-            if (!allReferences.includes(MASTER_REMOTE_UPSTREAM_REFERENCE)) {
-                await connectUpstream(repository, GIT_HTTPS_URL);
-            } else {
-                console.log(messages.get(7));
-            }
-
-            await fetchAll(repository);
-
-            const upstreamReferences = await repository.getReferenceNames(3);
-
-            if (!upstreamReferences.includes(SYNC_REMOTE_UPSTREAM_REFERENCE)) {
-                console.log(messages.get(8));
-
-                return null;
-            }
+        if (isFork) {
+            await (await import('./helpers/connect-fork-to-upstream')).default(
+                repository,
+                allReferences,
+            );
         }
 
         console.log(messages.get(9));
@@ -94,10 +83,10 @@ import { fetchAll, connectUpstream } from './helpers';
         await fetchAll(repository);
 
         await repository.mergeBranches(
-            SYNC_BRANCH_NAME,
+            LEAD_BRANCH_NAME,
             isUpstream
-                ? SYNC_REMOTE_ORIGIN_REFERENCE
-                : SYNC_REMOTE_UPSTREAM_REFERENCE,
+                ? LEAD_REMOTE_ORIGIN_REFERENCE
+                : LEAD_REMOTE_UPSTREAM_REFERENCE,
         );
 
         console.log(messages.get(11));

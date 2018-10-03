@@ -2,7 +2,7 @@
 import chalk from 'chalk';
 
 // Constants
-import { SYNC_BRANCH_NAME, GIT_HTTPS_URL } from '../constants';
+import { LEAD_BRANCH_NAME, GIT_HTTPS_URL } from '../constants';
 
 export const messages = new Map([
     [ 1, chalk.yellowBright('→ Начинаю процесс синхронизации.') ],
@@ -10,7 +10,7 @@ export const messages = new Map([
         2,
         chalk.redBright(
             `→ Удалённая ветка ${chalk.blueBright(
-                SYNC_BRANCH_NAME,
+                LEAD_BRANCH_NAME,
             )} не найдена в ${chalk.cyan('origin')}.`,
         ),
     ],
@@ -24,7 +24,7 @@ export const messages = new Map([
         6,
         chalk.yellowBright(
             `→ Ищу удалённую ветку ${chalk.blueBright(
-                SYNC_BRANCH_NAME,
+                LEAD_BRANCH_NAME,
             )} в ${chalk.magenta('upstream')}.`,
         ),
     ],
@@ -33,7 +33,7 @@ export const messages = new Map([
         8,
         chalk.redBright(
             `→ Удалённая ветка ${chalk.blueBright(
-                SYNC_BRANCH_NAME,
+                LEAD_BRANCH_NAME,
             )} не найдена в ${chalk.magenta('upstream')}.`,
         ),
     ],
@@ -41,7 +41,7 @@ export const messages = new Map([
         9,
         chalk.greenBright(
             `→ Удалённая ветка ${chalk.blueBright(
-                SYNC_BRANCH_NAME,
+                LEAD_BRANCH_NAME,
             )} найдена в ${chalk.magenta('upstream')}.`,
         ),
     ],
@@ -49,7 +49,7 @@ export const messages = new Map([
         10,
         chalk.yellowBright(
             `→ Синхронизирую удалённую ветку ${chalk.blueBright(
-                SYNC_BRANCH_NAME,
+                LEAD_BRANCH_NAME,
             )}.`,
         ),
     ],
@@ -57,7 +57,7 @@ export const messages = new Map([
         11,
         chalk.greenBright(
             `✓ Прогресс верки ${chalk.blueBright(
-                SYNC_BRANCH_NAME,
+                LEAD_BRANCH_NAME,
             )} синхронизирован.`,
         ),
     ],
@@ -72,7 +72,7 @@ export const messages = new Map([
         chalk.greenBright(
             chalk.yellowBright(
                 `→ Переключаюсь на ветку ${chalk.blueBright(
-                    SYNC_BRANCH_NAME,
+                    LEAD_BRANCH_NAME,
                 )}.`,
             ),
         ),
@@ -80,30 +80,30 @@ export const messages = new Map([
     [
         14,
         chalk.greenBright(
-            `✓ Переключился на ветку ${chalk.blueBright(SYNC_BRANCH_NAME)}.`,
+            `✓ Переключился на ветку ${chalk.blueBright(LEAD_BRANCH_NAME)}.`,
         ),
     ],
     [
         15,
         chalk.yellowBright(
             `→ Ветка ${chalk.blueBright(
-                SYNC_BRANCH_NAME,
+                LEAD_BRANCH_NAME,
             )} не найдена в локальном репозитории. Создаю локальную ветку ${chalk.blueBright(
-                SYNC_BRANCH_NAME,
+                LEAD_BRANCH_NAME,
             )}.`,
         ),
     ],
     [
         16,
         chalk.greenBright(
-            `✓ Ветка ${chalk.blueBright(SYNC_BRANCH_NAME)} создана локально.`,
+            `✓ Ветка ${chalk.blueBright(LEAD_BRANCH_NAME)} создана локально.`,
         ),
     ],
     [
         17,
         chalk.greenBright(
             `✓ Переключился на новосозданную ветку ${chalk.blueBright(
-                SYNC_BRANCH_NAME,
+                LEAD_BRANCH_NAME,
             )}.`,
         ),
     ],

@@ -4,12 +4,12 @@
 import { messages } from '../messages';
 
 // Constants
-import { SYNC_LOCAL_REFERENCE } from '../../constants';
+import { LEAD_LOCAL_REFERENCE } from '../../constants';
 
-export const checkoutTutorBranch = async (repository) => {
+export const checkoutLeadBranch = async (repository) => {
     console.log(messages.get(13));
 
-    const local = await repository.getBranch(SYNC_LOCAL_REFERENCE);
+    const local = await repository.getBranch(LEAD_LOCAL_REFERENCE);
     await repository.checkoutBranch(local);
 
     console.log(messages.get(14));

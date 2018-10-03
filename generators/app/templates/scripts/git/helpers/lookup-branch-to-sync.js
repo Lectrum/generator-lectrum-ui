@@ -4,30 +4,30 @@
 import chalk from 'chalk';
 
 // Constants
-import { SYNC_LOCAL_REFERENCE } from '../../constants';
+import { LEAD_LOCAL_REFERENCE } from '../../constants';
 
 // Helpers
-import { checkoutTutorBranch, createTutorBranch } from '.';
+import { checkoutLeadBranch, createLeadBranch } from '.';
 
 export default async (repository, isUpstream) => {
     const currentBranch = await repository.getCurrentBranch();
     const allReferencesNames = await repository.getReferenceNames(3);
 
     if (
-        allReferencesNames.includes(SYNC_LOCAL_REFERENCE)
-        && currentBranch.name() !== SYNC_LOCAL_REFERENCE
+        allReferencesNames.includes(LEAD_LOCAL_REFERENCE)
+        && currentBranch.name() !== LEAD_LOCAL_REFERENCE
     ) {
-        await checkoutTutorBranch(repository);
+        await checkoutLeadBranch(repository);
     } else if (
-        allReferencesNames.includes(SYNC_LOCAL_REFERENCE)
-        && currentBranch.name() === SYNC_LOCAL_REFERENCE
+        allReferencesNames.includes(LEAD_LOCAL_REFERENCE)
+        && currentBranch.name() === LEAD_LOCAL_REFERENCE
     ) {
         console.log(
             chalk.greenBright(
-                `→ Выбрана ветка ${chalk.blueBright(SYNC_LOCAL_REFERENCE)}`,
+                `→ Выбрана ветка ${chalk.blueBright(LEAD_LOCAL_REFERENCE)}`,
             ),
         );
     } else {
-        await createTutorBranch(repository, isUpstream);
+        await createLeadBranch(repository, isUpstream);
     }
 };

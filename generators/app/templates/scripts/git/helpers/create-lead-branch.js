@@ -8,17 +8,17 @@ import { messages } from '../messages';
 
 // Constants
 import {
-    SYNC_REMOTE_ORIGIN_REFERENCE,
-    SYNC_REMOTE_UPSTREAM_REFERENCE,
-    SYNC_BRANCH_NAME,
+    LEAD_REMOTE_ORIGIN_REFERENCE,
+    LEAD_REMOTE_UPSTREAM_REFERENCE,
+    LEAD_BRANCH_NAME,
 } from '../../constants';
 
-export const createTutorBranch = async (repository, isUpstream) => {
+export const createLeadBranch = async (repository, isUpstream) => {
     console.log(messages.get(15));
 
     const headCommit = await repository.getHeadCommit();
     const reference = await repository.createBranch(
-        SYNC_BRANCH_NAME,
+        LEAD_BRANCH_NAME,
         headCommit,
         false,
     );
@@ -27,8 +27,8 @@ export const createTutorBranch = async (repository, isUpstream) => {
 
     const commit = await repository.getReferenceCommit(
         isUpstream
-            ? SYNC_REMOTE_ORIGIN_REFERENCE
-            : SYNC_REMOTE_UPSTREAM_REFERENCE,
+            ? LEAD_REMOTE_ORIGIN_REFERENCE
+            : LEAD_REMOTE_UPSTREAM_REFERENCE,
     );
 
     await git.Reset.reset(repository, commit, 3);

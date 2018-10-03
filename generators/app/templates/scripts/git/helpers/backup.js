@@ -22,7 +22,7 @@ export default async (repository) => {
         'name_not_found',
         'email@not.found',
     );
-    const checkpoints = references.filter((reference) => reference.includes('checkpoint'));
+    const checkpoints = references.filter((reference) => reference.includes(BACKUP_BRANCH_NAME));
     const nextCheckpointBranchName = `${BACKUP_BRANCH_NAME}-${checkpoints.length
         + 1}`;
 

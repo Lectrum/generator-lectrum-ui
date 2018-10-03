@@ -9,12 +9,12 @@ import PACKAGE_JSON from '../package.json';
 // Network
 export const HOST = 'localhost';
 export const PORT = 3000;
-export const SYNC_BRANCH_NAME = 'lectrum-dev';
+export const LEAD_BRANCH_NAME = 'lectrum-dev';
 export const MASTER_REMOTE_UPSTREAM_REFERENCE = 'refs/remotes/upstream/master';
-export const SYNC_LOCAL_REFERENCE = `refs/heads/${SYNC_BRANCH_NAME}`;
-export const SYNC_REMOTE_ORIGIN_REFERENCE = `refs/remotes/origin/${SYNC_BRANCH_NAME}`;
-export const SYNC_REMOTE_UPSTREAM_REFERENCE = `refs/remotes/upstream/${SYNC_BRANCH_NAME}`;
-export const BACKUP_BRANCH_NAME = 'checkpoint';
+export const LEAD_LOCAL_REFERENCE = `refs/heads/${LEAD_BRANCH_NAME}`;
+export const LEAD_REMOTE_ORIGIN_REFERENCE = `refs/remotes/origin/${LEAD_BRANCH_NAME}`;
+export const LEAD_REMOTE_UPSTREAM_REFERENCE = `refs/remotes/upstream/${LEAD_BRANCH_NAME}`;
+export const BACKUP_BRANCH_NAME = 'my-backup';
 export const GIT_HTTPS_URL = `https://github.com/Lectrum/${
     PACKAGE_JSON.name
 }.git`;
