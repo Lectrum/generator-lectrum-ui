@@ -10,6 +10,7 @@ import {
     LEAD_REMOTE_ORIGIN_REFERENCE,
     LEAD_BRANCH_NAME,
     LEAD_REMOTE_UPSTREAM_REFERENCE,
+    MASTER_REMOTE_UPSTREAM_REFERENCE,
     GIT_HTTPS_URL,
 } from '../constants';
 
@@ -17,7 +18,7 @@ import {
 import { messages } from './messages';
 
 // Helpers
-import { fetchAll } from './helpers';
+import { fetchAll, connectUpstream } from './helpers';
 
 (async () => {
     try {
@@ -29,40 +30,49 @@ import { fetchAll } from './helpers';
         }
 
         const repository = await git.Repository.open(GIT_ROOT);
-        let origin = await repository.getRemote('origin');
+        const origin = await repository.getRemote('origin');
         let originUrl = origin.url();
-        const isClonedBySshConnection = originUrl.startsWith('git');
-        const isFork = !originUrl.includes('Lectrum');
+        const isSsh = originUrl.startsWith('git');
 
-        if (isClonedBySshConnection) {
-            await (await import('./helpers/convert-origin-connection-to-https')).default(
+        if (isSsh) {
+            await (await import('./helpers/convert-origin-https')).default(
                 repository,
                 originUrl,
             );
-            origin = await repository.getRemote('origin');
-            originUrl = origin.url();
         }
+        originUrl = origin.url();
 
         await fetchAll(repository);
         const allReferences = await repository.getReferenceNames(3);
 
         const isUpstream = originUrl === GIT_HTTPS_URL;
 
-        if (
-            isUpstream
-            && !allReferences.includes(LEAD_REMOTE_ORIGIN_REFERENCE)
-        ) {
+        if (isUpstream) {
             // upstream
-            console.log(messages.get(2));
+            if (!allReferences.includes(LEAD_REMOTE_ORIGIN_REFERENCE)) {
+                console.log(messages.get(2));
 
-            return null;
-        }
+                return null;
+            }
+        } else {
+            // fork
+            console.log(messages.get(3));
 
-        if (isFork) {
-            await (await import('./helpers/connect-fork-to-upstream')).default(
-                repository,
-                allReferences,
-            );
+            if (!allReferences.includes(MASTER_REMOTE_UPSTREAM_REFERENCE)) {
+                await connectUpstream(repository, GIT_HTTPS_URL);
+            } else {
+                console.log(messages.get(7));
+            }
+
+            await fetchAll(repository);
+
+            const upstreamReferences = await repository.getReferenceNames(3);
+
+            if (!upstreamReferences.includes(LEAD_REMOTE_UPSTREAM_REFERENCE)) {
+                console.log(messages.get(8));
+
+                return null;
+            }
         }
 
         console.log(messages.get(9));

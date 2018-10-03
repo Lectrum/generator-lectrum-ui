@@ -1,7 +1,6 @@
 // Core
 import { path as PROJECT_ROOT } from 'app-root-path';
 import { resolve } from 'path';
-import chalk from 'chalk';
 
 // Assets
 import PACKAGE_JSON from '../package.json';
@@ -19,7 +18,7 @@ export const GIT_HTTPS_URL = `https://github.com/Lectrum/${
     PACKAGE_JSON.name
 }.git`;
 export const GIT_SSH_URL = `git@github.com:Lectrum/${PACKAGE_JSON.name}.git`;
-export const COMMIT_PHRASE_START = chalk.greenBright('→ Checkpoint at');
+export const COMMIT_PHRASE_START = '→ Checkpoint at';
 
 // Paths
 export const SOURCE = resolve(PROJECT_ROOT, './source');

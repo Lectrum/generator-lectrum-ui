@@ -122,4 +122,5 @@ export const messages = new Map([
             )} по адресу: ${chalk.blueBright(GIT_HTTPS_URL)}`,
         ),
     ],
+    [ 21, chalk.greenBright('✓ Процесс синхронизации активизирован.') ],
 ]);

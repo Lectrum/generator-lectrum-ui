@@ -2,7 +2,6 @@
 
 // Core
 import git from 'nodegit';
-import moment from 'moment';
 import chalk from 'chalk';
 
 // Constants
@@ -16,6 +15,7 @@ import { getCurrentTime } from './helpers';
 
 const sync = (async function*() {
     try {
+        console.log(messages.get(21));
         const repository = await git.Repository.open(GIT_ROOT);
 
         const author = git.Signature.default(repository);
@@ -27,9 +27,11 @@ const sync = (async function*() {
             if (statuses.length) {
                 const parent = await repository.getHeadCommit();
                 const index = await repository.refreshIndex();
-                const commitMessage = `${COMMIT_PHRASE_START}: ${chalk.blue(
-                    getCurrentTime(),
-                )};`;
+                const currentTime = getCurrentTime();
+                const commitMessage = `${COMMIT_PHRASE_START}: ${currentTime};`;
+                const logCommitMessage = `${chalk.greenBright(
+                    COMMIT_PHRASE_START,
+                )}: ${chalk.blueBright(currentTime)};`;
 
                 await index.addAll();
                 await index.write();
@@ -45,7 +47,7 @@ const sync = (async function*() {
                 );
                 const origin = await repository.getRemote('origin');
 
-                console.log(commitMessage);
+                console.log(logCommitMessage);
 
                 await origin.push(
                     [ 'refs/heads/lectrum-dev:refs/heads/lectrum-dev' ],
