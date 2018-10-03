@@ -31,7 +31,7 @@ import { fetchAll, connectUpstream } from './helpers';
 
         const repository = await git.Repository.open(GIT_ROOT);
         const origin = await repository.getRemote('origin');
-        const originUrl = origin.url().toLocaleLowerCase();
+        const originUrl = origin.url();
         const isSsh = originUrl.startsWith('git');
         let fixedHttpsOriginUrl = null;
 

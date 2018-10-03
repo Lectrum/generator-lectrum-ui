@@ -9,10 +9,10 @@ export default async (repository, originUrl) => {
 
     const project = originUrl.substr(originUrl.indexOf('/') + 1);
 
-    const httpUrl = `https://github.com/${userName}/${project}`;
+    const httpsUrl = `https://github.com/${userName}/${project}`;
 
     await git.Remote.delete(repository, 'origin');
-    await git.Remote.setUrl(repository, 'origin', originUrl);
+    await git.Remote.setUrl(repository, 'origin', httpsUrl);
 
-    return httpUrl;
+    return httpsUrl;
 };
