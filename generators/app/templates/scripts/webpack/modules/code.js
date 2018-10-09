@@ -1,5 +1,5 @@
 // Constants
-import { SOURCE } from '../../constants';
+import { SOURCE } from '../constants';
 
 export const loadJavaScript = () => ({
     module: {

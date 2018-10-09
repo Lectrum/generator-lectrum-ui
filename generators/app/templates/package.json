@@ -2,8 +2,8 @@
     "scripts": {
         "start": "cross-env-shell NODE_ENV=development node --require @babel/register \"./scripts/webpack/serve.js\"",
         "build": "cross-env-shell NODE_ENV=production node --require @babel/register \"./scripts/webpack/build.js\"",
-        "checkpoint": "cross-env-shell NODE_ENV=node node --require @babel/register \"./scripts/git/checkpoint.js\"",
-        "sync": "cross-env-shell NODE_ENV=production node --require @babel/register \"./scripts/git/sync.js\"",
+        "checkpoint": "cross-env-shell NODE_ENV=development node --require @babel/register \"./scripts/git/checkpoint.js\"",
+        "sync": "cross-env-shell NODE_ENV=development node --require @babel/register \"./scripts/git/sync.js\"",
         "build:github-pages": "cross-env-shell NODE_ENV=production DEPLOY_TARGET=github-pages npm run build",
         "build:analyze": "run-s build analyze",
         "analyze": "webpack-bundle-analyzer \"./build/build-stats.json\" build",

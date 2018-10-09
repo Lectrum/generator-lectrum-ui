@@ -7,7 +7,7 @@ import openBrowser from 'react-dev-utils/openBrowser';
 import { choosePort } from 'react-dev-utils/WebpackDevServerUtils';
 
 // Constants
-import { HOST, PORT } from '../../constants';
+import { HOST, PORT } from '../constants';
 
 // Configuration
 import generateCommonConfiguration from './webpack.common';

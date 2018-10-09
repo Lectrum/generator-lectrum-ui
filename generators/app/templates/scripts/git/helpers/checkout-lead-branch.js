@@ -4,7 +4,7 @@
 import { messages } from '../messages';
 
 // Constants
-import { LEAD_LOCAL_REFERENCE } from '../../constants';
+import { LEAD_LOCAL_REFERENCE } from '../constants';
 
 export const checkoutLeadBranch = async (repository) => {
     console.log(messages.get(13));

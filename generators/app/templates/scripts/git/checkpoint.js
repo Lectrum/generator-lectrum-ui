@@ -12,7 +12,7 @@ import {
     LEAD_REMOTE_UPSTREAM_REFERENCE,
     MASTER_REMOTE_UPSTREAM_REFERENCE,
     GIT_HTTPS_URL,
-} from '../constants';
+} from './constants';
 
 // Instruments
 import { messages } from './messages';

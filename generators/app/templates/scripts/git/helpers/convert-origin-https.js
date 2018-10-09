@@ -2,7 +2,7 @@
 import git from 'nodegit';
 
 // Constants
-import { GIT_HTTPS_URL } from '../../constants';
+import { GIT_HTTPS_URL } from '../constants';
 
 export default async (repository) => {
     await git.Remote.delete(repository, 'origin');

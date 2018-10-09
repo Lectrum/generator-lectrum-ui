@@ -7,6 +7,7 @@ import yosay from 'yosay';
 import updateNotifier from 'update-notifier';
 import rimraf from 'rimraf';
 import { execSync } from 'child_process';
+import shell from 'shelljs';
 
 // Parts
 import pkg from '../../package.json';
@@ -75,6 +76,28 @@ export default class Ui extends Generator {
     writing() {
         const { zip } = this.options;
         const educational = this.config.get('educational');
+        const repositoryName = this.config.get('repositoryName');
+
+        if (repositoryName === 'webpack-intensive') {
+            shell.mkdir('-p', './scripts/git');
+
+            this.fs.copy(
+                this.templatePath('gitignore'),
+                this.destinationPath('.gitignore'),
+            );
+
+            this.fs.copy(
+                this.templatePath('scripts/git'),
+                this.destinationPath('scripts/git/'),
+            );
+
+            this.fs.copy(
+                this.templatePath('scripts/.babelrc.js'),
+                this.destinationPath('scripts/git/.babelrc.js'),
+            );
+
+            return null;
+        }
 
         if (zip && educational) {
             this.assets
@@ -115,6 +138,7 @@ export default class Ui extends Generator {
                         )} ${yarn}.`,
                     ),
                 );
+
                 this.yarnInstall();
             } catch {
                 this.preferredPackageManager = 'npm';
@@ -135,13 +159,16 @@ export default class Ui extends Generator {
         const { zip } = this.options;
         const initialized = this.config.get('initialized');
         const educational = this.config.get('educational');
+        const repositoryName = this.config.get('repositoryName');
 
         if (!initialized && !zip) {
             this.config.set('initialized', true);
-            if (!this.preferredPackageManager === 'yarn') {
-                await this.spawnCommand('yarn', [ 'start' ]);
-            } else {
-                await this.spawnCommand('npm', [ 'run', 'start' ]);
+            if (repositoryName !== 'webpack-intensive') {
+                if (!this.preferredPackageManager === 'yarn') {
+                    await this.spawnCommand('yarn', [ 'start' ]);
+                } else {
+                    await this.spawnCommand('npm', [ 'run', 'start' ]);
+                }
             }
         } else if (initialized && zip && educational) {
             this.config.set('initialized', false);

@@ -4,7 +4,7 @@
 import chalk from 'chalk';
 
 // Constants
-import { LEAD_LOCAL_REFERENCE } from '../../constants';
+import { LEAD_LOCAL_REFERENCE } from '../constants';
 
 // Helpers
 import { checkoutLeadBranch, createLeadBranch } from '.';

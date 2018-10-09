@@ -7,7 +7,7 @@ import chalk from 'chalk';
 import WebpackBar from 'webpackbar';
 
 // Constants
-import { SOURCE, BUILD } from '../../constants';
+import { SOURCE, BUILD } from '../constants';
 
 // Webpack modules
 import {

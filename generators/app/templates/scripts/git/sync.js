@@ -5,7 +5,7 @@ import git from 'nodegit';
 import chalk from 'chalk';
 
 // Constants
-import { GIT_ROOT, COMMIT_PHRASE_START } from '../constants';
+import { GIT_ROOT, COMMIT_PHRASE_START } from './constants';
 
 // Instruments
 import { messages } from './messages';
@@ -28,10 +28,10 @@ const sync = (async function*() {
                 const parent = await repository.getHeadCommit();
                 const index = await repository.refreshIndex();
                 const currentTime = getCurrentTime();
-                const commitMessage = `${COMMIT_PHRASE_START}: ${currentTime};`;
+                const commitMessage = `${COMMIT_PHRASE_START}: ${currentTime}`;
                 const logCommitMessage = `${chalk.greenBright(
                     COMMIT_PHRASE_START,
-                )}: ${chalk.blueBright(currentTime)};`;
+                )}: ${chalk.blueBright(currentTime)}`;
 
                 await index.addAll();
                 await index.write();

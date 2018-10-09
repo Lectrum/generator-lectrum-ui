@@ -2,7 +2,7 @@
 import chalk from 'chalk';
 
 // Constants
-import { LEAD_BRANCH_NAME, GIT_HTTPS_URL } from '../constants';
+import { LEAD_BRANCH_NAME, GIT_HTTPS_URL } from './constants';
 
 export const messages = new Map([
     [ 1, chalk.yellowBright('→ Начинаю процесс синхронизации.') ],

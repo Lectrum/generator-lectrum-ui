@@ -3,7 +3,7 @@ import git from 'nodegit';
 import chalk from 'chalk';
 
 // Constants
-import { GIT_ROOT, GIT_HTTPS_URL } from '../../constants';
+import { GIT_ROOT, GIT_HTTPS_URL } from '../constants';
 
 // Instruments
 import { messages } from '../messages';

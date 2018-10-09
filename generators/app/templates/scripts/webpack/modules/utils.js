@@ -4,7 +4,7 @@ import CleanWebpackPlugin from 'clean-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 // Constants
-import { BUILD } from '../../constants';
+import { BUILD } from '../constants';
 
 export const initializeEnvVariables = (variables) => ({
     plugins: [ new DefinePlugin(variables) ],

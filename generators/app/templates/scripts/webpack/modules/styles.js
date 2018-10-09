@@ -10,7 +10,7 @@ import cssnano from 'cssnano';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 // Constants
-import { SOURCE } from '../../constants';
+import { SOURCE } from '../constants';
 
 export const loadPostCSS = () => ({
     loader:  'postcss-loader',

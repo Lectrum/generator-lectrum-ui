@@ -19,6 +19,7 @@ module.exports = class Readme extends Generator {
         const initialized = this.config.get('initialized');
         const educational = this.config.get('educational');
         const redux = this.config.get('redux');
+        const webpack = this.config.get('webpack');
         const repositoryOwner = this.config.get('repositoryOwner');
         const repositoryName = this.config.get('repositoryName');
 
@@ -31,6 +32,14 @@ module.exports = class Readme extends Generator {
             );
         }
 
+        let logo = 'react';
+
+        if (redux) {
+            logo = 'redux';
+        } else if (webpack) {
+            logo = 'webpack';
+        }
+
         this.fs.copyTpl(
             this.templatePath(`${project}.ejs`),
             this.destinationPath('README.md'),
@@ -40,7 +49,7 @@ module.exports = class Readme extends Generator {
                 educational,
                 repositoryOwner,
                 repositoryName,
-                logo: redux ? 'redux' : 'react',
+                logo,
             },
         );
     }

@@ -3,7 +3,7 @@ import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 // Constants
-import { SOURCE, STATICS, HTML_TEMPLATE } from '../../constants';
+import { SOURCE, STATICS, HTML_TEMPLATE } from '../constants';
 
 export const loadFonts = () => ({
     module: {

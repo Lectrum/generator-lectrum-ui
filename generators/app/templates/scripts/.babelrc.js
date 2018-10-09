@@ -4,19 +4,13 @@ module.exports = api => {
     api.cache.using(() => env === 'development');
 
     const plugins = [
-        ['@babel/plugin-proposal-decorators', { legacy: true }],
-        ['@babel/plugin-proposal-class-properties', { loose: true }],
         // Included until Node v.10 release
         '@babel/plugin-proposal-async-generator-functions',
+        'dynamic-import-node',
     ];
-
-    if (env === 'development') {
-        plugins.push('react-hot-loader/babel');
-    }
 
     return {
         presets: [
-            '@babel/preset-react',
             [
                 '@babel/preset-env',
                 {
@@ -25,6 +19,9 @@ module.exports = api => {
                     spec: true,
                     loose: false,
                     debug: false,
+                    targets: {
+                        node: 'current'
+                    }
                 },
             ],
         ],

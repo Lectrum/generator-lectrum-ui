@@ -11,7 +11,7 @@ import {
     LEAD_REMOTE_ORIGIN_REFERENCE,
     LEAD_REMOTE_UPSTREAM_REFERENCE,
     LEAD_BRANCH_NAME,
-} from '../../constants';
+} from '../constants';
 
 export const createLeadBranch = async (repository, isUpstream) => {
     console.log(messages.get(15));

@@ -5,7 +5,7 @@ import git from 'nodegit';
 import chalk from 'chalk';
 
 // Constants
-import { BACKUP_BRANCH_NAME, COMMIT_PHRASE_START } from '../../constants';
+import { BACKUP_BRANCH_NAME, COMMIT_PHRASE_START } from '../constants';
 
 // Instruments
 import { messages } from '../messages';
