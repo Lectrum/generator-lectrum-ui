@@ -49,7 +49,7 @@ class Ui extends _yeomanGenerator.default {
     _defineProperty(this, "preferredPackageManager", 'yarn');
 
     _defineProperty(this, "assets", [// dotfiles
-    '.editorconfig', '.eslintignore', '.eslintrc.yaml', '.stylelintrc', '.stylelintignore', '.browserslistrc', '.babelrc.js', '.nvmrc', '.gitattributes', // regular files
+    '.editorconfig', '.eslintignore', '.eslintrc.yaml', '.stylelintrc', '.stylelintignore', '.browserslistrc', '.babelrc.js', '.nvmrc', '.gitattributes', 'scripts/.babelrc', // regular files
     'LICENSE', // directories
     'scripts', '__mocks__', 'static']);
 
