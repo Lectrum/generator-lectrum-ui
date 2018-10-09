@@ -4,7 +4,7 @@
 import createCompiler from 'webpack';
 
 // Production config
-import generateProductionConfiguration from './configurations/webpack.config.production';
+import generateProductionConfiguration from './config/webpack.prod';
 
 const compiler = createCompiler(generateProductionConfiguration());
 

@@ -6,7 +6,7 @@ import fallback from 'connect-history-api-fallback';
 import progress from 'webpack-serve-waitpage';
 
 // Development config
-import generateDevelopmentConfiguration from './configurations/webpack.config.development';
+import generateDevelopmentConfiguration from './config/webpack.dev';
 
 const argv = {};
 

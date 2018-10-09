@@ -1,12 +1,13 @@
 # == Core ==
 
-node_modules/
-build/
-coverage/
-flow-coverage/
+# Directories at root of a project
+/node_modules/
+/build/
+/coverage/
+/flow-coverage/
 
+# Files
 *.log
-
 
 # == VIM ==
 

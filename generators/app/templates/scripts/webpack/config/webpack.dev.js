@@ -10,7 +10,7 @@ import { choosePort } from 'react-dev-utils/WebpackDevServerUtils';
 import { HOST, PORT } from '../../constants';
 
 // Configuration
-import generateCommonConfiguration from './webpack.config.common';
+import generateCommonConfiguration from './webpack.common';
 
 // Webpack modules
 import { loadDevelopmentCss } from '../modules';

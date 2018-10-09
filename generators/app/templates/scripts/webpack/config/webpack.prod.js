@@ -2,7 +2,7 @@
 import merge from 'webpack-merge';
 
 // Configurations
-import generateCommonConfiguration from './webpack.config.common';
+import generateCommonConfiguration from './webpack.common';
 
 // Webpack modules
 import {

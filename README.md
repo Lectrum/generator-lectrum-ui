@@ -120,7 +120,6 @@ npm i
 | `soundcheck`      | запустить все линтеры и тесты                                                           |
 | `prettier`        | отформатировать исходный код с помощью prettier                                         |
 | `deploy`          | собрать и задеплоить приложение на свой Github Pages                                    |
-| `commit`          | сделать [стандартизированный коммит](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines) |
 
 > Заметка: после деплоя на Github Pages приложение будет доступно по адресу:\
 > https://**`имя-твоего-пользователя-гитхаб`**.github.io/**`имя-твоего-репозитория-с-приложением`**

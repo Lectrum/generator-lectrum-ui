@@ -39,6 +39,7 @@ export default class Ui extends Generator {
         '.browserslistrc',
         '.babelrc.js',
         '.nvmrc',
+        '.gitattributes',
 
         // regular files
         'LICENSE',
