@@ -1,27 +1,23 @@
-/* eslint-disable no-console */
-
 // Core
 import merge from 'webpack-merge';
 import getRepositoryName from 'git-repo-name';
 import chalk from 'chalk';
-import WebpackBar from 'webpackbar';
 
-// Constants
-import { SOURCE, BUILD } from '../constants';
-
-// Webpack modules
+// Instruments
+import { BUILD, CHUNK_NAME_JS, SOURCE } from '../constants';
 import {
     loadJavaScript,
     loadFonts,
     loadImages,
-    setupHtml,
-    setupContextReplacement,
-    initializeEnvVariables,
+    connectHtml,
+    connectContextReplacement,
+    defineEnvVariables,
 } from '../modules';
 
 export default () => {
     const { NODE_ENV, DEPLOY_TARGET } = process.env;
     const IS_DEPLOYING_TO_GITHUB_PAGES = DEPLOY_TARGET === 'github-pages';
+    const IS_DEVELOPMENT = NODE_ENV === 'development';
     let REPOSITORY_NAME = '';
 
     try {
@@ -39,46 +35,35 @@ export default () => {
     }
 
     return merge(
-        // Loaders
-        loadJavaScript(),
-        loadFonts(),
-        loadImages(),
-
-        // Plugins
-        setupHtml(),
-        setupContextReplacement(),
-        initializeEnvVariables({
-            __ENV__:  JSON.stringify(NODE_ENV),
-            __DEV__:  NODE_ENV === 'development',
-            __PROD__: NODE_ENV === 'production',
-        }),
         {
-            entry: {
-                SOURCE,
-            },
             output: {
-                path:       BUILD,
-                publicPath: IS_DEPLOYING_TO_GITHUB_PAGES
+                path:          BUILD,
+                filename:      IS_DEVELOPMENT ? '[name].js' : `js/${CHUNK_NAME_JS}`,
+                chunkFilename: IS_DEVELOPMENT
+                    ? '[name].js'
+                    : `js/${CHUNK_NAME_JS}`,
+                hashDigestLength: 5,
+                publicPath:       IS_DEPLOYING_TO_GITHUB_PAGES
                     ? `/${REPOSITORY_NAME}/`
                     : '/',
-            },
-            resolve: {
-                extensions: [
-                    '.mjs',
-                    '.js',
-                    '.json',
-                    '.css',
-                    '.m.css',
-                    '.png',
-                    '.jpg',
-                ],
-                modules: [ SOURCE, 'node_modules' ],
             },
             optimization: {
                 nodeEnv: NODE_ENV,
             },
-            stats:   true,
-            plugins: [ new WebpackBar() ],
+            resolve: {
+                extensions: [ '.js', '.json', '.css', '.jpg', '.png' ],
+                modules:    [ 'node_modules', SOURCE ],
+            },
         },
+        defineEnvVariables({
+            __ENV__:  JSON.stringify(NODE_ENV),
+            __DEV__:  NODE_ENV === 'development',
+            __PROD__: NODE_ENV === 'production',
+        }),
+        connectHtml(),
+        loadJavaScript(),
+        loadFonts(),
+        loadImages(),
+        connectContextReplacement(),
     );
 };

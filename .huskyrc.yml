@@ -1,3 +1,3 @@
 hooks:
-    pre-push: npm run soundcheck
+    pre-push: npm run lint:javascript
     commit-msg: commitlint -E HUSKY_GIT_PARAMS

@@ -3,5 +3,5 @@
     "displayName": "lint:javascript",
     "rootDir": "../",
     "moduleFileExtensions": ["js"],
-    "testMatch": ["<rootDir>/source/**/*.js", "<rootDir>/webpack/**/*.js"]
+    "testMatch": ["<rootDir>/generators/**/*.js"]
 }

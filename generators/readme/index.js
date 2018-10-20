@@ -1,3 +1,4 @@
+// Core
 const Generator = require('yeoman-generator');
 const messages = require('./templates/messages');
 

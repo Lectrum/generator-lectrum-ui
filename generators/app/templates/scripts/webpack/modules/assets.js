@@ -1,63 +1,88 @@
 // Core
-import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-// Constants
-import { SOURCE, STATICS, HTML_TEMPLATE } from '../constants';
-
-export const loadFonts = () => ({
-    module: {
-        rules: [
-            {
-                test:    /\.woff2?(\?v=\d+\.\d+\.\d+)?$/,
-                include: SOURCE,
-                use:     {
-                    loader:  'file-loader',
-                    options: {
-                        name: 'fonts/[name].[hash:5].[ext]',
-                    },
-                },
-            },
-        ],
-    },
-});
+// Instruments
+import { STATIC, SOURCE, CHUNK_NAME_ASSET } from '../constants';
 
 export const loadImages = () => ({
     module: {
         rules: [
             {
-                test:    /\.jpe?g|png|svg$/,
+                test:    /\.(png|jpg|jpeg)$/,
                 include: SOURCE,
-                use:     {
-                    loader:  'url-loader',
-                    options: {
-                        fallback: 'file-loader',
-                        limit:    8192,
-                        name:     'images/[name].[hash:5].[ext]',
+                use:     [
+                    {
+                        loader:  'file-loader',
+                        options: {
+                            name: `images/${CHUNK_NAME_ASSET}`,
+                        },
                     },
+                ],
+            },
+        ],
+    },
+});
+export const loadSvg = () => ({
+    module: {
+        rules: [
+            {
+                test:   /\.svg$/,
+                issuer: {
+                    test: /\.js$/,
                 },
+                use: [
+                    '@svgr/webpack',
+                    {
+                        loader:  'file-loader',
+                        options: {
+                            name: `images/${CHUNK_NAME_ASSET}`,
+                        },
+                    },
+                ],
+            },
+            {
+                test:   /\.svg$/,
+                issuer: {
+                    test: /\.css$/,
+                },
+                use: [
+                    {
+                        loader:  'file-loader',
+                        options: {
+                            name: `images/${CHUNK_NAME_ASSET}`,
+                        },
+                    },
+                ],
             },
         ],
     },
 });
 
-export const setupFavicon = () => ({
-    plugins: [
-        new FaviconsWebpackPlugin({
-            logo:            './static/favicon/favicon.svg',
-            prefix:          'images/favicon/icon-[hash]',
-            statsFilename:   'iconstats-[hash].json',
-            persistentCache: true,
-        }),
-    ],
+export const loadFonts = () => ({
+    module: {
+        rules: [
+            {
+                test:    /\.woff2$/,
+                include: SOURCE,
+                use:     [
+                    {
+                        loader:  'file-loader',
+                        options: {
+                            name: `fonts/${CHUNK_NAME_ASSET}`,
+                        },
+                    },
+                ],
+            },
+        ],
+    },
 });
 
-export const setupHtml = () => ({
+export const connectHtml = () => ({
     plugins: [
         new HtmlWebpackPlugin({
-            template: HTML_TEMPLATE,
             title:    'Lectrum Education',
-            favicon:  `${STATICS}/favicon/lectrum-favicon-512x512.png`,
+            template: `${STATIC}/template.html`,
+            favicon:  `${STATIC}/favicon/lectrum-favicon-512x512.png`,
         }),
     ],
 });

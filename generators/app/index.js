@@ -1,213 +1,233 @@
-"use strict";
+// Core
+const Generator = require('yeoman-generator');
+const chalk = require('chalk');
+const yosay = require('yosay');
+const updateNotifier = require('update-notifier');
+const rimraf = require('rimraf');
+const { execSync } = require('child_process');
+const shell = require('shelljs');
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
+// Parts
+const pkg = require('../../package.json');
+const packageJson = require('./templates/package.json');
+const cleanInstallDependencies = require('./templates/dependencies.json');
 
-var _yeomanGenerator = _interopRequireDefault(require("yeoman-generator"));
-
-var _chalk = _interopRequireDefault(require("chalk"));
-
-var _yosay = _interopRequireDefault(require("yosay"));
-
-var _updateNotifier = _interopRequireDefault(require("update-notifier"));
-
-var _rimraf = _interopRequireDefault(require("rimraf"));
-
-var _child_process = require("child_process");
-
-var _shelljs = _interopRequireDefault(require("shelljs"));
-
-var _package = _interopRequireDefault(require("../../package.json"));
-
-var _package2 = _interopRequireDefault(require("./templates/package.json"));
-
-var _dependencies = _interopRequireDefault(require("./templates/dependencies.json"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-const notifier = (0, _updateNotifier.default)({
-  pkg: _package.default,
-  updateCheckInterval: 1000 * 60 * 60 * 24 // 1 day
-
+const notifier = updateNotifier({
+    pkg,
+    updateCheckInterval: 1000 * 60 * 60 * 24, // 1 day
 });
 
 if (notifier.update) {
-  notifier.notify({
-    message: `Update available ${_chalk.default.grey(notifier.update.current)} → ${_chalk.default.green(notifier.update.latest)}
-Run ${_chalk.default.blue(`npm i -g ${notifier.packageName}`)} to update`
-  });
+    notifier.notify({
+        message: `Update available ${chalk.grey(
+            notifier.update.current,
+        )} → ${chalk.green(notifier.update.latest)}
+Run ${chalk.blue(`npm i -g ${notifier.packageName}`)} to update`,
+    });
 }
 
-class Ui extends _yeomanGenerator.default {
-  constructor(args, options) {
-    super(args, options);
+module.exports = class Ui extends Generator {
+    constructor(args, options) {
+        super(args, options);
 
-    _defineProperty(this, "preferredPackageManager", 'yarn');
+        this.preferredPackageManager = 'yarn';
+        this.assets = [
+            // dotfiles
+            '.editorconfig',
+            '.eslintignore',
+            '.eslintrc.yaml',
+            '.stylelintrc',
+            '.stylelintignore',
+            '.browserslistrc',
+            '.babelrc.js',
+            '.nvmrc',
+            '.gitattributes',
+            'scripts/.babelrc.js',
 
-    _defineProperty(this, "assets", [// dotfiles
-    '.editorconfig', '.eslintignore', '.eslintrc.yaml', '.stylelintrc', '.stylelintignore', '.browserslistrc', '.babelrc.js', '.nvmrc', '.gitattributes', 'scripts/.babelrc', // regular files
-    'LICENSE', // directories
-    'scripts', '__mocks__', 'static']);
+            // regular files
+            'LICENSE',
 
-    _defineProperty(this, "trashFiles", ['yarn.lock', 'package-lock.json', 'node_modules', 'build']);
+            // directories
+            'scripts',
+            '__mocks__',
+            'static',
+        ];
 
-    this.log((0, _yosay.default)(`Команда ${_chalk.default.blueBright('Lectrum')} приветствует тебя!`));
-    this.option('zip', {
-      description: 'Returns repository to its initial state',
-      type: Boolean,
-      default: false
-    });
-  }
+        this.trashFiles = [
+            'yarn.lock',
+            'package-lock.json',
+            'node_modules',
+            'build',
+        ];
 
-  initializing() {
-    if (!this.config.get('educational')) {
-      this.assets.push('source');
+        this.log(
+            yosay(`Команда ${chalk.blueBright('Lectrum')} приветствует тебя!`),
+        );
+        this.option('zip', {
+            description: 'Returns repository to its initial state',
+            type:        Boolean,
+            default:     false,
+        });
     }
 
-    this.composeWith('@lectrum/ui:readme');
-  }
-
-  writing() {
-    const {
-      zip
-    } = this.options;
-    const educational = this.config.get('educational');
-    const repositoryName = this.config.get('repositoryName');
-
-    if (repositoryName === 'webpack-intensive') {
-      _shelljs.default.mkdir('-p', './scripts/git');
-
-      this.fs.copy(this.templatePath('gitignore'), this.destinationPath('.gitignore'));
-      this.fs.copy(this.templatePath('scripts/git'), this.destinationPath('scripts/git/'));
-      this.fs.copy(this.templatePath('scripts/.babelrc.js'), this.destinationPath('scripts/git/.babelrc.js'));
-      return null;
-    }
-
-    if (zip && educational) {
-      this.assets.filter(asset => asset !== 'static').forEach(dotfile => (0, _rimraf.default)(dotfile, () => this.log(`${dotfile} ${_chalk.default.red('deleted')}`)));
-      this.trashFiles.forEach(trashFile => (0, _rimraf.default)(trashFile, () => this.log(`${trashFile} ${_chalk.default.red('deleted')}`)));
-
-      this._zipPackageJson();
-
-      (0, _rimraf.default)('.gitignore', () => this.log(`.gitignore ${_chalk.default.red('deleted')}`));
-    } else {
-      this.fs.copy(this.templatePath('gitignore'), this.destinationPath('.gitignore'));
-      this.assets.forEach(asset => {
-        this.fs.copy(this.templatePath(asset), this.destinationPath(asset));
-      });
-
-      this._unzipPackageJson();
-    }
-  }
-
-  install() {
-    const {
-      zip
-    } = this.options;
-
-    const yarn = _chalk.default.blue('yarn');
-
-    const npm = _chalk.default.red('npm');
-
-    if (!zip) {
-      try {
-        (0, _child_process.execSync)('yarn bin');
-        this.log(_chalk.default.bgBlack(`${_chalk.default.greenBright('✓ ')} ${yarn} ${_chalk.default.whiteBright('found.\nInstalling dependencies with')} ${yarn}.`));
-        this.yarnInstall();
-      } catch (_unused) {
-        this.preferredPackageManager = 'npm';
-        this.log(_chalk.default.bgBlack(`${_chalk.default.red('x ')}${yarn} ${_chalk.default.whiteBright('not found.\nInstalling dependencies with')} ${npm}.`));
-        this.npmInstall();
-      }
-    }
-  }
-
-  async end() {
-    const {
-      zip
-    } = this.options;
-    const initialized = this.config.get('initialized');
-    const educational = this.config.get('educational');
-    const repositoryName = this.config.get('repositoryName');
-
-    if (!initialized && !zip) {
-      this.config.set('initialized', true);
-
-      if (repositoryName !== 'webpack-intensive') {
-        if (!this.preferredPackageManager === 'yarn') {
-          await this.spawnCommand('yarn', ['start']);
-        } else {
-          await this.spawnCommand('npm', ['run', 'start']);
+    initializing() {
+        if (!this.config.get('educational')) {
+            this.assets.push('source');
         }
-      }
-    } else if (initialized && zip && educational) {
-      this.config.set('initialized', false);
+
+        this.composeWith('@lectrum/ui:readme');
     }
-  }
 
-  _unzipPackageJson() {
-    const isPackageJsonExists = this.fs.exists('package.json');
-    const educational = this.config.get('educational');
+    writing() {
+        const { zip } = this.options;
+        const educational = this.config.get('educational');
+        const repositoryName = this.config.get('repositoryName');
 
-    if (isPackageJsonExists && educational) {
-      const {
-        name,
-        version,
-        author,
-        private: isPrivate,
-        dependencies
-      } = JSON.parse(this.fs.read('package.json'));
-      (0, _rimraf.default)('package.json', () => {
-        this.log(`package.json ${_chalk.default.red('deleted')}`);
-      });
-      this.fs.writeJSON('package.json', {
-        name,
-        version,
-        author,
-        private: isPrivate,
-        scripts: _package2.default.scripts,
-        dependencies,
-        devDependencies: _package2.default.devDependencies
-      }, null, 4);
-    } else {
-      const unzippedPackageJson = {
-        name: 'my-app',
-        version: '0.0.0',
-        private: false,
-        scripts: _package2.default.scripts,
-        dependencies: _dependencies.default,
-        devDependencies: _package2.default.devDependencies
-      };
-      this.fs.writeJSON('package.json', unzippedPackageJson, null, 4);
+        if (zip && educational) {
+            this.assets
+                .filter((asset) => asset !== 'static')
+                .forEach((dotfile) => rimraf(dotfile, () => this.log(`${dotfile} ${chalk.red('deleted')}`)));
+            this.trashFiles.forEach((trashFile) => rimraf(trashFile, () => this.log(`${trashFile} ${chalk.red('deleted')}`)));
+            this._zipPackageJson();
+            rimraf('.gitignore', () => this.log(`.gitignore ${chalk.red('deleted')}`));
+            rimraf('.cache-loader', () => this.log(`.cache-loader ${chalk.red('deleted')}`));
+        } else {
+            this.fs.copy(
+                this.templatePath('gitignore'),
+                this.destinationPath('.gitignore'),
+            );
+
+            this.assets.forEach((asset) => {
+                this.fs.copy(
+                    this.templatePath(asset),
+                    this.destinationPath(asset),
+                );
+            });
+
+            this._unzipPackageJson();
+        }
     }
-  }
 
-  _zipPackageJson() {
-    const {
-      name,
-      version,
-      author,
-      private: isPrivate,
-      dependencies
-    } = JSON.parse(this.fs.read('package.json'));
-    (0, _rimraf.default)('package.json', () => {
-      this.log(`package.json ${_chalk.default.red('deleted')}`);
-    });
-    this.fs.writeJSON('package.json', {
-      name,
-      version,
-      author,
-      private: isPrivate,
-      dependencies
-    }, null, 4);
-    this.log(`package.json ${_chalk.default.red('zipped')}`);
-  }
+    install() {
+        const { zip } = this.options;
+        const yarn = chalk.blue('yarn');
+        const npm = chalk.red('npm');
 
-}
+        if (!zip) {
+            try {
+                execSync('yarn bin');
+                this.log(
+                    chalk.bgBlack(
+                        `${chalk.greenBright('✓ ')} ${yarn} ${chalk.whiteBright(
+                            'found.\nInstalling dependencies with',
+                        )} ${yarn}.`,
+                    ),
+                );
 
-exports.default = Ui;
-module.exports = exports.default;
+                this.yarnInstall();
+            } catch (error) {
+                this.preferredPackageManager = 'npm';
+
+                this.log(
+                    chalk.bgBlack(
+                        `${chalk.red('x ')}${yarn} ${chalk.whiteBright(
+                            'not found.\nInstalling dependencies with',
+                        )} ${npm}.`,
+                    ),
+                );
+                this.npmInstall();
+            }
+        }
+    }
+
+    async end() {
+        const { zip } = this.options;
+        const initialized = this.config.get('initialized');
+        const educational = this.config.get('educational');
+        const repositoryName = this.config.get('repositoryName');
+
+        if (!initialized && !zip) {
+            this.config.set('initialized', true);
+            if (!this.preferredPackageManager === 'yarn') {
+                await this.spawnCommand('yarn', [ 'start' ]);
+            } else {
+                await this.spawnCommand('npm', [ 'run', 'start' ]);
+            }
+        } else if (initialized && zip && educational) {
+            this.config.set('initialized', false);
+        }
+    }
+
+    _unzipPackageJson() {
+        const isPackageJsonExists = this.fs.exists('package.json');
+        const educational = this.config.get('educational');
+
+        if (isPackageJsonExists && educational) {
+            const {
+                name,
+                version,
+                author,
+                private: isPrivate,
+                dependencies,
+            } = JSON.parse(this.fs.read('package.json'));
+
+            rimraf('package.json', () => {
+                this.log(`package.json ${chalk.red('deleted')}`);
+            });
+
+            this.fs.writeJSON(
+                'package.json',
+                {
+                    name,
+                    version,
+                    author,
+                    private:         isPrivate,
+                    scripts:         packageJson.scripts,
+                    dependencies,
+                    devDependencies: packageJson.devDependencies,
+                },
+                null,
+                4,
+            );
+        } else {
+            const unzippedPackageJson = {
+                name:            'my-app',
+                version:         '0.0.0',
+                private:         false,
+                scripts:         packageJson.scripts,
+                dependencies:    cleanInstallDependencies,
+                devDependencies: packageJson.devDependencies,
+            };
+
+            this.fs.writeJSON('package.json', unzippedPackageJson, null, 4);
+        }
+    }
+
+    _zipPackageJson() {
+        const {
+            name,
+            version,
+            author,
+            private: isPrivate,
+            dependencies,
+        } = JSON.parse(this.fs.read('package.json'));
+
+        rimraf('package.json', () => {
+            this.log(`package.json ${chalk.red('deleted')}`);
+        });
+
+        this.fs.writeJSON(
+            'package.json',
+            {
+                name,
+                version,
+                author,
+                private: isPrivate,
+                dependencies,
+            },
+            null,
+            4,
+        );
+        this.log(`package.json ${chalk.red('zipped')}`);
+    }
+};

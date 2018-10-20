@@ -1,34 +1,31 @@
 // Core
 import merge from 'webpack-merge';
 
-// Configurations
-import generateCommonConfiguration from './webpack.common';
+// Config
+import getCommonConfig from './webpack.common';
 
-// Webpack modules
+// Instruments
+import { SOURCE, RECORDS } from '../constants';
 import {
-    loadProductionCss,
-    setupBuildAnalysis,
-    setupFavicon,
+    loadProdCss,
+    connectBuildAnalysis,
     cleanBuildDirectory,
+    optimizeImages,
 } from '../modules';
 
 export default () => {
     return merge(
-        // Common configuration
-        generateCommonConfiguration(),
-
-        // Loaders
-        loadProductionCss(),
-        setupFavicon(),
-
-        // Plugins
-        cleanBuildDirectory(),
-        setupBuildAnalysis(),
+        getCommonConfig(),
         {
-            mode:   'production',
-            output: {
-                filename: 'js/[name].[chunkhash:5].js',
-            },
+            mode:        'production',
+            entry:       SOURCE,
+            devtool:     false,
+            performance: false,
+            recordsPath: RECORDS,
         },
+        cleanBuildDirectory(),
+        loadProdCss(),
+        connectBuildAnalysis(),
+        optimizeImages(),
     );
 };

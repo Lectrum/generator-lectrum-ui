@@ -1,12 +1,11 @@
-/* eslint-disable no-console */
-
 // Core
-import createCompiler from 'webpack';
+import webpack from 'webpack';
+import chalk from 'chalk';
 
-// Production config
-import generateProductionConfiguration from './config/webpack.prod';
+// Config
+import getProdConfig from './config/webpack.prod';
 
-const compiler = createCompiler(generateProductionConfiguration());
+const compiler = webpack(getProdConfig());
 
 compiler.run((error, stats) => {
     if (error) {
@@ -16,16 +15,37 @@ compiler.run((error, stats) => {
             console.error(error.details);
         }
 
-        return;
+        return null;
     }
 
-    const info = stats.toJson();
+    const info = stats.toString({
+        colors:     true,
+        hash:       true,
+        version:    true,
+        timings:    true,
+        env:        true,
+        chunks:     false,
+        modules:    false,
+        children:   false,
+        publicPath: true,
+        reasons:    true,
+        source:     false,
+    });
+
+    console.log(chalk.greenBright('✓ Build completed.'));
+    console.log(info);
 
     if (stats.hasErrors()) {
-        console.error(info.errors);
+        console.log(chalk.redBright('→ Error!'));
+        console.error(info);
+
+        return null;
     }
 
     if (stats.hasWarnings()) {
-        console.warn(info.warnings);
+        console.log(chalk.yellowBright('→ Warning!'));
+        console.warn(info);
+
+        return null;
     }
 });
