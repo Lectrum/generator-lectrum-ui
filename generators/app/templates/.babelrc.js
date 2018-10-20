@@ -25,7 +25,7 @@ module.exports = api => {
                     spec: true,
                     loose: false,
                     debug: false,
-                    modules: false,
+                    modules: env === 'test' ? 'commonjs' : false,
                 },
             ],
         ],
