@@ -9,9 +9,10 @@ import {
     loadJavaScript,
     loadFonts,
     loadImages,
+    loadSvg,
+    defineEnvVariables,
     connectHtml,
     connectContextReplacement,
-    defineEnvVariables,
 } from '../modules';
 
 export default () => {
@@ -64,6 +65,7 @@ export default () => {
         loadJavaScript(),
         loadFonts(),
         loadImages(),
+        loadSvg(),
         connectContextReplacement(),
     );
 };

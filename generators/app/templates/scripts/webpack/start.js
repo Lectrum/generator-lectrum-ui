@@ -3,6 +3,7 @@ import webpack from 'webpack';
 import devServer from 'webpack-dev-server';
 import hot from 'webpack-hot-middleware';
 import openBrowser from 'react-dev-utils/openBrowser';
+import waitpage from 'webpack-dev-server-waitpage';
 
 // Config
 import generateDevConfig from './config/webpack.dev';
@@ -23,7 +24,14 @@ import generateDevConfig from './config/webpack.dev';
         quiet:              true,
         clientLogLevel:     'none',
         noInfo:             true,
-        after:              (app) => {
+        before:             (app, server) => {
+            app.use(
+                waitpage(server, {
+                    theme: 'material',
+                }),
+            );
+        },
+        after: (app) => {
             app.use(
                 hot(compiler, {
                     log: false,

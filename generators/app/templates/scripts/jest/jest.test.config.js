@@ -15,6 +15,8 @@ module.exports = {
         '<rootDir>/source/bus/profile/**/*.{js,jsx}',
         '<rootDir>/source/bus/users/**/*.{js,jsx}',
         '<rootDir>/source/init/store.js',
+        '<rootDir>/source/components/**/*.js',
+        '<rootDir>/source/instruments/**/*.js',
     ],
     modulePaths:                  [ '<rootDir>/source', '<rootDir>/node_modules' ],
     moduleFileExtensions:         [ 'js', 'json', 'css' ],
