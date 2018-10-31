@@ -19,20 +19,25 @@ export default () => {
     const { NODE_ENV, DEPLOY_TARGET } = process.env;
     const IS_DEPLOYING_TO_GITHUB_PAGES = DEPLOY_TARGET === 'github-pages';
     const IS_DEVELOPMENT = NODE_ENV === 'development';
-    let REPOSITORY_NAME = '';
 
-    try {
-        REPOSITORY_NAME = getRepositoryName.sync();
-    } catch (error) {
-        console.log(
-            chalk.whiteBright.bgRed.bold(`
+    let publicPath = '/';
+
+    if (IS_DEPLOYING_TO_GITHUB_PAGES) {
+        try {
+            const repositoryName = getRepositoryName.sync();
+
+            publicPath = `/${repositoryName}/`;
+        } catch (error) {
+            console.log(
+                chalk.whiteBright.bgRed.bold(`
 Твой локальный репозиторий не привязан к удалённому репозиторию, или локальный репозиторий отсутствует.
 Для успешного деплоя на Github Pages:
     1. Если локального репозитория для этого проект нет — создай его;
     2. Создай удалённый репозиторий на Github;
     3. Привяжи локальный репозиторий этого проекта к удалённому репозиторию на Github.
 `),
-        );
+            );
+        }
     }
 
     return merge(
@@ -44,9 +49,7 @@ export default () => {
                     ? '[name].js'
                     : `js/${CHUNK_NAME_JS}`,
                 hashDigestLength: 5,
-                publicPath:       IS_DEPLOYING_TO_GITHUB_PAGES
-                    ? `/${REPOSITORY_NAME}/`
-                    : '/',
+                publicPath,
             },
             optimization: {
                 nodeEnv: NODE_ENV,
@@ -58,8 +61,8 @@ export default () => {
         },
         defineEnvVariables({
             __ENV__:  JSON.stringify(NODE_ENV),
-            __DEV__:  NODE_ENV === 'development',
-            __PROD__: NODE_ENV === 'production',
+            __DEV__:  IS_DEVELOPMENT,
+            __PROD__: !IS_DEVELOPMENT,
         }),
         connectHtml(),
         loadJavaScript(),

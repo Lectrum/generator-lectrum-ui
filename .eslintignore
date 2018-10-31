@@ -1,5 +1,4 @@
 node_modules/
-generators/
 build/
 coverage/
 source/theme/assets/fonts/antd

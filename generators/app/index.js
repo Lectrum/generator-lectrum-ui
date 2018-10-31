@@ -5,7 +5,6 @@ const yosay = require('yosay');
 const updateNotifier = require('update-notifier');
 const rimraf = require('rimraf');
 const { execSync } = require('child_process');
-const shell = require('shelljs');
 
 // Parts
 const pkg = require('../../package.json');
@@ -41,7 +40,6 @@ module.exports = class Ui extends Generator {
             '.browserslistrc',
             '.babelrc.js',
             '.nvmrc',
-            '.gitattributes',
             'scripts/.babelrc.js',
 
             // regular files
@@ -81,7 +79,6 @@ module.exports = class Ui extends Generator {
     writing() {
         const { zip } = this.options;
         const educational = this.config.get('educational');
-        const repositoryName = this.config.get('repositoryName');
 
         if (zip && educational) {
             this.assets
@@ -144,7 +141,6 @@ module.exports = class Ui extends Generator {
         const { zip } = this.options;
         const initialized = this.config.get('initialized');
         const educational = this.config.get('educational');
-        const repositoryName = this.config.get('repositoryName');
 
         if (!initialized && !zip) {
             this.config.set('initialized', true);

@@ -56,7 +56,7 @@ export const messages = new Map([
     [
         11,
         chalk.greenBright(
-            `✓ Прогресс верки ${chalk.blueBright(
+            `✓ Прогресс ветки ${chalk.blueBright(
                 LEAD_BRANCH_NAME,
             )} синхронизирован.`,
         ),

@@ -6,7 +6,6 @@ module.exports = api => {
     const plugins = [
         ['@babel/plugin-proposal-decorators', { legacy: true }],
         ['@babel/plugin-proposal-class-properties', { loose: true }],
-        // Included until Node v.10 release (async generators)
         '@babel/plugin-syntax-dynamic-import',
     ];
 
