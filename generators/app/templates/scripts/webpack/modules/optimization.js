@@ -1,17 +1,17 @@
 // Core
 import { ContextReplacementPlugin } from 'webpack';
-import { ImageminWebpackPlugin } from 'imagemin-webpack';
+import ImageminPlugin from 'imagemin-webpack';
 import imageminMozjpeg from 'imagemin-mozjpeg';
 import imageminPngquant from 'imagemin-pngquant';
 import imageminSvgo from 'imagemin-svgo';
 
 export const connectContextReplacement = () => ({
-    plugins: [ new ContextReplacementPlugin(/moment\/locale$/, /ru/) ],
+    plugins: [ new ContextReplacementPlugin(/moment\/locale$/, /(en|uk|ru)/) ],
 });
 
 export const optimizeImages = () => ({
     plugins: [
-        new ImageminWebpackPlugin({
+        new ImageminPlugin({
             imageminOptions: {
                 plugins: [
                     imageminMozjpeg({

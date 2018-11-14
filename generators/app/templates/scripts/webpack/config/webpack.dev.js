@@ -20,7 +20,7 @@ export default async () => {
         getCommonConfig(),
         {
             mode:    'development',
-            devtool: 'cheap-module-eval-source-map',
+            devtool: 'eval-source-map',
             entry:   [
                 SOURCE,
                 'webpack-hot-middleware/client?reload=true&quiet=true',

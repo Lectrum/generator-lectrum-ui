@@ -14,6 +14,8 @@ import {
 } from '../modules';
 
 export default () => {
+    const { ANALYZE } = process.env;
+
     return merge(
         getCommonConfig(),
         {
@@ -25,7 +27,7 @@ export default () => {
         },
         cleanBuildDirectory(),
         loadProdCss(),
-        connectBuildAnalysis(),
         optimizeImages(),
+        ANALYZE && connectBuildAnalysis(),
     );
 };

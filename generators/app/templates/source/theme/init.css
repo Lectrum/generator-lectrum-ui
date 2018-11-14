@@ -1,9 +1,0 @@
-/* Core */
-@import '~sanitize.css';
-
-/* Instruments */
-@import './palette';
-@import './globals';
-
-/* Components */
-@import './components/start';
