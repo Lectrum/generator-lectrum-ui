@@ -8,7 +8,6 @@ export const loadJavaScript = () => ({
                 test:    /\.js$/,
                 include: SOURCE,
                 use:     [
-                    'cache-loader',
                     {
                         loader:  'babel-loader',
                         options: {

@@ -94,7 +94,6 @@ export const loadDevCss = () => ({
                 test:    /\.css$/,
                 include: [ SOURCE, /node_modules/ ],
                 use:     [
-                    'cache-loader',
                     'style-loader',
                     loadCss({ sourceMap: true }),
                     loadPostCss({ sourceMap: true, minimize: false }),

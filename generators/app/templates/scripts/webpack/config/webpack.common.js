@@ -1,7 +1,5 @@
 // Core
 import merge from 'webpack-merge';
-import getRepositoryName from 'git-repo-name';
-import chalk from 'chalk';
 
 // Instruments
 import { BUILD, CHUNK_NAME_JS, SOURCE } from '../constants';
@@ -16,29 +14,8 @@ import {
 } from '../modules';
 
 export default () => {
-    const { NODE_ENV, DEPLOY_TARGET } = process.env;
-    const IS_DEPLOYING_TO_GITHUB_PAGES = DEPLOY_TARGET === 'github-pages';
+    const { NODE_ENV } = process.env;
     const IS_DEVELOPMENT = NODE_ENV === 'development';
-
-    let publicPath = '/';
-
-    if (IS_DEPLOYING_TO_GITHUB_PAGES) {
-        try {
-            const repositoryName = getRepositoryName.sync();
-
-            publicPath = `/${repositoryName}/`;
-        } catch (error) {
-            console.log(
-                chalk.whiteBright.bgRed.bold(`
-Твой локальный репозиторий не привязан к удалённому репозиторию, или локальный репозиторий отсутствует.
-Для успешного деплоя на Github Pages:
-    1. Если локального репозитория для этого проект нет — создай его;
-    2. Создай удалённый репозиторий на Github;
-    3. Привяжи локальный репозиторий этого проекта к удалённому репозиторию на Github.
-`),
-            );
-        }
-    }
 
     return merge(
         {
@@ -49,7 +26,7 @@ export default () => {
                     ? '[name].js'
                     : `js/${CHUNK_NAME_JS}`,
                 hashDigestLength: 5,
-                publicPath,
+                publicPath:       '/',
             },
             optimization: {
                 nodeEnv: NODE_ENV,

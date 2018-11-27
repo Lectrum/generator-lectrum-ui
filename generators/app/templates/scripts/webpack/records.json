@@ -61,9 +61,7 @@
       "node_modules/babel-loader/lib/index.js!source/test.js": 9,
       "node_modules/react-hot-loader/index.js": 10,
       "node_modules/webpack/buildin/harmony-module.js": 11,
-      "node_modules/react-hot-loader/dist/react-hot-loader.production.min.js": 12,
-      "node_modules/cache-loader/dist/cjs.js!node_modules/babel-loader/lib/index.js??ref--4-1!source/test.js": 3,
-      "node_modules/cache-loader/dist/cjs.js!node_modules/babel-loader/lib/index.js??ref--4-1!source/index.js": 9
+      "node_modules/react-hot-loader/dist/react-hot-loader.production.min.js": 12
     },
     "usedIds": {
       "0": 0,

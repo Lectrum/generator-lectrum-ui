@@ -5,7 +5,6 @@
 /build/
 /coverage/
 /flow-coverage/
-/.cache-loader/
 
 # Files
 *.log

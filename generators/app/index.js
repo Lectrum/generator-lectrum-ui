@@ -87,7 +87,6 @@ module.exports = class Ui extends Generator {
             this.trashFiles.forEach((trashFile) => rimraf(trashFile, () => this.log(`${trashFile} ${chalk.red('deleted')}`)));
             this._zipPackageJson();
             rimraf('.gitignore', () => this.log(`.gitignore ${chalk.red('deleted')}`));
-            rimraf('.cache-loader', () => this.log(`.cache-loader ${chalk.red('deleted')}`));
         } else {
             this.fs.copy(
                 this.templatePath('gitignore'),
