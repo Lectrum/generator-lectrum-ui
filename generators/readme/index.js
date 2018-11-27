@@ -6,6 +6,7 @@ module.exports = class Readme extends Generator {
     writing() {
         const initialized = this.config.get('initialized');
         const educational = this.config.get('educational');
+        const checkpoint = this.config.get('checkpoint');
         const redux = this.config.get('redux');
         const webpack = this.config.get('webpack');
         const repositoryOwner = this.config.get('repositoryOwner');
@@ -42,6 +43,7 @@ module.exports = class Readme extends Generator {
                 ...selectedMessages,
                 initialized,
                 educational,
+                checkpoint,
                 repositoryOwner,
                 repositoryName,
                 logo,

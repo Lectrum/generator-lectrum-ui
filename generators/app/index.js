@@ -156,6 +156,7 @@ module.exports = class Ui extends Generator {
     _unzipPackageJson() {
         const isPackageJsonExists = this.fs.exists('package.json');
         const educational = this.config.get('educational');
+        const checkpoint = this.config.get('checkpoint');
 
         if (isPackageJsonExists && educational) {
             const {
@@ -169,6 +170,12 @@ module.exports = class Ui extends Generator {
             rimraf('package.json', () => {
                 this.log(`package.json ${chalk.red('deleted')}`);
             });
+
+            if (!checkpoint) {
+                delete packageJson.scripts.sync;
+                delete packageJson.scripts.checkpoint;
+                delete packageJson.devDependencies.nodegit;
+            }
 
             this.fs.writeJSON(
                 'package.json',
