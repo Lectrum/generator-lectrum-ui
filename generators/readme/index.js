@@ -47,7 +47,7 @@ module.exports = class Readme extends Generator {
                 repositoryOwner,
                 repositoryName,
                 logo,
-                NODE_VERSION: '10.13.0',
+                NODE_VERSION: '10.14.1',
                 NPM_VERSION:  '6.4.1',
             },
         );

@@ -33,7 +33,7 @@ export default () => {
             },
             resolve: {
                 extensions: [ '.js', '.json', '.css', '.jpg', '.png' ],
-                modules:    [ 'node_modules', SOURCE ],
+                modules:    [ SOURCE, 'node_modules' ],
             },
         },
         defineEnvVariables({
