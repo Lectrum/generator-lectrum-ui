@@ -4,9 +4,9 @@ module.exports = api => {
     api.cache.using(() => env === 'development');
 
     const plugins = [
-        ['@babel/plugin-proposal-decorators', { legacy: true }],
-        ['@babel/plugin-proposal-class-properties', { loose: true }],
-        '@babel/plugin-syntax-dynamic-import',
+        ['@babel/proposal-decorators', { legacy: true }],
+        ['@babel/proposal-class-properties', { loose: true }],
+        '@babel/syntax-dynamic-import',
     ];
 
     if (env === 'development') {
@@ -15,16 +15,16 @@ module.exports = api => {
 
     return {
         presets: [
-            '@babel/preset-react',
+            '@babel/react',
             [
-                '@babel/preset-env',
+                '@babel/env',
                 {
                     useBuiltIns: 'usage',
                     shippedProposals: true,
                     spec: true,
                     loose: false,
                     debug: false,
-                    modules: env === 'test' ? 'commonjs' : false,
+                    modules: env === 'test' ? 'cjs' : false,
                 },
             ],
         ],
